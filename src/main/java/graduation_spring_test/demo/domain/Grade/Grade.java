@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public  class Grade {
     private String memberId;
-    private String termNum;
-    private String classNum;
-    private String score;
+    private String termNum; //이수년도_학기
+    private String classNum; //학수번호
+    private String score; //성적 점수
 }
