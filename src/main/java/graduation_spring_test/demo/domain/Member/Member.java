@@ -28,6 +28,8 @@ public class Member {
     private English_level eng_level; //S0, S1..
     @Column(name = "TOEIC_score")
     private Integer TOEIC_score; //토익 점수
+    @Column(name = "security_code")
+    private String  security_code; //비밀번호 변경시 보안코드
 
     public String getId() {
         return id;
@@ -85,4 +87,11 @@ public class Member {
         this.TOEIC_score = TOEIC_score;
     }
 
+    public String getSecurity_code() {
+        return security_code;
+    }
+
+    public void setSecurity_code(String security_code) {
+        this.security_code = security_code;
+    }
 }

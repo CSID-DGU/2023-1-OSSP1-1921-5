@@ -25,6 +25,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
