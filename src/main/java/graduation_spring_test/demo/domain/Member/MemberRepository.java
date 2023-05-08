@@ -1,5 +1,8 @@
 package graduation_spring_test.demo.domain.Member;
 
-public class MemberRepository {
+import java.util.Optional;
 
+public interface MemberRepository {
+    Member save(Member member);
+    Optional<Member> findById(String id);
 }

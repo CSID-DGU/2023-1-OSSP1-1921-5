@@ -2,10 +2,48 @@ package graduation_spring_test.demo.domain.Member;
 
 import graduation_spring_test.demo.global.common_unit.English_level;
 import graduation_spring_test.demo.global.common_unit.Major_curriculum;
-import lombok.Data;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@NoArgsConstructor
+@Entity
 public class Member {
+
+    @Id
+    @Column(name = "id")
+    private String id; //아이디
+    @Column(name = "password")
+    private String password; //비밀번호
+    @Column(name = "enroll_year")
+    private Integer enroll_year; //입학년도
+    @Column(name = "completed_semesters")
+    private Integer completed_semesters; //학기
+    @Column(name = "major_curriculum")
+    private Major_curriculum major_curriculum; //심화 or 일반
+    @Column(name = "eng_level")
+    private English_level eng_level; //S0, S1..
+    @Column(name = "TOEIC_score")
+    private Integer TOEIC_score; //토익 점수
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getEnroll_year() {
         return enroll_year;
@@ -46,11 +84,5 @@ public class Member {
     public void setTOEIC_score(Integer TOEIC_score) {
         this.TOEIC_score = TOEIC_score;
     }
-
-    private Integer enroll_year;
-    private Integer completed_semesters;
-    private Major_curriculum major_curriculum;
-    private English_level eng_level;
-    private Integer TOEIC_score;
 
 }
