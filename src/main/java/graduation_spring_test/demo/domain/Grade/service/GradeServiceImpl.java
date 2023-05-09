@@ -32,22 +32,26 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public int getAllScoreByMember(String memberID) {
-        return gradeDao.getAllScore(memberID);
+    public float getAllScoreByMember(String memberId) {
+        float sum = gradeDao.getSumOfAllScore(memberId);
+        int num = gradeDao.getCredit(memberId);
+        return sum/num;
     }
 
     @Override
-    public int getMajorScoreByMember(String memberId) {
-        return gradeDao.getMajorScore(memberId);
+    public float getMajorScoreByMember(String memberId) {
+        float sum = gradeDao.getSumOfMajorScore(memberId);
+        int num = gradeDao.getCredit(memberId);
+        return sum/num;
     }
 
     @Override
-    public int getEntireAllScore() {
+    public float getEntireAllScore() {
         return 0;
     }
 
     @Override
-    public int getEntireMajorScore() {
+    public float getEntireMajorScore() {
         return 0;
     }
 }

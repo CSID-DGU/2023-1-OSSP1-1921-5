@@ -10,9 +10,9 @@ public interface GradeDAO {
 
     int isExistGrade(Grade grade); // 특정 과목 수강 여부
 
-    int getAllScore(String memberId);// 전체 성적 평점 계산
+    float getSumOfAllScore(String memberId);// 전체 성적 합 계산
 
-    int getMajorScore(String memberId);// 전공 성적 평점 계산
+    float getSumOfMajorScore(String memberId);// 전공 성적 합 계산
     
-    void getCredit(String memberId); // 전체 이수 학점 계산
+    int getCredit(String memberId); // 전체 이수 학점 계산
 }

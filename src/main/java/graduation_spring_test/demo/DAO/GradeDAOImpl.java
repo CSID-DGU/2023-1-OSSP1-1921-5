@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 @Repository
 public class GradeDAOImpl implements GradeDAO{
-    //private final EntityManager entityManager;
 
 //    public JpaGradeDAO(EntityManager entityManager){
 //        this.entityManager = entityManager;
@@ -45,18 +44,18 @@ public class GradeDAOImpl implements GradeDAO{
     }
 
     @Override
-    public int getAllScore(String memberId) {
+    public float getSumOfAllScore(String memberId) {
         return 0;
     }
 
     @Override
-    public int getMajorScore(String memberId) {
+    public float getSumOfMajorScore(String memberId) {
         return 0;
     }
 
     @Override
-    public void getCredit(String memberId) {
-
+    public int getCredit(String memberId) {
+        return 0;
     }
 
 }

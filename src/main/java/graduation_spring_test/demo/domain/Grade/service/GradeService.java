@@ -14,14 +14,14 @@ public interface GradeService {
     void deleteGradeByMember(String memberId);
 
     //특정 member의 전체 성적 평점 계산
-    int getAllScoreByMember(String memberID);
+    float getAllScoreByMember(String memberID);
 
     //특정 member의 전공 성적 평점 계산
-    int getMajorScoreByMember(String memberId);
+    float getMajorScoreByMember(String memberId);
 
     //전체 member의 전체 성적 평점 계산
-    int getEntireAllScore();
+    float getEntireAllScore();
 
     //전체 member의 전공 성적 평점 계산
-    int getEntireMajorScore();
+    float getEntireMajorScore();
 }
