@@ -1,12 +1,17 @@
 package graduation_spring_test.demo.DAO;
 
 import graduation_spring_test.demo.domain.Grade.Grade;
+import graduation_spring_test.demo.domain.Member.Member;
+import graduation_spring_test.demo.global.common_unit.English_level;
+import graduation_spring_test.demo.global.common_unit.Major_curriculum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Repository
 public class GradeDAOImpl implements GradeDAO{
@@ -61,6 +66,16 @@ public class GradeDAOImpl implements GradeDAO{
     }
 
     private RowMapper<Grade> gradeRowMapper(){
-        return
+        public Grade mapRow(ResultSet rs, int rowNum) throws SQLException {
+//            Member member = new Member();
+//            member.setId(rs.getString("ID"));
+//            member.setPassword(rs.getString("Pincode"));
+//            member.setCompleted_semesters(rs.getInt("Semester"));
+//            member.setEnroll_year(rs.getInt("StudentNumber"));
+//            member.setMajor_curriculum((Major_curriculum) rs.getObject("Course"));
+//            member.setTOEIC_score(rs.getInt("TOEIC_Score"));
+//            member.setEng_level((English_level) rs.getObject("EnglishGrade"));
+//            return member;
+        }
     }
 }
