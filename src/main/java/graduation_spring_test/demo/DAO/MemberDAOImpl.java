@@ -23,7 +23,7 @@ public class MemberDAOImpl implements MemberDao {
     }
 
     @Override
-    public void addMember(Member member) {
+    public void addMember(Member member){
         // 회원 등록 쿼리 실행
         String sql = "INSERT INTO UserInfo (ID, Pincode, Semester, StudentNumber, Course, TOEIC_Score, EnglishGrade) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
