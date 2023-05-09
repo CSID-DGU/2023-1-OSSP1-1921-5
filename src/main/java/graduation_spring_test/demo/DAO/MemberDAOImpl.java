@@ -4,7 +4,9 @@ import graduation_spring_test.demo.domain.Member.Member;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class MemberDAOImpl implements MemberDao {
@@ -41,6 +43,4 @@ public class MemberDAOImpl implements MemberDao {
         //회원 탈퇴 쿼리 실행
         entityManager.remove(member);
     }
-
-
 }
