@@ -30,4 +30,14 @@ public class GradeServiceImpl implements GradeService{
     public void deleteGradeByMember(String memberId) {
 
     }
+
+    @Override
+    public void AllScoreByMember(String memberID) {
+
+    }
+
+    @Override
+    public void MajorScoreByMember(String memberId) {
+
+    }
 }

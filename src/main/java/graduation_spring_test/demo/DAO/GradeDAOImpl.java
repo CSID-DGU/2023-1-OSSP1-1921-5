@@ -12,12 +12,28 @@ public class GradeDAOImpl implements GradeDAO{
     }
 
     @Override
-    public void deleteGrade(Grade grade) {
+    public void deleteGradeByLec(String cNum) {
 
     }
 
     @Override
     public void getGrade(String cNum) {
+
+    }
+
+    @Override
+    public void getAllScore(String memberId) {
+
+
+    }
+
+    @Override
+    public void getMajorScore(String memberId) {
+
+    }
+
+    @Override
+    public void getCredit(String memberId) {
 
     }
 }
