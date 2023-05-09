@@ -1,1 +1,0 @@
-printf("I am happy")
