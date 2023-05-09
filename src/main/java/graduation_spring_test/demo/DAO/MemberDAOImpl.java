@@ -42,11 +42,17 @@ public class MemberDAOImpl implements MemberDao {
     @Override
     public void updateMember(Member member) {
         //회원 수정 쿼리 실행
+        String sql = "UPDATE UserInfo SET pincode=?, Semester=?, StudentNumber=?, Course=?, TOEIC_Score=?, EnglishGrade=? WHERE ID=?";
+        int result = jdbcTemplate.update(sql, member.getPassword(), member.getCompleted_semesters(),
+                member.getEnroll_year(), member.getMajor_curriculum(), member.getTOEIC_score(),
+                member.getEng_level(), member.getId());
     }
 
     @Override
     public void deleteMember(Member member) {
         //회원 탈퇴 쿼리 실행
+        String sql = "DELETE FROM UserInfo WHERE ID = ?";
+        int result = jdbcTemplate.update(sql, member.getId());
     }
 
     //MemberRoeMapper 클래스를 통해 Member 객체로 변환
