@@ -64,7 +64,6 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-
     //보안 코드 생성 메서드
     private String generateSecurityCode() {
         Random random = new Random();

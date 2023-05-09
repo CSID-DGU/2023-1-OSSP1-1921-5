@@ -31,6 +31,17 @@ public class Member {
     @Column(name = "security_code")
     private String  security_code; //비밀번호 변경시 보안코드
 
+    public Member(String id, String password, Integer enroll_year, Integer completed_semesters, Major_curriculum major_curriculum, English_level eng_level, Integer TOEIC_score, String security_code) {
+        this.id = id;
+        this.password = password;
+        this.enroll_year = enroll_year;
+        this.completed_semesters = completed_semesters;
+        this.major_curriculum = major_curriculum;
+        this.eng_level = eng_level;
+        this.TOEIC_score = TOEIC_score;
+        this.security_code = security_code;
+    }
+
     public String getId() {
         return id;
     }
