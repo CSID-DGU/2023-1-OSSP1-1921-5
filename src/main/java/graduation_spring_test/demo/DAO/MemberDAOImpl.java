@@ -15,11 +15,17 @@ import java.sql.SQLException;
 @Repository
 public class MemberDAOImpl implements MemberDao {
 
-    private final JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+
+    /*@Autowired
+    public MemberDAOImpl(JdbcTemplate jdbcTemplate) {
+
+        this.jdbcTemplate = jdbcTemplate;
+    }*/
 
     @Autowired
-    public MemberDAOImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void setDataSource(DataSource dataSource) {
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
