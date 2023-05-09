@@ -14,16 +14,18 @@ public class GradeServiceImpl implements GradeService{
 
     @Override
     public void inputGrade(Grade grade) {
-        gradeDao.addGrade(grade);
+        // 이미 해당 data가 존재하면 삭제
+        if(gradeDao.isExistGrade(grade.getClassNum())) {
+            gradeDao.deleteGradeByLec(grade.getClassNum());
+        }
+        else{
+            gradeDao.addGrade(grade);
+        }
     }
 
     @Override
     public String getGradeByLec(String cNum) {
         return null;
-    }
-
-    @Override
-    public void deleteGradeByLec(String cNum) {
     }
 
     @Override
