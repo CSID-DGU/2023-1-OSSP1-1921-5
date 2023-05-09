@@ -2,6 +2,7 @@ package graduation_spring_test.demo.DAO;
 
 import graduation_spring_test.demo.domain.Member.Member;
 import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ public class MemberDAOImpl implements MemberDao {
 
     private final EntityManager entityManager;
 
+    @Autowired
     public MemberDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

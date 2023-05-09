@@ -1,5 +1,6 @@
 package graduation_spring_test.demo.member;
 
+import graduation_spring_test.demo.DAO.MemberDao;
 import graduation_spring_test.demo.domain.Member.Member;
 import graduation_spring_test.demo.domain.Member.service.MemberService;
 import graduation_spring_test.demo.global.common_unit.English_level;
@@ -8,6 +9,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.matchers.Null;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MemberServiceTest {
 

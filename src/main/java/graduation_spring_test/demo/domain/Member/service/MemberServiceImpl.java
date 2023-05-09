@@ -12,8 +12,8 @@ import java.util.Random;
 public class MemberServiceImpl implements MemberService {
 
 
-    private MemberDao memberDao;
-    private EmailService emailService;
+    private final MemberDao memberDao;
+    private final EmailService emailService;
 
     @Autowired
     public MemberServiceImpl(MemberDao memberDao, EmailService emailService) {
