@@ -16,7 +16,7 @@ public class GradeServiceImpl implements GradeService{
     public void inputGrade(Grade grade) {
         // 이미 해당 data가 존재하면 삭제후 삽입
         if(gradeDao.isExistGrade(grade)>0) {
-            gradeDao.deleteGradeByLec(grade.getClassNum());
+            gradeDao.deleteGrade(grade);
         }
         gradeDao.addGrade(grade);
     }
@@ -28,7 +28,7 @@ public class GradeServiceImpl implements GradeService{
 
     @Override
     public void deleteGradeByMember(String memberId) {
-        gradeDao.deleteGradeByMember(memberId);
+        //gradeDao.deleteGrade(memberId);
     }
 
     @Override

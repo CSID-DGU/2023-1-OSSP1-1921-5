@@ -8,7 +8,6 @@ import lombok.*;
 
 @Entity
 @Setter
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "userselectlist")

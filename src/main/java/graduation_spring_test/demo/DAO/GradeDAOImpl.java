@@ -10,24 +10,21 @@ import javax.sql.DataSource;
 @Repository
 public class GradeDAOImpl implements GradeDAO{
 
-//    public JpaGradeDAO(EntityManager entityManager){
-//        this.entityManager = entityManager;
-//    }
+    private final EntityManager entityManager;
+
+    @Autowired
+    public GradeDAOImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
     public void addGrade(Grade grade) {
-        String sql= "INSERT INTO `UserSelectList` VALUES (?, ?, ?, ?)";
-        //int result = jdbcTemplate.update(sql, grade.getMemberId(), grade.getTermNum(), grade.getClassNum(), grade.getScore());
+        entityManager.persist(grade);
     }
 
     @Override
-    public void deleteGradeByLec(String cNum) {
-
-    }
-
-    @Override
-    public void deleteGradeByMember(String memberId) {
-
+    public void deleteGrade(Grade grade) {
+        entityManager.remove(grade);
     }
 
     @Override
