@@ -14,8 +14,12 @@ public interface GradeService {
     void deleteGradeByMember(String memberId);
 
     //특정 member의 전체 성적 평점 계산
-    void AllScoreByMember(String memberID);
+    int AllScoreByMember(String memberID);
 
     //특정 member의 전공 성적 평점 계산
-    void MajorScoreByMember(String memberId);
+    int MajorScoreByMember(String memberId);
+
+    //전체 member의 전체 성적 평점 계산
+    
+    //전체 member의 전공 성적 평점 계산
 }

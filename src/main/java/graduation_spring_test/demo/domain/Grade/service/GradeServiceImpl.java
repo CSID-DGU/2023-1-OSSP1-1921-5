@@ -23,21 +23,21 @@ public class GradeServiceImpl implements GradeService{
 
     @Override
     public String getGradeByLec(String cNum) {
-        return null;
+        return gradeDao.getGrade(cNum);
     }
 
     @Override
     public void deleteGradeByMember(String memberId) {
-
+        gradeDao.deleteGradeByMember(memberId);
     }
 
     @Override
-    public void AllScoreByMember(String memberID) {
-
+    public int AllScoreByMember(String memberID) {
+        return gradeDao.getAllScore(memberID);
     }
 
     @Override
-    public void MajorScoreByMember(String memberId) {
-
+    public int MajorScoreByMember(String memberId) {
+        return gradeDao.getMajorScore(memberId);
     }
 }
