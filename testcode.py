@@ -1,1 +1,1 @@
-print("I am happy")
+printf("I am happy")
