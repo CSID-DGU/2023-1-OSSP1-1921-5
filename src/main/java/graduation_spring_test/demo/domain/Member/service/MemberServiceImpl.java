@@ -20,6 +20,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member getMemberById(String memberId) {
         // 회원 조회 로직 구현
+        if(memberDao.getMemberById(memberId) == null){
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
         return memberDao.getMemberById(memberId);
     }
 
