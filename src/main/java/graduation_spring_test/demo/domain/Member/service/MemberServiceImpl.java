@@ -5,6 +5,7 @@ import graduation_spring_test.demo.domain.Member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Component
