@@ -73,8 +73,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     //보안 코드를 이메일로 전송하는 메서드
-    @Override
-    public void sendSecurityCodeToEmail(String memberId){
+    private void sendSecurityCodeToEmail(String memberId){
         Member member = memberDao.getMemberById(memberId);
         if (member != null) {
             String securityCode = generateSecurityCode();
