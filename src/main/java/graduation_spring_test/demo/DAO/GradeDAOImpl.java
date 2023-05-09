@@ -43,10 +43,10 @@ public class GradeDAOImpl implements GradeDAO{
     }
 
     @Override
-    public Boolean isExistGrade(Grade grade) {
+    public int isExistGrade(Grade grade) {
         String sql = "select COUNT(*) AS count from UserSelectList where UserID = ? AND CNumber LIKE ?";
-        int result = jdbcTemplate.query(sql,grade, grade.getMemberId(), grade.getClassNum());
-        return null;
+        int result = jdbcTemplate.queryForObject(sql, Integer.class, grade.getMemberId(), grade.getClassNum());
+        return result;
     }
 
     @Override
@@ -65,17 +65,9 @@ public class GradeDAOImpl implements GradeDAO{
 
     }
 
-    private RowMapper<Grade> gradeRowMapper(){
-        public Grade mapRow(ResultSet rs, int rowNum) throws SQLException {
-//            Member member = new Member();
-//            member.setId(rs.getString("ID"));
-//            member.setPassword(rs.getString("Pincode"));
-//            member.setCompleted_semesters(rs.getInt("Semester"));
-//            member.setEnroll_year(rs.getInt("StudentNumber"));
-//            member.setMajor_curriculum((Major_curriculum) rs.getObject("Course"));
-//            member.setTOEIC_score(rs.getInt("TOEIC_Score"));
-//            member.setEng_level((English_level) rs.getObject("EnglishGrade"));
-//            return member;
-        }
-    }
+//    private RowMapper<Grade> gradeRowMapper(){
+//        public Grade mapRow(ResultSet rs, int rowNum) throws SQLException {
+//
+//        }
+//    }
 }
