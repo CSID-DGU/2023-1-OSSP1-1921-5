@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class MemberDAOImpl implements MemberDao {
@@ -59,6 +60,13 @@ public class MemberDAOImpl implements MemberDao {
         //회원 탈퇴 쿼리 실행
         String sql = "DELETE FROM UserInfo WHERE ID = ?";
         int result = jdbcTemplate.update(sql, member.getId());
+    }
+
+    @Override
+    public List<Member> getMemberList() {
+        String sql = "SELECT * FROM UserInfo";
+        List<Member> memberList = jdbcTemplate.query(sql, new Object[]{}, new MemberRowMapper());
+        return memberList;
     }
 
     //MemberRoeMapper 클래스를 통해 Member 객체로 변환
