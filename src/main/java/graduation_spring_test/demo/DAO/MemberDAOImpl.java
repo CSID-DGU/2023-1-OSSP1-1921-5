@@ -2,25 +2,28 @@ package graduation_spring_test.demo.DAO;
 
 import graduation_spring_test.demo.domain.Member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 
 @Repository
 public class MemberDAOImpl implements MemberDao {
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    //private JdbcTemplate jdbcTemplate;
+    public MemberDAOImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public void addMember(Member member) {
         // 회원 등록 쿼리 실행
-        /*String sql = "INSERT INTO UserInfo (ID, Pincode, Semester, StudentNumber, Course, TOEIC_Score, EnglishGrade) " +
+        String sql = "INSERT INTO UserInfo (ID, Pincode, Semester, StudentNumber, Course, TOEIC_Score, EnglishGrade) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, member.getID(), member.getPincode(), member.getSemester(),
-                member.getStudentNumber(), member.getCourse(), member.getTOEICScore(), member.getEnglishGrade());*/
+        int result = jdbcTemplate.update(sql, member.getId(), member.getPassword(), member.getCompleted_semesters(),
+                member.getEnroll_year(), member.getMajor_curriculum(), member.getTOEIC_score(), member.getEng_level());
     }
 
     @Override
