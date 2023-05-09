@@ -3,6 +3,7 @@ package graduation_spring_test.demo.DAO;
 import graduation_spring_test.demo.domain.Grade.Grade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -37,7 +38,9 @@ public class GradeDAOImpl implements GradeDAO{
     }
 
     @Override
-    public Boolean isExistGrade(String cNum) {
+    public Boolean isExistGrade(Grade grade) {
+        String sql = "select COUNT(*) AS count from UserSelectList where UserID = ? AND CNumber LIKE ?";
+        int result = jdbcTemplate.query(sql,grade, grade.getMemberId(), grade.getClassNum());
         return null;
     }
 
@@ -55,5 +58,9 @@ public class GradeDAOImpl implements GradeDAO{
     @Override
     public void getCredit(String memberId) {
 
+    }
+
+    private RowMapper<Grade> gradeRowMapper(){
+        return
     }
 }

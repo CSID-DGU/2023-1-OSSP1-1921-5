@@ -8,7 +8,7 @@ public interface GradeDAO {
     void deleteGradeByMember(String memberId); // member 성적 삭제
     void getGrade(String cNum); // 특정 과목 성적 조회
 
-    Boolean isExistGrade(String cNum); // 특정 과목 성적 존재하는지
+    Boolean isExistGrade(Grade grade); // 특정 과목 수강 여부
 
     void getAllScore(String memberId);// 전체 성적 평점 계산
 
