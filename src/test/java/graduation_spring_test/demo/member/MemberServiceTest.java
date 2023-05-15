@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MemberServiceTest {
 
     MemberService memberService;
+    MemberDao memberDao;
 
     @Test
     void join() {
@@ -22,7 +23,7 @@ public class MemberServiceTest {
                 1,2017, Major_curriculum.ADVANCED, English_level.S3,115,null);
         //when
         memberService.register(member);
-        Member findMember = memberService.getMemberById("user201712@gmail.com");
+        Member findMember = memberDao.getMemberById("user201712@gmail.com");
         //then
         Assertions.assertThat(member).isEqualTo(findMember);
     }

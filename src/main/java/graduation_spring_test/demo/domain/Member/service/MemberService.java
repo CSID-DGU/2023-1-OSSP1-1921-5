@@ -1,9 +1,11 @@
 package graduation_spring_test.demo.domain.Member.service;
 
 import graduation_spring_test.demo.domain.Member.Member;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public interface MemberService {
     void register(Member member);  // 회원 가입
     Member getMemberById(String memberId);  // 회원 조회
