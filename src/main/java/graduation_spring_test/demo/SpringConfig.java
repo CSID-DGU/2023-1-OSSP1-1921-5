@@ -2,6 +2,7 @@ package graduation_spring_test.demo;
 
 import graduation_spring_test.demo.DAO.MemberDAOImpl;
 import graduation_spring_test.demo.DAO.MemberDao;
+import graduation_spring_test.demo.domain.Member.controller.MemberController;
 import graduation_spring_test.demo.domain.Member.service.EmailService;
 import graduation_spring_test.demo.domain.Member.service.EmailServiceImpl;
 import graduation_spring_test.demo.domain.Member.service.MemberService;
@@ -31,6 +32,5 @@ public class SpringConfig {
     public EmailService emailService() {
         return new EmailServiceImpl(JavaMailSender);
     }
-
-
+    
 }

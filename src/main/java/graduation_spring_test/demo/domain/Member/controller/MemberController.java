@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,60 +15,50 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     @Autowired
-    private MemberService memberService;
+    private final MemberService memberService;
 
-    //회원 가입 페이지 뷰
+    //회원 가입
     @GetMapping("/signup")
-    public String signupView(Model model) {
-        model.addAttribute("member", new Member());
-        return "signup";
-    }
-
-    //회원 가입 로직 처리
-    @PostMapping("/signup")
-    public String signup(Member member) {
+    public ResponseEntity<?> signup(@RequestBody Member member) {
         try {
             memberService.register(member);
-            return "redirect:/member/signin";
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return "redirect:/member/signup";
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    //로그인 페이지 뷰
-    @GetMapping("/signin")
-    public String loginView() {
-        return "signin";
+    //회원 정보 조회
+    @GetMapping("/{memberId}")
+    public ResponseEntity<?> getMemberById(@PathVariable String memberId) {
+        try {
+            Member member = memberService.getMemberById(memberId);
+            return ResponseEntity.ok(member);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
-    //회원 정보 페이지 뷰 + 수정
-    @GetMapping("/{memberId}/edit")
-    public String mypageView(@PathVariable String memberId, Model model) {
-        Member member = memberService.getMemberById(memberId);
-        model.addAttribute("member", member);
-        return "mypage";
-    }
-
-    // 회원 정보 수정 로직 처리
-    @PostMapping("/{memberId}/edit")
-    public String editMember(@PathVariable String memberId, Member member) {
+    //회원 정보 수정
+    @PutMapping("/{memberId}")
+    public ResponseEntity<?> updateMember(@PathVariable String memberId, @RequestBody Member member) {
         try {
             memberService.updateMember(member);
-            return "redirect:/member/" + memberId;
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return "redirect:/member/" + memberId + "/edit";
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    // 회원 탈퇴 로직 처리
-    @PostMapping("/{memberId}/delete")
-    public String deleteMember(@PathVariable String memberId) {
+    //회원 정보 삭제
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<?> deleteMember(@PathVariable String memberId) {
         try {
             Member member = memberService.getMemberById(memberId);
             memberService.deleteMember(member);
-            return "redirect:/";
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return "redirect:/member/" + memberId;
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
