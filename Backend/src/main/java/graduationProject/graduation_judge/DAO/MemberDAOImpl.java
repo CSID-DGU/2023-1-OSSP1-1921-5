@@ -27,7 +27,6 @@ public class MemberDAOImpl implements MemberDao {
     @Override
     public Member getMemberById(String memberId) {
         // 회원 조회 쿼리 실행
-        String sql = "SELECT * FROM UserInfo WHERE ID = ?";
         Member member = entityManager.find(Member.class, memberId);
         return member;
     }//optional써야하나?

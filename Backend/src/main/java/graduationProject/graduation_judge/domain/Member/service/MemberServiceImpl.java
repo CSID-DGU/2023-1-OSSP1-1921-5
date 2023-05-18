@@ -4,7 +4,6 @@ package graduationProject.graduation_judge.domain.Member.service;
 import graduationProject.graduation_judge.domain.Member.Member;
 import graduationProject.graduation_judge.DAO.MemberDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
