@@ -59,30 +59,31 @@ public class MemberServiceImpl implements MemberService {
         if (member != null && member.getSecurity_code().equals(securityCode)) {
             member.setPassword(newPassword);
             memberDao.updateMember(member);
-        }else{
+        } else {
             throw new RuntimeException("올바르지 않은 보안 코드입니다.");
         }
+    }
 
-        //보안 코드 생성 메서드
-        private String generateSecurityCode() {
-            Random random = new Random();
-            int code = random.nextInt(10000);
-            return String.format("%04d", code);
-        }
+    //보안 코드 생성 메서드
+    private String generateSecurityCode() {
+        Random random = new Random();
+        int code = random.nextInt(10000);
+        return String.format("%04d", code);
+    }
 
-        //보안 코드를 이메일로 전송하는 메서드
-        @Override
-        public void sendSecurityCodeToEmail(String memberId){
-            Member member = memberDao.getMemberById(memberId);
-            if (member != null) {
-                String securityCode = generateSecurityCode();
-                member.setSecurity_code(securityCode);
-                memberDao.updateMember(member);
-                String subject = "비밀번호를 찾기 위한 보안 코드입니다.";
-                String text = "보안 코드: " + securityCode;
-                emailService.sendEmail(memberId, subject, text);
-            }else{
-                throw new RuntimeException("존재하지 않는 회원입니다.");
-            }
+    //보안 코드를 이메일로 전송하는 메서드
+    @Override
+    public void sendSecurityCodeToEmail(String memberId){
+        Member member = memberDao.getMemberById(memberId);
+        if (member != null) {
+            String securityCode = generateSecurityCode();
+            member.setSecurity_code(securityCode);
+            memberDao.updateMember(member);
+            String subject = "비밀번호를 찾기 위한 보안 코드입니다.";
+            String text = "보안 코드: " + securityCode;
+            emailService.sendEmail(memberId, subject, text);
+        }else{
+            throw new RuntimeException("존재하지 않는 회원입니다.");
         }
+    }
 }
