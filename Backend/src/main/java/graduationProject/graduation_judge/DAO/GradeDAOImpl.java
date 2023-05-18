@@ -1,29 +1,28 @@
 package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.domain.Grade.Grade;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 
 @Repository
 public class GradeDAOImpl implements GradeDAO{
-    private final JdbcTemplate jdbcTemplate;
+    private final EntityManager entityManager;
 
     @Autowired
-    public GradeDAOImpl(DataSource dataSource){
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public GradeDAOImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
+
     @Override
     public void addGrade(Grade grade) {
-        String sql= "INSERT INTO `UserSelectList` VALUES (?, ?, ?, ?)";
-        int result = jdbcTemplate.update(sql, grade.getMemberId(), grade.getTermNum(), grade.getClassNum(), grade.getScore());
+        entityManager.persist(grade);
     }
 
     @Override
     public void deleteGrade(Grade grade) {
-
+        entityManager.remove(grade);
     }
 
     @Override
@@ -34,8 +33,9 @@ public class GradeDAOImpl implements GradeDAO{
     @Override
     public int isExistGrade(Grade grade) {
         String sql = "select COUNT(*) AS count from UserSelectList where UserID = ? AND CNumber LIKE ?";
-        int result = jdbcTemplate.queryForObject(sql, Integer.class, grade.getMemberId(), grade.getClassNum());
-        return result;
+        //int result = jdbcTemplate.queryForObject(sql, Integer.class, grade.getMemberId(), grade.getClassNum());
+        //return result;
+        return 0;
     }
 
     @Override
