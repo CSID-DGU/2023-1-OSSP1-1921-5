@@ -12,5 +12,6 @@ public interface MemberService {
 
     void deleteMember(Member member); // 회원 탈퇴(삭제)
 
-
+    //보안 코드를 이메일로 전송하는 메서드
+    void sendSecurityCodeToEmail(String memberId);
 }
