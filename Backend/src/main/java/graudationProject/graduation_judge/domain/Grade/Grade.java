@@ -5,6 +5,6 @@ import lombok.Data;
 public  class Grade {
     private String memberId;
     private String termNum;
-    private String classNu
+    private String classNum;
     private String score;
 }
