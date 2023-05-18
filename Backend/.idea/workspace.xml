@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="427c77f4-9b8d-4818-9a33-54f42846ebce" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/graudationProject/graduation_judge/domain/Grade/Grade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graudationProject/graduation_judge/domain/Grade/Grade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graudationProject/graduation_judge/domain/Grade/service/GradeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graudationProject/graduation_judge/domain/Grade/service/GradeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graudationProject/graduation_judge/domain/Grade/service/GradeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graudationProject/graduation_judge/domain/Grade/service/GradeServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/graudationProject/graduation_judge/DAO/GradeDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +64,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1684376175025</updated>
-      <workItem from="1684376176021" duration="1636000" />
+      <workItem from="1684376176021" duration="1945000" />
     </task>
     <servers />
   </component>
