@@ -1,7 +1,9 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
 import graduationProject.graduation_judge.domain.Member.Member;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface MemberService {
     void register(Member member);  // 회원 가입
     Member getMemberById(String memberId);  // 회원 조회
