@@ -1,8 +1,10 @@
 package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.domain.Member.Member;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
+
 import java.util.Optional;
 
 @Repository
@@ -10,6 +12,7 @@ public class MemberDAOImpl implements MemberDao {
 
     private final EntityManager entityManager;
 
+    @Autowired
     public MemberDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
