@@ -1,12 +1,9 @@
 import pandas as pd
 import numpy as np
 import random
+import warnings
+warnings.filterwarnings('ignore')
 
-cse = pd.read_excel("cse_1.xlsx") # 1학기 
-Ind = pd.read_excel("individual.xlsx") # 개별연구 
-comcul = pd.read_excel("culture_com.xlsx") # 8개 
-gencul = pd.read_excel("culture_gen.xlsx") # 7개 + 기술창조, 공학윤리 
-msc = pd.read_excel("msc_1.xlsx") # 8개 + 공학경제 
 
 def input_rule(course):
     # course : 졸업요건 이름 ex) 전공, 개별연구, msc ...
@@ -17,87 +14,23 @@ def input_rule(course):
     if user_input.lower()=="x":
         pass
     else:
-        if user_input.lower()=="a":
-            input1 = input("제외하고 싶은 강의를 입력하세요 : ")
-            input1_1 = input("포함하고 싶은 강의를 입력하세요 : ")
-            constraints2 = input1_1.split(',')
-        elif user_input.lower()=="c":
-            input1 = input("포함하고 싶은 강의를 입력하세요 : ")
-        elif user_input.lower()=="n":
-            input1 = input("제외하고 싶은 강의를 입력하세요 : ")
+        while True:
+            if user_input.lower()=="a":
+                input1 = input("제외하고 싶은 강의의 학수번호를 입력하세요 : ")
+                input1_1 = input("포함하고 싶은 강의의 학수번호를 입력하세요 : ")
+                constraints2 = input1_1.split(',')
+                break
+            elif user_input.lower()=="c":
+                input1 = input("포함하고 싶은 강의의 학수번호를 입력하세요 : ")
+                break
+            elif user_input.lower()=="n":
+                input1 = input("제외하고 싶은 강의의 학수번호를 입력하세요 : ")
+                break
+            else:
+                print("입력한 값이 유효하지 않습니다. 다시 입력해주세요.")
         constraints = input1.split(',')
     
     return user_input, constraints, constraints2
-
-# 해당 졸업요건의 제약사항이 없을 때 실행 -> 졸업 불가능 data 생성
-def not_constraints(df, num_rows):
-    df = df.sample(n=num_rows, ignore_index=True)
-    return df
-
-# 해당 졸업요건에서 포함시키지 않을 강의가 있을 때 실행 -> 졸업 불가능 data 생성
-def not_contain(df, keywords, num_rows):
-    # df['교과목명'].str.contains('|'.join(keywords)) : keywords list에 포함된 강의를 하나라도 포함하고 있는 행을 찾음
-    # 위의 코드에 ~ 붙임 : df에서 그 행들을 제외한 dataframe을 not_included라고 함.
-    not_included = df.loc[~df['교과목명'].str.contains('|'.join(keywords))] 
-    result = not_included.sample(n=num_rows, ignore_index=True) # cnt 개수만큼 not_included에서 행 임의 추출. ignore_index = True -> 새로운 index 생성
-    return result
-
-
-# 해당 졸업요건에서 포함시킬 강의가 있을 때 실행 -> 졸업 가능 data 생성
-def contain(df, keywords, num_rows):
-    rows = [] # 추출한 행들을 저장할 빈 리스트 rows
-    
-    for kw in keywords: # keywords에 있는 각각의 keword kw에 대해 반복문 실행
-        df_kw = df.loc[df['교과목명'].str.contains(kw)] # df의 교과목명 열에서 kw를 포함하는 행들을 추출하여 df_kw에 저장
-        if not df_kw.empty: # df_kw가 비어있지 않으면 -> kw를 포함하는 행이 존재하면
-            row = df_kw.sample() # df_kw에서 랜덤으로 1개의 행을 추출하여 row에 저장
-            rows.append(row) # rows에 row 추가
-    
-    rowss = pd.concat(rows).values.tolist() # 3차원 list인 rows에 저장된 dataframe들을 concat하여 2차원 list로 변경.
-
-    if len(rows) < num_rows: # 추출된 행의 개수가 원하는 추출 행의 개수보다 작으면
-        cnt = num_rows - len(rows) # 더 추출해야 할 행의 개수 a 계산.
-
-        Xdup = df.loc[~df['교과목명'].str.contains('|'.join(keywords))] # keywords 포함 강의 -> 이미 rows에 추출한 강의들 -> 중복 방지 위해 df에서 제외.
-        add_rows = Xdup.sample(n=cnt, ignore_index=True) # not_included에서 더 추출해야 하는 행 개수만큼 랜덤으로 추출하여 add_rows에 저장
-        
-        # list인 rows를 column이 '년도' ~ '대학대학원'인 dataframe으로 만들어줌. add_rows는 dataframe
-        rowdf = pd.DataFrame(rowss, columns=['년도', '학기', '이수구분', '이수구분영역', '학수강좌번호', None, '교과목명', '담당교원', '학점', 
-                                         '등급', '삭제구분', '재수강구분', '공학인증', '공학요소', '공학세부요소', '원어강의', '인정구분', '성적인정대학명', '교과목영문명', '대학대학원'])
-        contain_result = pd.concat([rowdf, add_rows], axis=0) # rowdf와 add_rows를 합침.
-    else:
-        contain_result = rowss
-        
-    return contain_result
-
-
-# 해당 졸업요건에서 포함, 제외시킬 강의가 있을 때 실행
-def all_constraints(df, keywords1, keywords2, num_rows):
-    # keywords1 -> 제외할 강의들
-    # keywords2 -> 포함할 강의들
-    # not_contain 함수와 contain 함수 합친 거임.
-    not_included = df.loc[~df['교과목명'].str.contains('|'.join(keywords1))] # 강의들 제외
-    
-    rows = [] 
-    
-    for kw in keywords2: 
-        df_kw = not_included.loc[not_included['교과목명'].str.contains(kw)] 
-        if not df_kw.empty: 
-            row = df_kw.sample() 
-            rows.append(row) 
-    
-    rows = pd.concat(rows).values.tolist() 
-    
-    if len(rows) < num_rows: 
-        cnt = num_rows - len(rows)
-        Xdup = not_included.loc[~not_included['교과목명'].str.contains('|'.join(keywords2))] 
-        add_rows = Xdup.sample(n=cnt, ignore_index=True) 
-        
-        rowdf = pd.DataFrame(rows, columns=['년도', '학기', '이수구분', '이수구분영역', '학수강좌번호', None, '교과목명', '담당교원', '학점', 
-                                         '등급', '삭제구분', '재수강구분', '공학인증', '공학요소', '공학세부요소', '원어강의', '인정구분', '성적인정대학명', '교과목영문명', '대학대학원'])
-        all_result = pd.concat([rowdf, add_rows], axis=0)
-        
-    return all_result
 
 
 def conn(user, df, constraints, constraints_, cnt):
@@ -113,121 +46,273 @@ def conn(user, df, constraints, constraints_, cnt):
     return result
 
 
-datacnt = input("만들 data 개수 입력 : ")
-semester = input("이수학기 입력 : ")
-# 한 학기에 최대 10개의 강의 듣는다고 가정
+# 해당 졸업요건의 제약사항이 없을 때 실행 -> 졸업 불가능 data 생성
+def not_constraints(df, num_rows):
+    df = df.sample(n=num_rows, ignore_index=True)
+    return df
 
-total_lec = 0
-while total_lec != int(semester) * 10:
-    Rcm = random.randint(0, 18) # 전공 36
-    RcI = random.randint(0, 3) # 개별연구
-    Rcc = random.randint(0, 10) # 공통교양
-    Rgc = random.randint(0, 15) # 일반교양
-    Rms = random.randint(0, 10) # msc
+
+# 해당 졸업요건에서 포함시키지 않을 강의가 있을 때 실행 -> 졸업 불가능 data 생성
+def not_contain(df, keywords, num_rows):
+    # df['교과목명'].str.contains('|'.join(keywords)) : keywords list에 포함된 강의를 하나라도 포함하고 있는 행을 찾음
+    # 위의 코드에 ~ 붙임 : df에서 그 행들을 제외한 dataframe을 not_included라고 함.
+    not_included = df.loc[~df['학수강좌번호'].str.contains('|'.join(keywords))] 
+    result = not_included.sample(n=num_rows, ignore_index=True) # cnt 개수만큼 not_included에서 행 임의 추출. ignore_index = True -> 새로운 index 생성
+    return result
+
+# 해당 졸업요건에서 포함시킬 강의가 있을 때 실행 -> 졸업 가능 data 생성
+def contain(df, keywords, num_rows):
+    rows = [] # 추출한 행들을 저장할 빈 리스트 rows
     
-    total_lec = Rcm + RcI + Rcc + Rgc + Rms
+    for kw in keywords: # keywords에 있는 각각의 keword kw에 대해 반복문 실행
+        df_kw = df.loc[df['학수강좌번호'].str.contains(kw)] # df의 교과목명 열에서 kw를 포함하는 행들을 추출하여 df_kw에 저장
+        if not df_kw.empty: # df_kw가 비어있지 않으면 -> kw를 포함하는 행이 존재하면
+            row = df_kw.sample() # df_kw에서 랜덤으로 1개의 행을 추출하여 row에 저장
+            rows.append(row) # rows에 row 추가
 
-print("-----------------------")
-print("총 이수 강의 수 : ", total_lec)
-print("전공 이수 :", Rcm)
-print("개별연구 이수 :", RcI)
-print("공통교양 이수 :", Rcc)
-print("일반교양 이수 :", Rgc)
-print("msc 이수 :", Rms)
-print("---------------------------------------------------------------------")
+    if len(rows) > 0:
+        rowss = pd.concat(rows).values.tolist() # 3차원 list인 rows에 저장된 dataframe들을 concat하여 2차원 list로 변경.
+    else:
+        rowss = rows
 
-print("제약사항이 없으면 X, 포함 제약사항만 있으면 C, 제외 제약사항만 있으면 N")
-print("포함, 제외 제약사항 모두 있으면 A를 입력하세요.")
-print("(입력형식 ex) 자료구조와실습,인공지능,머신러닝,...)")
-print("---------------------------------------------------------------------")
+    if len(rows) < num_rows: # 추출된 행의 개수가 원하는 추출 행의 개수보다 작으면
+        cnt = num_rows - len(rows) # 더 추출해야 할 행의 개수 a 계산.
 
-user1, constraints1, constraints1_1 = input_rule("전공")
-user3, constraints3, constraints3_1 = input_rule("공통교양")
-user4, constraints4, constraints4_1 = input_rule("일반교양")
-user5, constraints5, constraints5_1 = input_rule("msc")
+        Xdup = df.loc[~df['학수강좌번호'].str.contains('|'.join(keywords))] # keywords 포함 강의 -> 이미 rows에 추출한 강의들 -> 중복 방지 위해 df에서 제외.
+        add_rows = Xdup.sample(n=cnt, ignore_index=True) # not_included에서 더 추출해야 하는 행 개수만큼 랜덤으로 추출하여 add_rows에 저장
+        
+        # list인 rows를 column이 '년도' ~ '대학대학원'인 dataframe으로 만들어줌. add_rows는 dataframe
+        rowdf = pd.DataFrame(rowss, columns=['년도', '학기', '이수구분', '이수구분영역', '학수강좌번호', '분반', '교과목명', '담당교원', '학점', 
+                                         '등급', '삭제구분', '재수강구분', '공학인증', '공학요소', '공학세부요소', '원어강의종류', '인정구분', '성적인정대학명', '교과목영문명', '대학대학원'])
+        contain_result = pd.concat([rowdf, add_rows], axis=0) # rowdf와 add_rows를 합침.
+    else:
+        contain_result = rowss
+        
+    return contain_result
 
-
-df = pd.DataFrame({
-    '공통교양': [],
-    '학문기초': [],
-    '기본소양': [],
-    '전공': [],
-    '영어': [],
-    'fail_major': []
-})
-
-for i in range(0, int(datacnt)): # 제약사항 한 번 받아서, 입력받은 data 개수만큼 반복.
-    result1 = conn(user1, cse, constraints1, constraints1_1, Rcm)
-    result2 = not_constraints(Ind, RcI)
-    result3 = conn(user3, comcul, constraints3, constraints3_1, Rcc)
-    result4 = conn(user4, gencul, constraints4, constraints4_1, Rgc)
-    result5 = conn(user5, msc, constraints5, constraints5_1, Rms)
-
-    df_list = [result1, result2, result3, result4, result5]
-    dataset = pd.concat(df_list, ignore_index=True) # 랜덤 추출한 거 합치기
-    dataset.index = dataset.index+1 # index 1부터 시작
+# 해당 졸업요건에서 포함, 제외시킬 강의가 있을 때 실행
+def all_constraints(df, keywords1, keywords2, num_rows):
+    # keywords1 -> 제외할 강의들
+    # keywords2 -> 포함할 강의들
+    # not_contain 함수와 contain 함수 합친 거임.
+    not_included = df.loc[~df['학수강좌번호'].str.contains('|'.join(keywords1))] # 강의들 제외
     
-    # 성적 랜덤 지정
-    grade = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
-    choice = np.random.choice(grade, total_lec, p=[0.1, 0.2, 0.2, 0.15, 0.15, 0.05, 0.05, 0.05, 0.05]) # grade의 각 값이 나올 확률 지정
-    dataset['등급'] = choice
+    rows = [] 
     
+    for kw in keywords2: 
+        df_kw = not_included.loc[not_included['학수강좌번호'].str.contains(kw)] 
+        if not df_kw.empty: 
+            row = df_kw.sample() 
+            rows.append(row) 
 
-    # 같은 강의 2개 이상이면 그냥 제거~!!!!!!!!
-    dataset = dataset.drop_duplicates(['교과목명'], keep='first', inplace=False, ignore_index=False)
-    dataset.to_excel('./data/data' + str(i) + '이수' + semester +'학기.xlsx') # 만들어진 dataset xlsx로 내보내기
+    if len(rows) > 0:
+        rowss = pd.concat(rows).values.tolist() # 3차원 list인 rows에 저장된 dataframe들을 concat하여 2차원 list로 변경.
+    else:
+        rowss = rows
+    
+    if len(rows) < num_rows: 
+        cnt = num_rows - len(rows)
+        Xdup = not_included.loc[~not_included['학수강좌번호'].str.contains('|'.join(keywords2))] 
+        add_rows = Xdup.sample(n=cnt, ignore_index=True) 
+        
+        rowdf = pd.DataFrame(rowss, columns=['년도', '학기', '이수구분', '이수구분영역', '학수강좌번호', '분반', '교과목명', '담당교원', '학점', 
+                                         '등급', '삭제구분', '재수강구분', '공학인증', '공학요소', '공학세부요소', '원어강의종류', '인정구분', '성적인정대학명', '교과목영문명', '대학대학원'])
+        all_result = pd.concat([rowdf, add_rows], axis=0)
+        
+    return all_result
 
-    
-    
-    # 공통교양, 학문기초, 기본소양, 전공 학점 수 확인
-    count_com = 0 # 들은 공통교양 학점 
-    count_base = 0 # 들은 학문기초 학점
-    count_found = 0 # 들은 기본소양 학점
-    count_major = 0 # 들은 전공 학점
+def check(dataset, comlist, baselist, foundlist):
+    count = 0 # 총 이수 학점
+    count_com = 0 # 들은 공통교양 학점  
+    require_com = 0 # 들은 필수 공통교양 학점 
+    require_base = 0 # 들은 필수 학문기초 학점
+    require_found = 0 # 들은 필수 기본소양 학점
+    require_major = 0 # 들은 필수 전공 학점
     count_en = 0 # 들은 영어 강의 개수
-    
-    comlist = ['커리어 디자인', '자아와명상1', '자아와명상2', '불교와인간', '소셜앙트레프레너십과리더십', '글로벌앙트레프레너십과리더십',
-              '테크노앙트레프레너십과리더십', '기술보고서작성및발표', 'EAS1', 'EAS2'] # 23년 세미나 추가, 리더십 중복 추출 해결해야 됨.
-    baselist = ['미적분학및연습1', '미적분학및연습2', '확률및통계학', '공학선형대수학', '공학수학1', '이산수학',
-                '일반물리학및실험1', '일반물리학및실험2', '일반화학및실험1', '일반화학및실험2', '일반생물학및실험1', '일반생물학및실험2', 
-                '물리학개론', '화학개론', '생물학개론', '지구환경과학']
-    foundlist = ['기술창조와특허', '공학경제', '공학윤리', '공학법제']
-    
-    re_major = ['어드벤처디자인', '컴퓨터공학종합설계1', '컴퓨터공학종합설계2', '자료구조와실습',
-               '컴퓨터구성', '시스템소프트웨어와실습', '공개SW프로젝트', '계산적사고법', '이산구조']  # 23년 이산구조 삭제
     major_fail = []
     
+    
     # 공교, 학문기초, 기본소양, 전공 몇 학점 들었는지, 영어 강의 개수 확인. 성적이 F가 아니어야 함.
-    for i, row in dataset.iterrows(): 
+    for k, row in dataset.iterrows(): 
+        # 총 학점
+        if row['등급'] != 'F':
+            count += row['학점']
         # 공통교양
-        if row['교과목명'] in comlist and row['학점'] != 'F':
+        if row['이수구분'] == '공교' and row['등급'] != 'F':
             count_com += row['학점']
+        # 필수 공통교양
+        if row['학수강좌번호'] in comlist and row['등급'] != 'F':
+            require_com += row['학점']
         # 학문기초
-        if row['교과목명'] in baselist and row['학점'] != 'F':
-            count_base += row['학점']
+        if row['학수강좌번호'] in baselist and row['등급'] != 'F':
+            require_base += row['학점']
         # 기본소양
-        if row['교과목명'] in foundlist and row['학점'] != 'F':
-            count_found += row['학점']
+        if row['학수강좌번호'] in foundlist and row['등급'] != 'F':
+            require_found += row['학점']
         # 전공
-        if row['이수구분'] == '전공' and row['학점'] != 'F':
-            count_major += row['학점']
+        if (row['이수구분'] == '전공' or row['이수구분'] == '전필') and row['등급'] != 'F':
+            require_major += row['학점']
         # 영어 강의 개수 확인
-        if row['교과목명'] == 'EAS1' or row['교과목명'] == 'EAS2' and row['학점'] != 'F':
+        if (row['교과목명'] == 'EAS1' or row['교과목명'] == 'EAS2') and row['등급'] != 'F':
             count_en += 1
-        if row['이수구분'] == '전공' and row['원어강의'] == '영어' and row['학점'] != 'F':
+        if (row['이수구분'] == '전공' or row['이수구분'] == '전필') and row['원어강의종류'] == '영어' and row['등급'] != 'F':
             count_en += 1
             
         # 전공 필수 중 F 맞은 과목 있는지 확인.
-        if row['교과목명'] in re_major and row['학점'] == 'F':
+        if (row['이수구분'] == '전필' or str(row['학수강좌번호']).startswith('DES')) and row['등급'] == 'F':
             major_fail.append(row['교과목명'])
+            
+    df = pd.DataFrame({
+        '총 이수학점': [count],
+        '공통교양': [count_com],
+        '필수 공통교양': [require_com],
+        '필수 학문기초': [require_base],
+        '필수 기본소양': [require_found],
+        '필수 전공': [require_major],
+        '영어': [count_en],
+        'fail_major' : [major_fail]
+    })
+    return df
+
+select_sem = []
+inputlist = []
+conslist1 = []
+conslist2 = []
+cnt_leclist = []
+result_list = []
+
+df = pd.DataFrame({
+    '총 이수학점': [],
+    '공통교양': [],
+    '필수 공통교양': [],
+    '필수 학문기초': [],
+    '필수 기본소양': [],
+    '필수 전공': [],
+    '영어': [],
+    'fail_major': []
+}) 
+
+pf = ['RGC1001', 'RGC1074', 'RGC0017', 'RGC0018', 'RGC1050', 'RGC1051', 'RGC1051', 'RGC1052', 'RGC1030']
+# 공통교양
+comlist = ['RGC1001', 'RGC1074', 'RGC0017', 'RGC0018', 'RGC0003', 'RGC1050', 'RGC1051',
+            'RGC1052', 'RGC0005', 'RGC1030', 'RGC1080', 'RGC1081', 'RGC1033', 'RGC1034'] # 23년 세미나 추가
+# 세미나
+seminar = ['RGC1010', 'RGC1011', 'RGC1012', 'RGC1013', 'RGC1014']
+# 학문기초
+baselist = ['PRI4001', 'PRI4012', 'PRI4023', 'PRI4024', 'PRI4024', 'PRI4027', 'PRI4036',
+            'PRI4002', 'PRI4013', 'PRI4003', 'PRI4014', 'PRI4004', 'PRI4015', 
+            'PRI4029', 'PRI4030', 'PRI4028', 'PRI4033'] # 21년부터 산업수학 PRI4051 추가
+# 기본소양
+foundlist = ['EGC7026', 'PRI4041', 'EGC4039', 'PRI4043', 'PRI4040', 'PRI4048']
+
+sem171 = pd.read_excel("2017_1.xlsx") 
+sem172 = pd.read_excel("2017_2.xlsx") 
+sem181 = pd.read_excel("2018_1.xlsx") 
+sem182 = pd.read_excel("2018_2.xlsx") 
+sem191 = pd.read_excel("2019_1.xlsx") 
+sem192 = pd.read_excel("2019_2.xlsx")  
+sem201 = pd.read_excel("2020_1.xlsx") 
+sem202 = pd.read_excel("2020_2.xlsx") 
+sem211 = pd.read_excel("2021_1.xlsx") 
+sem212 = pd.read_excel("2021_2.xlsx") 
+sem221 = pd.read_excel("2022_1.xlsx") 
+sem222 = pd.read_excel("2022_2.xlsx") 
+sem231 = pd.read_excel("2023_1.xlsx") 
+
+sem_list = [sem171, sem172, sem181, sem182, sem191, sem192, 
+            sem201, sem202, sem211, sem212, sem221, sem222, sem231]
+
+datacnt = int(input("만들 data 개수 입력 : "))
+while True:
+    start_year = int(input("입학년도(2017 ~ 2023) 입력 : "))
+    if start_year in [2017, 2018, 2019, 2020, 2021, 2022, 2023]:
+        break
+    else:
+        print("입력한 입학년도가 유효하지 않습니다. 다시 입력해주세요.")
+
+while True:
+    num_semester = int(input("이수학기(1 ~ 10) 입력 : "))
+    if num_semester in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
+        break
+    else:
+        print("입력한 이수학기가 유효하지 않습니다. 다시 입력해주세요.")
+
+        
+# 한 학기에 최대 7개의 강의 듣는다고 가정
+# 내가 21년도에 입학을 하고 5학기를 했어... -> sem211부터 5개
+sIndex = (start_year - 2017) * 2
+eIndex = sIndex + num_semester
+select_sem = sem_list[sIndex:eIndex]
+
+print("---------------------------------------------------------------------")
+print("제약사항이 없으면 X, 포함 제약사항만 있으면 C, 제외 제약사항만 있으면 N")
+print("포함, 제외 제약사항 모두 있으면 A를 입력하세요.")
+print("(입력형식 : ,가 구분자, 띄어쓰기x. ex) CSE2028,CSE4066,CSE4067,...)")
+print("---------------------------------------------------------------------")
+
+for i in range(1, num_semester + 1): 
+    cnt_lec = int(input(f"입학 {start_year}년, {i}학기 이수 강의 수 : "))
+    cnt_leclist.append(cnt_lec)
+    userinput, constraints, constraints_1 = input_rule(f"{i}학기 제약사항 (X, C, N, A)")
     
-    df = df.append({
-    '공통교양': count_com,
-    '학문기초': count_base,
-    '기본소양': count_found,
-    '전공': count_major,
-    '영어': count_en
-    }, ignore_index=True)
-    df['fail_major'] = pd.Series(major_fail)
+    inputlist.append(userinput)
+    conslist1.append(constraints)
+    conslist2.append(constraints_1)
+    print("---------------------------------------------------------------------")  
+
     
+for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 개수만큼 반복.
+    result_list = []
+    for j in range(0, num_semester):
+        result = conn(inputlist[j], select_sem[j], conslist1[j], conslist2[j], cnt_leclist[j])
+        result_list.append(result)
+        
+    dataset = pd.concat(result_list, ignore_index=True) # 랜덤 추출한 거 합치기
+    
+    
+    # 성적 랜덤 지정
+    total_lec = sum(cnt_leclist)
+    grade = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
+    # grade = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0']
+    choice = np.random.choice(grade, total_lec, p=[0.1, 0.2, 0.2, 0.15, 0.15, 0.05, 0.05, 0.05, 0.05]).tolist() # grade의 각 값이 나올 확률 지정
+    #choice = np.random.choice(grade, total_lec, p=[0.1, 0.2, 0.2, 0.2, 0.15, 0.05, 0.05, 0.05]).tolist() # 졸업 가능 data 만들 때
+    dataset['등급'] = choice
+    
+    for k, row in dataset.iterrows(): 
+    # 등급 P/F 처리
+        if (row['학수강좌번호'] in pf) or ('DES' in row['학수강좌번호'] and row['년도'] != "2023") or ('DAI' in row['학수강좌번호']):
+            dataset.at[k, '등급'] = random.choice(['P', 'F'])
+            #dataset.at[k, '등급'] = 'P' # 졸업 가능 data 만들 때
+    
+    # 개별연구 4개 이상 들었으면 3개만 남겨~!!!!!!
+    Ind = dataset['학수강좌번호'].str.contains('DES|DAI')
+    if Ind.sum() > 3:
+        dataset = dataset[~Ind].append(dataset[Ind].head(3))
+
+    # 중복된 행 중 마지막 행을 제외한 모든 중복 행 제거
+    dataset.drop_duplicates(subset='학수강좌번호', keep='last', inplace=True)
+    dataset.iloc[-1, dataset.columns.get_loc('재수강구분')] = 'NEW재수강'
+    
+    # EAS와 창공... 그리고 나삶나비
+    if ('RGC1033' in dataset['학수강좌번호'].values) and ('RGC1080' in dataset['학수강좌번호'].values): # EAS1
+        dataset = dataset[dataset['학수강좌번호'] != 'RGC1033']
+        dataset.loc[dataset['학수강좌번호'] == 'RGC1080', '재수강구분'] = 'NEW재수강'
+    if ('RGC1034' in dataset['학수강좌번호'].values) and ('RGC1081' in dataset['학수강좌번호'].values): # EAS2
+        dataset = dataset[dataset['학수강좌번호'] != 'RGC1034']
+        dataset.loc[dataset['학수강좌번호'] == 'RGC1081', '재수강구분'] = 'NEW재수강'
+    if ('CSE2016' in dataset['학수강좌번호'].values) and ('CSE2028' in dataset['학수강좌번호'].values): # 창공
+        dataset = dataset[dataset['학수강좌번호'] != 'CSE2016']
+        dataset.loc[dataset['학수강좌번호'] == 'CSE2028', '재수강구분'] = 'NEW재수강'
+    if ('RGC1001' in dataset['학수강좌번호'].values) and ('RGC1074' in dataset['학수강좌번호'].values): # 나삶나비
+        dataset = dataset[dataset['학수강좌번호'] != 'RGC1001']
+        dataset.loc[dataset['학수강좌번호'] == 'RGC1074', '재수강구분'] = 'NEW재수강'
+    
+    dataset.to_excel('./data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx', float_format={'분반': '00', '학점': '0.0'}) # 만들어진 dataset xlsx로 내보내기
+
+    df_add = check(dataset, comlist, baselist, foundlist)
+    df = df.append(df_add)
+    
+    
+df = df.reset_index(drop=True)
 df.to_excel('./data/data확인.xlsx') # 들은 학점들이랑 f 받은 전공 정보 정리. 
+print("data 생성 완료")
