@@ -132,7 +132,7 @@ def all_constraints(df, keywords1, keywords2, num_rows, ind):
         
     return all_result
 
-def check(dataset, comlist, baselist, foundlist):
+def check(dataset, comlist, baselist, foundlist, req_com, req_base, req_found, req_major):
     count = 0 # 총 이수 학점
     count_com = 0 # 들은 공통교양 학점  
     require_com = 0 # 들은 필수 공통교양 학점 
@@ -141,6 +141,10 @@ def check(dataset, comlist, baselist, foundlist):
     require_major = 0 # 들은 필수 전공 학점
     count_en = 0 # 들은 영어 강의 개수
     major_fail = []
+    com = []
+    base = [] 
+    found = []
+    major = []
     
     
     # 공교, 학문기초, 기본소양, 전공 몇 학점 들었는지, 영어 강의 개수 확인. 성적이 F가 아니어야 함.
@@ -151,18 +155,23 @@ def check(dataset, comlist, baselist, foundlist):
         # 공통교양
         if row['이수구분'] == '공교' and row['등급'] != 'F':
             count_com += row['학점']
+
         # 필수 공통교양
         if row['학수강좌번호'] in comlist and row['등급'] != 'F':
             require_com += row['학점']
+            com.append(row['교과목명'])
         # 학문기초
         if row['학수강좌번호'] in baselist and row['등급'] != 'F':
             require_base += row['학점']
+            base.append(row['교과목명'])
         # 기본소양
         if row['학수강좌번호'] in foundlist and row['등급'] != 'F':
             require_found += row['학점']
+            found.append(row['교과목명'])
         # 전공
         if (row['이수구분'] == '전공' or row['이수구분'] == '전필') and row['등급'] != 'F':
             require_major += row['학점']
+            major.append(row['교과목명'])
         # 영어 강의 개수 확인
         if (row['교과목명'] == 'EAS1' or row['교과목명'] == 'EAS2') and row['등급'] != 'F':
             count_en += 1
@@ -172,7 +181,13 @@ def check(dataset, comlist, baselist, foundlist):
         # 전공 필수 중 F 맞은 과목 있는지 확인.
         if (row['이수구분'] == '전필' or str(row['학수강좌번호']).startswith('DES')) and row['등급'] == 'F':
             major_fail.append(row['교과목명'])
-            
+        
+        not_take_com = [item for item in req_com if item not in com]
+        not_take_base = [item for item in req_base if item not in base]
+        not_take_found = [item for item in req_found if item not in found]
+        not_take_major = [item for item in req_major if item not in major]
+
+
     df = pd.DataFrame({
         '총 이수학점': [count],
         '공통교양': [count_com],
@@ -181,7 +196,11 @@ def check(dataset, comlist, baselist, foundlist):
         '필수 기본소양': [require_found],
         '필수 전공': [require_major],
         '영어': [count_en],
-        'fail_major' : [major_fail]
+        'fail_major' : [major_fail],
+        '미이수 필수 공교' : [not_take_com],
+        '미이수 필수 학문기초' : [not_take_base],
+        '미이수 필수 기본소양' : [not_take_found],
+        '미이수 필수 전공' : [not_take_major]
     })
     return df
 
@@ -189,15 +208,23 @@ pf = ['RGC1001', 'RGC1074', 'RGC0017', 'RGC0018', 'RGC1050', 'RGC1051', 'RGC1051
 # 공통교양
 comlist = ['RGC1001', 'RGC1074', 'RGC0017', 'RGC0018', 'RGC0003', 'RGC1050', 'RGC1051',
             'RGC1052', 'RGC0005', 'RGC1030', 'RGC1080', 'RGC1081', 'RGC1033', 'RGC1034'] # 23년 세미나 추가
+# 필수 공통교양
+req_com = ['나의삶,나의비전', '커리어 디자인', '자아와명상1', '자아와명상2', '불교와인간', '소셜앙트레프레너십과리더십', 
+            '글로벌앙트레프레너십과리더십', '테크노앙트레프레너십과리더십', '기술보고서작성및발표', 'BasicEAS', 'EAS1', 'EAS2']
 # 세미나
 seminar = ['RGC1010', 'RGC1011', 'RGC1012', 'RGC1013', 'RGC1014']
 # 학문기초
 baselist = ['PRI4001', 'PRI4012', 'PRI4023', 'PRI4024', 'PRI4024', 'PRI4027', 'PRI4036',
             'PRI4002', 'PRI4013', 'PRI4003', 'PRI4014', 'PRI4004', 'PRI4015', 
             'PRI4029', 'PRI4030', 'PRI4028', 'PRI4033', 'PRI4051'] # 21년부터 산업수학 PRI4051 추가
+# 필수 학문기초 
+req_base = ['미적분학및연습1', '확률및통계학', '공학선형대수학'] # 23학번 이산수학 추가
 # 기본소양
 foundlist = ['EGC7026', 'PRI4041', 'EGC4039', 'PRI4043', 'PRI4040', 'PRI4048']
-
+req_found = ['기술창조와특허', '공학경제', '공학윤리', '공학법제', '기술과사회', '지속가능한발전과인간']
+# 필수 전공
+req_major = ['계산적사고법', '이산구조', '창의적공학설계', '어드벤처디자인', '자료구조와실습', 
+             '컴퓨터구성', '시스템소프트웨어와실습', '공개SW프로젝트', '컴퓨터공학종합설계1', '컴퓨터공학종합설계2']
 
 select_sem = []
 inputlist = []
@@ -215,7 +242,11 @@ df = pd.DataFrame({
     '필수 기본소양': [],
     '필수 전공': [],
     '영어': [],
-    'fail_major': []
+    'fail_major': [],
+    '미이수 필수 공교' : [],
+    '미이수 필수 학문기초' : [],
+    '미이수 필수 기본소양' : [],
+    '미이수 필수 전공' : []
 }) 
 
 
@@ -254,7 +285,8 @@ while True:
 if num_semester > 4:
     ind = True
         
-# 내가 21년도에 입학을 하고 5학기를 했어... -> sem211부터 5개
+
+# 21년도에 입학을 하고 5학기 이수 -> sem211부터 5개
 sIndex = (start_year - 2017) * 2
 eIndex = sIndex + num_semester
 select_sem = sem_list[sIndex:eIndex]
@@ -302,7 +334,6 @@ for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 
     # 개별연구 4개 이상 들었으면 3개만 남겨~!!!!!!
     Ind = dataset['학수강좌번호'].str.contains('DES|DAI')
     if Ind.sum() > 3:
-        #dataset = dataset[~Ind].append(dataset[Ind].head(3))
         dataset = pd.concat([dataset[~Ind], dataset[Ind].head(3)])
 
     # 중복된 행 중 마지막 행을 제외한 모든 중복 행 제거
@@ -328,10 +359,11 @@ for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 
 
     dataset.to_excel('./data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx', float_format={'분반': '00', '학점': '0.0'}) # 만들어진 dataset xlsx로 내보내기
 
-    df_add = check(dataset, comlist, baselist, foundlist)
+    df_add = check(dataset, comlist, baselist, foundlist, req_com, req_base, req_found, req_major)
     df = pd.concat([df, df_add])
     
     
 df = df.reset_index(drop=True)
 df.to_excel('./data/data확인.xlsx') # 들은 학점들이랑 f 받은 전공 정보 정리. 
 print("data 생성 완료")
+
