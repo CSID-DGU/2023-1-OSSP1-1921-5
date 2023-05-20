@@ -331,7 +331,7 @@ for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 
         if (row['학수강좌번호'] in pf) or ('DES' in row['학수강좌번호'] and row['년도'] != "2023") or ('DAI' in row['학수강좌번호']):
             dataset.at[index, '등급'] = random.choice(['P', 'F'])
 
-    # 포함 강의는 F 안 받게
+    # 포함 제약사항으로 입력 받은 강의는 F 안 받게
         for sublist in conslist1:
             if (sublist != 0) and (row['학수강좌번호'] in sublist) and (dataset.at[index, '등급'] == 'F'):
                 if (row['학수강좌번호'] in pf) or ('DES' in row['학수강좌번호'] and row['년도'] != "2023") or ('DAI' in row['학수강좌번호']):
@@ -341,7 +341,7 @@ for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 
                 dataset.at[index, '등급'] = new_grade
                 break
     
-    # 개별연구 4개 이상 들었으면 3개만 남겨~!!!!!!
+    # 개별연구 포함 제약사항으로 입력 받은 것만 남기기.
     Ind_target = []
     for sublist in conslist1:
         if sublist != 0:
@@ -351,6 +351,16 @@ for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 
     Ind = dataset['학수강좌번호'].str.contains('DES|DAI')
     IndP = dataset['학수강좌번호'].isin(Ind_target)
     dataset = pd.concat([dataset[~Ind], dataset[IndP]])
+
+    # 학문기초 : 개론 실험 같이 들었으면 삭제
+    delete_base = []
+    if ('PRI4004' in dataset['학수강좌번호'].values or 'PRI4015' in dataset['학수강좌번호'].values) and 'PRI4028' in dataset['학수강좌번호'].values:
+        delete_base.append('PRI4028')
+    if ('PRI4002' in dataset['학수강좌번호'].values or 'PRI4013' in dataset['학수강좌번호'].values) and 'PRI4029' in dataset['학수강좌번호'].values:
+        delete_base.append('PRI4029')
+    if ('PRI4003' in dataset['학수강좌번호'].values or 'PRI4014' in dataset['학수강좌번호'].values) and 'PRI4030' in dataset['학수강좌번호'].values:
+        delete_base.append('PRI4030')
+    dataset = dataset[~dataset['학수강좌번호'].isin(delete_base)]
 
     # 중복된 행 중 마지막 행을 제외한 모든 중복 행 제거
     dataset.drop_duplicates(subset='학수강좌번호', keep='last', inplace=True)
