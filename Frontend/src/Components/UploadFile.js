@@ -51,7 +51,8 @@ const UploadFile = () => {
       //console.log(data)
 
       const userDatas = [{ email: sessionStorage.getItem("userId") }];
-      for (var i = 0; i < data.length; i++) {
+      try {
+        for (var i = 0; i < data.length; i++) {
         const userData = {};
         userData["CNumber"] = modify(data, i);
         userData["ClassScore"] = data[i]["등급"];
@@ -63,7 +64,13 @@ const UploadFile = () => {
           userData["TNumber"] = data[i]["년도"] + "_" + data[i]["학기"][0];
         }
         userDatas.push(userData);
-      }
+        }
+      } catch (error) {    
+        alert("올바른 형식의 엑셀 파일을 업로드해주세요.");
+        setUserDatas([]);
+        setPlaceholder("");
+        input.current.value = null;
+    }
       setUserDatas(userDatas);
     };
   };
