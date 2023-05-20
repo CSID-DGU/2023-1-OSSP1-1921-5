@@ -8,6 +8,8 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import './css/UserInfo.css';
 import Header from '../Components/Header';
+import "./css/Mypage.css";
+import DeleteProfile from '../Components/DeleteProfile';
 
 class MyPage extends Component {
     state = {
@@ -203,7 +205,9 @@ class MyPage extends Component {
                 </Box>
                 <Box className="btn_area">
                     <button className="btn" variant="contained" onClick={appClick}>수정</button>
+                    <DeleteProfile></DeleteProfile>
                 </Box>
+                
             </div>
         );
     }
