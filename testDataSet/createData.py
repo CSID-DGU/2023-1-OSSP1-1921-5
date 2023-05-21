@@ -159,12 +159,18 @@ def check(dataset, comlist, baselist, foundlist, req_com, req_base, req_found, r
 
         # 필수 공통교양
         if row['학수강좌번호'] in comlist and row['등급'] != 'F':
+            if row['학수강좌번호'] in ['RGC1050', 'RGC1051', 'RGC1052']:
+                com.append('leadership')
+            else:
+                com.append(row['교과목명'])
             require_com += row['학점']
-            com.append(row['교과목명'])
         # 학문기초
         if row['학수강좌번호'] in baselist and row['등급'] != 'F':
+            if row['학수강좌번호'] in ['PRI4002', 'PRI4003', 'PRI4004', 'PRI4013', 'PRI4014', 'PRI4015']:
+                base.append('Experiment')
+            else:
+                base.append(row['교과목명'])
             require_base += row['학점']
-            base.append(row['교과목명'])
         # 기본소양
         if row['학수강좌번호'] in foundlist and row['등급'] != 'F':
             require_found += row['학점']
@@ -383,7 +389,7 @@ for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 
         dataset = dataset[dataset['학수강좌번호'] != 'CSE2019']
         dataset.loc[dataset['학수강좌번호'] == 'CSE2027', '재수강구분'] = 'NEW재수강'
 
-    dataset.to_excel('./data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx', float_format={'분반': '00', '학점': '0.0'}) # 만들어진 dataset xlsx로 내보내기
+    dataset.to_excel('./data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx') # 만들어진 dataset xlsx로 내보내기
 
     df_add = check(dataset, comlist, baselist, foundlist, req_com, req_base, req_found, req_major)
     df = pd.concat([df, df_add])
