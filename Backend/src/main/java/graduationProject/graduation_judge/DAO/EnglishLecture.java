@@ -26,7 +26,9 @@ public class EnglishLecture {
     private String classNum;
 
     @OneToOne
-    @JoinColumn(name = "termNum", referencedColumnName = "TermNumber")
-    @JoinColumn(name = "classNum", referencedColumnName = "ClassNumber")
+    @JoinColumns({
+        @JoinColumn(name = "termNum", referencedColumnName = "TermNumber"),
+        @JoinColumn(name = "classNum", referencedColumnName = "ClassNumber")
+    })
     private EntireLecture entireLecture;
 }
