@@ -1,7 +1,6 @@
 package Member;
 
-import graduationProject.graduation_judge.DAO.MemberDao;
-import graduationProject.graduation_judge.domain.Member.Member;
+import graduationProject.graduation_judge.DAO.Member;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;

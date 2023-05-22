@@ -1,6 +1,6 @@
 package graduationProject.graduation_judge.domain.Member.controller;
 
-import graduationProject.graduation_judge.domain.Member.Member;
+import graduationProject.graduation_judge.DAO.Member;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

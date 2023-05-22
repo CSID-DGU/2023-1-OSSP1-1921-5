@@ -1,6 +1,6 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
-import graduationProject.graduation_judge.domain.Member.Member;
+import graduationProject.graduation_judge.DAO.Member;
 import org.springframework.stereotype.Service;
 
 @Service

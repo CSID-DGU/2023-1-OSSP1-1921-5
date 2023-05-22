@@ -1,5 +1,6 @@
-package graduationProject.graduation_judge.domain.Member;
+package graduationProject.graduation_judge.DAO;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import jakarta.persistence.Column;
@@ -16,6 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  // JPA에서 lazy관련 에러 날 경우 사용
 @Table(name = "userinfo")
 public final class Member {
     @Id
