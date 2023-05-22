@@ -2,11 +2,13 @@ server:
   address: localhost
   port: 8080
 spring:
+  config:
+    import: dbsettings.properties
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: ${DB_PASSWORD}
-    url: jdbc:mysql://localhost:3306/${DB_URL}
-    username: ${DB_USERNAME}
+    password: ${db.password}
+    url: ${db.url}
+    username: ${db.user}
   ## JPA Setting Info
   jpa:
     hibernate:

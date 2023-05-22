@@ -1,2 +1,2 @@
-# Ignore application-dev.yml
-Backend/src/main/resources/application-dev.yml
+# Ignore dbsettings.properties
+Backend/src/main/resources/dbsettings.properties
