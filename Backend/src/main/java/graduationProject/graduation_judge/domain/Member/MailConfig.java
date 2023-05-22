@@ -1,4 +1,4 @@
-package graduationProject.graduation_judge;
+package graduationProject.graduation_judge.domain.Member;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,19 +1,20 @@
-package graduationProject.graduation_judge.domain.Grade;
+package graduationProject.graduation_judge.DAO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import graduationProject.graduation_judge.domain.Grade.GradeId;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Setter
+@SuperBuilder
 @Getter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(GradeId.class)
 @Table(name = "userselectlist")
 public final class Grade {
 

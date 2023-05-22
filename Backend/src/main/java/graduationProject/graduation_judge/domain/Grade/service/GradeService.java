@@ -1,6 +1,6 @@
 package graduationProject.graduation_judge.domain.Grade.service;
 
-import graduationProject.graduation_judge.domain.Grade.Grade;
+import graduationProject.graduation_judge.DAO.Grade;
 
 public interface GradeService {
     //성적 입력(동일과목 재수강 시, 기존 성적 제거하고 새로운 성적 insert 필요)

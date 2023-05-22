@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import graduationProject.graduation_judge.domain.Grade.Grade;
+import graduationProject.graduation_judge.DAO.Grade;
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
