@@ -1,0 +1,2 @@
+# Ignore application-dev.yml
+Backend/src/main/resources/application-dev.yml

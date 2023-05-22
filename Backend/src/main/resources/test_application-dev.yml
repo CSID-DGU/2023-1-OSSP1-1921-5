@@ -1,0 +1,4 @@
+##DB 커넥션 환경변수
+DB_PASSWORD: DB_PASSWORD
+DB_URL: jdbc:mysql://localhost:3306/DB_URL?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+DB_USERNAME: DB_USER

@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: ##db??
-    url: jdbc:mysql://localhost:3306/DBNAME?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ##db???
+    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/${DB_URL}
+    username: ${DB_USERNAME}
   ## JPA Setting Info
   jpa:
     hibernate:
@@ -20,8 +20,8 @@ spring:
       jakarta:
         persistence:
           persistence-unit-name: jpa-test
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    #    database: mysql
+    #    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
     show-sql: true
 
