@@ -49,4 +49,11 @@ public class GradeController {
         return "graduation";
     }
 
+    //DB test
+    @GetMapping("/test")
+    public String test(){
+        Grade grade = new Grade("11@naver.com", "2021_1", "CSE2014-02", "A+");
+        this.gradeService.inputGrade(grade);
+        return "input test";
+    }
 }
