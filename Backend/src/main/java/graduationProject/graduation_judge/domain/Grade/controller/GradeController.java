@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import graduationProject.graduation_judge.DAO.Grade;
+import graduationProject.graduation_judge.DTO.GradeDTO;
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ public class GradeController {
         //List<Grade> List = gson.fromJson(elements, (new TypeToken<List<Grade>>() {}).getType());
 
         for(int i=0; i<emailList.size(); i++){
-            Grade grade = new Grade(emailList.get(i), TNumberList.get(i), CNumberList.get(i), ClassScoreList.get(i));
+            GradeDTO grade = new GradeDTO(emailList.get(i), TNumberList.get(i), CNumberList.get(i), ClassScoreList.get(i));
             gradeService.inputGrade(grade);
         }
         return "graduation";
@@ -52,7 +52,7 @@ public class GradeController {
     //DB test
     @GetMapping("/test")
     public String test(){
-        Grade grade = new Grade("11@naver.com", "2021_1", "CSE2014-02", "A+");
+        GradeDTO grade = new GradeDTO("11@naver.com", "2021_1", "CSE2014-02", "A+");
         this.gradeService.inputGrade(grade);
         return "input test";
     }

@@ -1,6 +1,7 @@
 package graduationProject.graduation_judge.domain.Grade.service;
 
-import graduationProject.graduation_judge.DAO.Grade;
+import graduationProject.graduation_judge.DAO.UserSelectList;
+import graduationProject.graduation_judge.DTO.GradeDTO;
 import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +14,14 @@ public class GradeServiceImpl implements GradeService{
 
 
     @Override
-    public void inputGrade(Grade grade) {
+    public void inputGrade(GradeDTO grade) {
         // 성적 입력
         // 이미 해당 data가 존재하면 삭제후 삽입
 //        if(gradeRepository.isExistGrade(grade)>0) {
 //            gradeRepository.deleteGrade(grade);
 //        }
-        gradeRepository.save(grade);
+        UserSelectList gradeEntity = grade.toEntity();
+        gradeRepository.save(gradeEntity);
     }
 
     @Override
