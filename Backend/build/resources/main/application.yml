@@ -2,17 +2,13 @@ server:
   address: localhost
   port: 8080
 spring:
+  config:
+    import: dbsettings.properties
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-<<<<<<< HEAD
-    password: ##db??
-    url: jdbc:mysql://localhost:3306/DBNAME?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ##db???
-=======
-    password: 0000
-    url: jdbc:mysql://localhost:3306/ossnew?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: myroot
->>>>>>> e063f2a136ff1969a424366ae20cc9017a61759c
+    password: ${db.password}
+    url: ${db.url}
+    username: ${db.user}
   ## JPA Setting Info
   jpa:
     hibernate:
@@ -26,8 +22,6 @@ spring:
       jakarta:
         persistence:
           persistence-unit-name: jpa-test
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
     show-sql: true
 
