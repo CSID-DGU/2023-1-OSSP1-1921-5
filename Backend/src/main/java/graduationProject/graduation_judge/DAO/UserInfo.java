@@ -1,5 +1,7 @@
 package graduationProject.graduation_judge.DAO;
 
+import graduationProject.graduation_judge.global.common_unit.English_level;
+import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,12 +28,12 @@ public class UserInfo {
     private int studentNumber;
 
     @Column(name = "Course", length = 200, nullable = false)
-    private String course;
+    private Major_curriculum course;
 
     @Column(name = "TOEIC_Score", nullable = false)
     private int toeicScore;
 
     @Column(name = "EnglishGrade", nullable = false)
-    private int englishGrade;
+    private English_level englishGrade;
 
 }

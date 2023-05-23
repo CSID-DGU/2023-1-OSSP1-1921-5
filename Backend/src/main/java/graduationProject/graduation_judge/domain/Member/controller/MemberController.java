@@ -1,7 +1,9 @@
 package graduationProject.graduation_judge.domain.Member.controller;
 
-import graduationProject.graduation_judge.DAO.Member;
+import graduationProject.graduation_judge.DAO.UserInfo;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
+import graduationProject.graduation_judge.global.common_unit.English_level;
+import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +20,9 @@ public class MemberController {
 
     //회원 가입
     @GetMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody Member member) {
+    public ResponseEntity<?> signup(@RequestBody UserInfo userInfo) {
         try {
-            memberService.register(member);
+            memberService.register(userInfo);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -29,10 +31,10 @@ public class MemberController {
 
     //회원 정보 조회
     @GetMapping("/{memberId}")
-    public ResponseEntity<?> getMemberById(@PathVariable String memberId) {
+    public ResponseEntity<?> getUserById(@PathVariable String id) {
         try {
-            Member member = memberService.getMemberById(memberId);
-            return ResponseEntity.ok(member);
+            UserInfo userInfo = memberService.getMemberById(id);
+            return ResponseEntity.ok(id);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -40,9 +42,9 @@ public class MemberController {
 
     //회원 정보 수정
     @PutMapping("/{memberId}")
-    public ResponseEntity<?> updateMember(@PathVariable String memberId, @RequestBody Member member) {
+    public ResponseEntity<?> updateMember(@PathVariable String id, @RequestBody UserInfo userInfo) {
         try {
-            memberService.updateMember(member);
+            memberService.updateMember(userInfo);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -51,10 +53,10 @@ public class MemberController {
 
     //회원 정보 삭제
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<?> deleteMember(@PathVariable String memberId) {
+    public ResponseEntity<?> deleteMember(@PathVariable String id) {
         try {
-            Member member = memberService.getMemberById(memberId);
-            memberService.deleteMember(member);
+            UserInfo userInfo = memberService.getMemberById(id);
+            memberService.deleteMember(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -101,4 +103,11 @@ public class MemberController {
      *     - 로그인
      *     - ~~(회원 탈퇴)~~
      */
+    @GetMapping("/test")
+    public String test(){
+        UserInfo userInfo = new UserInfo("user20171@gmail.com","user201712",
+                1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
+        this.memberService.register(userInfo);
+        return "input test";
+    }
 }
