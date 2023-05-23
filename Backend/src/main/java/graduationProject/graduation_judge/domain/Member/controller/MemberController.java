@@ -42,7 +42,7 @@ public class MemberController {
 
     //회원 정보 수정
     @PutMapping("/{memberId}")
-    public ResponseEntity<?> updateMember(@PathVariable String id, @RequestBody UserInfo userInfo) {
+    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserInfo userInfo) {
         try {
             memberService.updateMember(userInfo);
             return ResponseEntity.ok().build();
@@ -53,7 +53,7 @@ public class MemberController {
 
     //회원 정보 삭제
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<?> deleteMember(@PathVariable String id) {
+    public ResponseEntity<?> deleteUser(@PathVariable String id) {
         try {
             UserInfo userInfo = memberService.getMemberById(id);
             memberService.deleteMember(userInfo);
