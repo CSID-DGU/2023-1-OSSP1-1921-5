@@ -10,10 +10,10 @@ public interface MemberService {
 
     void updateMember(UserInfo userInfo); // 회원 수정
 
-    void findPassword(String id, String securityCode, String newPassword); //비밀번호 찾기
+    void findPassword(String id, String securityCode, String inputSecurityCode, String newPassword); //비밀번호 찾기
 
     void deleteMember(UserInfo userInfo); // 회원 탈퇴(삭제)
 
     //보안 코드를 이메일로 전송하는 메서드
-    void sendSecurityCodeToEmail(String id);
+    String sendSecurityCodeToEmail(String id);
 }

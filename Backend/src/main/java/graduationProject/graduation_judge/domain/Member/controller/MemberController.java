@@ -68,10 +68,11 @@ public class MemberController {
     @PostMapping("/forgot-password")
     public ResponseEntity<String> findPassword(@RequestParam String email,
                                                @RequestParam String securityCode,
+                                               @RequestParam String inputSecurityCode,
                                                @RequestParam String newPassword) {
 
         try {
-            memberService.findPassword(email, securityCode, newPassword);
+            memberService.findPassword(email, securityCode, inputSecurityCode, newPassword);
             return ResponseEntity.ok("비밀번호 변경이 완료되었습니다.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
