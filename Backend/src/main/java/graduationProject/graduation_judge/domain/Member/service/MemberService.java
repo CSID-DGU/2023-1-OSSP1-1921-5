@@ -1,19 +1,19 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
-import graduationProject.graduation_judge.DAO.Member;
+import graduationProject.graduation_judge.DAO.UserInfo;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface MemberService {
-    void register(Member member);  // 회원 가입
-    Member getMemberById(String memberId);  // 회원 조회
+    void register(UserInfo userInfo);  // 회원 가입
+    UserInfo getMemberById(String id);  // 회원 조회
 
-    void updateMember(Member member); // 회원 수정
+    void updateMember(UserInfo userInfo); // 회원 수정
 
-    void findPassword(String memberId, String securityCode, String newPassword); //비밀번호 찾기
+    void findPassword(String id, String securityCode, String newPassword); //비밀번호 찾기
 
-    void deleteMember(Member member); // 회원 탈퇴(삭제)
+    void deleteMember(UserInfo userInfo); // 회원 탈퇴(삭제)
 
     //보안 코드를 이메일로 전송하는 메서드
-    void sendSecurityCodeToEmail(String memberId);
+    void sendSecurityCodeToEmail(String id);
 }

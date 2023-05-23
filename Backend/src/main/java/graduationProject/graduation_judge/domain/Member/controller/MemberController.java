@@ -56,7 +56,7 @@ public class MemberController {
     public ResponseEntity<?> deleteMember(@PathVariable String id) {
         try {
             UserInfo userInfo = memberService.getMemberById(id);
-            memberService.deleteMember(id);
+            memberService.deleteMember(userInfo);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
