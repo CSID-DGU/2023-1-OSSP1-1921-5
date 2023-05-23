@@ -82,10 +82,10 @@ public class MemberController {
     }
 
     @PostMapping("/send-security-code")
-    public ResponseEntity<String> sendSecurityCode(@RequestParam String email) {
+    public ResponseEntity<String> sendSecurityCode(@RequestParam String id) {
 
         try {
-            memberService.sendSecurityCodeToEmail(email);
+            memberService.sendSecurityCodeToEmail(id);
             return ResponseEntity.ok("이메일로 보안 코드가 전송되었습니다.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -110,5 +110,14 @@ public class MemberController {
                 1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
         this.memberService.register(userInfo);
         return "input test";
+    }
+
+    @GetMapping("/emailTest")
+    public String emailTest() {
+        UserInfo userInfo = new UserInfo("dabin6469@gmail.com","user201712",
+                1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
+        memberService.sendSecurityCodeToEmail(userInfo.getId());
+
+        return "email test";
     }
 }
