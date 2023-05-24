@@ -30,12 +30,14 @@ public class UserInfo {
     private int studentNumber;
 
     @Column(name = "Course", length = 200, nullable = false)
+    @Enumerated(EnumType.STRING)
     private Major_curriculum course;
 
     @Column(name = "TOEIC_Score", nullable = false)
     private int toeicScore;
 
     @Column(name = "EnglishGrade", nullable = false)
+    @Enumerated(EnumType.STRING)
     private English_level englishGrade;
 
 }
