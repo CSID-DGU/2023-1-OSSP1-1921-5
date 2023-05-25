@@ -27,8 +27,8 @@ public class EnglishLecture {
 
     @OneToOne
     @JoinColumns({
-        @JoinColumn(name = "termNum", referencedColumnName = "TermNumber"),
-        @JoinColumn(name = "classNum", referencedColumnName = "ClassNumber")
+        @JoinColumn(name = "English_TermNumber", referencedColumnName = "TermNumber"),
+        @JoinColumn(name = "English_ClassNumber", referencedColumnName = "ClassNumber")
     })
     private EntireLecture entireLecture;
 }

@@ -27,6 +27,6 @@ public class EntireLecture {
     private String professorName;
 
     @ManyToOne
-    @JoinColumn(name = "classNum", referencedColumnName = "Info_ClassNumber")
+    @JoinColumn(name = "classNumber", referencedColumnName = "Info_ClassNumber")
     private InfoLecture infoLecture;
 }

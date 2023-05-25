@@ -12,7 +12,7 @@ spring:
   ## JPA Setting Info
   jpa:
     hibernate:
-      ddl-auto: create  # option type: create, create-drop, update, validate, none
+      ddl-auto: validate  # option type: create, create-drop, update, validate, none
     properties:
       hibernate:
         direct: org.hibernate.dialect.MySQLDialect
