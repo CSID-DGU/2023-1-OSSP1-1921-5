@@ -17,18 +17,18 @@ public class EnglishLecture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "English_TermNumber", length = 200, nullable = false)
+    @Column(name = "english_term_number", length = 200, nullable = false)
     private String termNum;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "English_ClassNumber", length = 200, nullable = false)
+    @Column(name = "english_class_number", length = 200, nullable = false)
     private String classNum;
 
     @OneToOne
     @JoinColumns({
-        @JoinColumn(name = "English_TermNumber", referencedColumnName = "TermNumber"),
-        @JoinColumn(name = "English_ClassNumber", referencedColumnName = "ClassNumber")
+        @JoinColumn(name = "english_term_number", referencedColumnName = "term_number"),
+        @JoinColumn(name = "english_class_number", referencedColumnName = "class_number")
     })
     private EntireLecture entireLecture;
 }

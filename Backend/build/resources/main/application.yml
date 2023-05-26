@@ -19,6 +19,10 @@ spring:
         show_sql: true
         format_sql: true
         use_sql_comments: true
+        naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       jakarta:
         persistence:
           persistence-unit-name: jpa-test

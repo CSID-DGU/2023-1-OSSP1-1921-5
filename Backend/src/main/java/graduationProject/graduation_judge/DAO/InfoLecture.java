@@ -17,19 +17,19 @@ import lombok.experimental.SuperBuilder;
 public class InfoLecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Info_ClassNumber", length = 200, nullable = false)
+    @Column(name = "info_class_number", length = 200, nullable = false)
     private String classNum;
 
-    @Column(name = "LectureNick", length = 200, nullable = false)
+    @Column(name = "lecture_nick", length = 200, nullable = false)
     private String lectureNick;
 
-    @Column(name = "Curriculum", length = 200, nullable = false)
+    @Column(name = "curriculum", length = 200, nullable = false)
     private String curriculum;
 
-    @Column(name = "ClassArea", length = 200)
+    @Column(name = "class_area", length = 200)
     private String classArea;
 
-    @Column(name = "ClassCredit", nullable = false)
+    @Column(name = "class_credit", nullable = false)
     private int classCredit;
 
 

@@ -13,22 +13,22 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @IdClass(GradeId.class)
-@Table(name = "UserSelectList")
+@Table(name = "user_select_list")
 public class UserSelectList {
 
 
     @Id
-    @Column(name = "UserID", length = 200, nullable = false)
+    @Column(name = "user_id", length = 200, nullable = false)
     private String memberId;
 
     @Id
-    @Column(name = "TNumber", length = 200, nullable = false)
+    @Column(name = "term_number", length = 200, nullable = false)
     private String termNum;
 
     @Id
-    @Column(name = "CNumber", length = 200, nullable = false)
+    @Column(name = "class_number", length = 200, nullable = false)
     private String classNum;
 
-    @Column(name = "ClassScore", length = 200, nullable = false)
+    @Column(name = "class_score", length = 200, nullable = false)
     private String score;
 }

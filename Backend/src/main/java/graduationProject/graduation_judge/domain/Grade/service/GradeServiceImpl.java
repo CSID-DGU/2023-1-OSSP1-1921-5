@@ -25,6 +25,12 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
+    public boolean isExistGrade(String memberId) {
+        //member 성적 존재하는지 여부
+        return gradeRepository.existsByMemberId(memberId);
+    }
+
+    @Override
     public String getGradeByLec(String cNum) {
         //특정 과목 성적 조회
         //return gradeRepository.getGrade(cNum);

@@ -11,25 +11,25 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ScoreStat")
+@Table(name = "score_stat")
 public class ScoreStat {
 
     @Id
-    @Column(name = "UID", length = 200, nullable = false)
+    @Column(name = "user_id", length = 200, nullable = false)
     private String UID;
 
     @Id
-    @Column(name = "Semester", nullable = false)
+    @Column(name = "semester", nullable = false)
     private int semester;
 
     @Id
-    @Column(name = "TypeID", length = 200, nullable = false)
+    @Column(name = "type_id", length = 200, nullable = false)
     private String typeId;
 
-    @Column(name = "Grade", length = 200, nullable = false)
+    @Column(name = "grade", length = 200, nullable = false)
     private String grade;
 
-    @Column(name = "Credit", length = 200, nullable = false)
+    @Column(name = "credit", length = 200, nullable = false)
     private String credit;
 
 }

@@ -6,6 +6,9 @@ public interface GradeService {
     //성적 입력(동일과목 재수강 시, 기존 성적 제거하고 새로운 성적 insert 필요)
     void inputGrade(GradeDTO grade);
 
+    //member 성적 존재하는지 여부
+    boolean isExistGrade(String memberId);
+
     //특정 과목 성적 조회
     String getGradeByLec(String cNum);
 

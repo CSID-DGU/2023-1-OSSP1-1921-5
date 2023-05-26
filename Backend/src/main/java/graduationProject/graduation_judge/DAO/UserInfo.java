@@ -13,30 +13,30 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "UserInfo")
+@Table(name = "user_info")
 public class UserInfo {
 
     @Id
-    @Column(name = "ID", length = 200, nullable = false)
+    @Column(name = "user_id", length = 200, nullable = false)
     private String id;
 
-    @Column(name = "Pincode", length = 200, nullable = false)
+    @Column(name = "pincode", length = 200, nullable = false)
     private String pincode;
 
-    @Column(name = "Semester", nullable = false)
+    @Column(name = "semester", nullable = false)
     private int semester;
 
-    @Column(name = "StudentNumber", nullable = false)
+    @Column(name = "student_number", nullable = false)
     private int studentNumber;
 
-    @Column(name = "Course", length = 200, nullable = false)
+    @Column(name = "course", length = 200, nullable = false)
     @Enumerated(EnumType.STRING)
     private Major_curriculum course;
 
-    @Column(name = "TOEIC_Score", nullable = false)
+    @Column(name = "toeic_score", nullable = false)
     private int toeicScore;
 
-    @Column(name = "EnglishGrade", length = 200, nullable = false)
+    @Column(name = "english_grade", length = 200, nullable = false, columnDefinition = "tinyint")
     @Enumerated(EnumType.STRING)
     private English_level englishGrade;
 

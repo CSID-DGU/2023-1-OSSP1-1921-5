@@ -15,18 +15,18 @@ import lombok.experimental.SuperBuilder;
 public class EntireLecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TermNumber", length = 200, nullable = false)
+    @Column(name = "term_number", length = 200, nullable = false)
     private String termNum;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ClassNumber", length = 200, nullable = false)
+    @Column(name = "class_number", length = 200, nullable = false)
     private String classNum;
 
-    @Column(name = "ProfessorName")
+    @Column(name = "professor_name")
     private String professorName;
 
     @ManyToOne
-    @JoinColumn(name = "ClassNumber", referencedColumnName = "Info_ClassNumber")
+    @JoinColumn(name = "class_number", referencedColumnName = "info_class_number")
     private InfoLecture infoLecture;
 }

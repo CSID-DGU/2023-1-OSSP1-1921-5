@@ -15,20 +15,20 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "design_lecture")
 public class DesignLecture {
     @Id
-    @Column(name = "Design_TermNumber", length = 200, nullable = false)
+    @Column(name = "design_term_number", length = 200, nullable = false)
     private String termNum;
 
     @Id
-    @Column(name = "Design_ClassNumber", length = 200, nullable = false)
+    @Column(name = "design_class_number", length = 200, nullable = false)
     private String classNum;
 
-    @Column(name = "DesignCredit")
+    @Column(name = "design_credit")
     private Float designCredit;
 
     @OneToOne
     @JoinColumns({
-            @JoinColumn(name = "Design_TermNumber", referencedColumnName = "TermNumber"),
-            @JoinColumn(name = "Design_ClassNumber", referencedColumnName = "ClassNumber")
+            @JoinColumn(name = "design_term_number", referencedColumnName = "termNumber"),
+            @JoinColumn(name = "design_class_number", referencedColumnName = "classNumber")
     })
     private EntireLecture entireLecture;
 }
