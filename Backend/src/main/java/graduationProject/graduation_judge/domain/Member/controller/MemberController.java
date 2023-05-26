@@ -117,8 +117,8 @@ public class MemberController {
     public String emailTest() {
         UserInfo userInfo = new UserInfo("dabin6469@gmail.com","user201712",
                 1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
+        memberService.register(userInfo);
         memberService.sendSecurityCodeToEmail(userInfo.getId());
-
         return "email test";
     }
 }
