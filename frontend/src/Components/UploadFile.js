@@ -48,11 +48,10 @@ const UploadFile = () => {
       const ws = wb.Sheets[wsname];
 
       const data = XLSX.utils.sheet_to_json(ws);
-      //console.log(data)
+      console.log(data)
 
-      const userDatas = [{ email: sessionStorage.getItem("userId") }];
-      try {
-        for (var i = 0; i < data.length; i++) {
+      const userDatas = [ sessionStorage.getItem("userId") ];
+      for (var i = 0; i < data.length; i++) {
         const userData = {};
         userData["CNumber"] = modify(data, i);
         userData["ClassScore"] = data[i]["등급"];
@@ -64,15 +63,14 @@ const UploadFile = () => {
           userData["TNumber"] = data[i]["년도"] + "_" + data[i]["학기"][0];
         }
         userDatas.push(userData);
-        }
-      } catch (error) {    
-        alert("올바른 형식의 엑셀 파일을 업로드해주세요.");
-        setUserDatas([]);
-        setPlaceholder("");
-        input.current.value = null;
-    }
+      }
       setUserDatas(userDatas);
     };
+  };
+
+  const jsonResult = {
+    email: UserDatas[0],
+    userDataList: UserDatas.slice(1),
   };
 
   const onClickInput = (e) => {
@@ -81,16 +79,25 @@ const UploadFile = () => {
       console.log("입력 파일이 없습니다.");
       alert("입력 파일이 없습니다.");
     } else {
-      console.log("Result", UserDatas);
+      console.log("1");
+      console.log(JSON.stringify(jsonResult));
       fetch("/input", {
         method: "post",
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify(UserDatas),
-      });
-      alert("성적이 입력되었습니다!");
-      window.location.replace("/result");
+        body: JSON.stringify(jsonResult),
+      })
+        .then((response) => {
+          if(response.ok) {
+            alert("성적이 입력되었습니다!");
+            window.location.replace("/result");
+          } else {
+          throw new Error("성적 입력 실패");
+        }}) 
+        .catch((error) => {
+          console.error("성적 입력 실패 : ", error);
+        });
     }
   };
 
