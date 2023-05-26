@@ -18,17 +18,17 @@ public class UserSelectList {
 
 
     @Id
-    @Column(name = "UserID", nullable = false)
+    @Column(name = "UserID", length = 200, nullable = false)
     private String memberId;
 
     @Id
-    @Column(name = "TNumber", nullable = false)
+    @Column(name = "TNumber", length = 200, nullable = false)
     private String termNum;
 
     @Id
-    @Column(name = "CNumber", nullable = false)
+    @Column(name = "CNumber", length = 200, nullable = false)
     private String classNum;
 
-    @Column(name = "ClassScore", nullable = false)
+    @Column(name = "ClassScore", length = 200, nullable = false)
     private String score;
 }

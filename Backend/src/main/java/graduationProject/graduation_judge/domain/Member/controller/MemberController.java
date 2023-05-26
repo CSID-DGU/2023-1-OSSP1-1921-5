@@ -19,40 +19,40 @@ public class MemberController {
     private final MemberService memberService;
 
     //회원 가입
-    @GetMapping("/signup")
+    @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody UserInfo userInfo) {
         try {
             memberService.register(userInfo);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(userInfo); //userInfo객체를 JSON형태로 반환
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage()); //예외 메시지 반환
         }
     }
 
     //회원 정보 조회
-    @GetMapping("/{memberId}")
+    @PostMapping("/{memberId}/show")
     public ResponseEntity<?> getUserById(@PathVariable String id) {
         try {
             UserInfo userInfo = memberService.getMemberById(id);
-            return ResponseEntity.ok(id);
+            return ResponseEntity.ok(userInfo); //userInfo객체를 JSON형태로 반환
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage()); //예외 메시지 반환
         }
     }
 
     //회원 정보 수정
-    @PutMapping("/{memberId}")
+    @PostMapping("/{memberId}/update")
     public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserInfo userInfo) {
         try {
             memberService.updateMember(userInfo);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(userInfo);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     //회원 정보 삭제
-    @DeleteMapping("/{memberId}")
+    @PostMapping("/{memberId}/delete")
     public ResponseEntity<?> deleteUser(@PathVariable String id) {
         try {
             UserInfo userInfo = memberService.getMemberById(id);
@@ -65,14 +65,15 @@ public class MemberController {
 
 
     //비밀번호 찾기
-    @PostMapping("/forgot-password")
-    public ResponseEntity<String> findPassword(@RequestParam String email,
+    @PostMapping("/{memberId}/forgot-password")
+    public ResponseEntity<String> findPassword(@PathVariable String email,
                                                @RequestParam String securityCode,
                                                @RequestParam String inputSecurityCode,
                                                @RequestParam String newPassword) {
 
         try {
             memberService.findPassword(email, securityCode, inputSecurityCode, newPassword);
+            //보안코드 확인 후 비밀번호 변경
             return ResponseEntity.ok("비밀번호 변경이 완료되었습니다.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -81,8 +82,8 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/send-security-code")
-    public ResponseEntity<String> sendSecurityCode(@RequestParam String id) {
+    @PostMapping("/{memberId}/send-security-code")
+    public ResponseEntity<String> sendSecurityCode(@PathVariable String id) {
 
         try {
             memberService.sendSecurityCodeToEmail(id);
@@ -104,7 +105,7 @@ public class MemberController {
      *     - 로그인
      *     - ~~(회원 탈퇴)~~
      */
-    @GetMapping("/test")
+    @PostMapping("/test")
     public String test(){
         UserInfo userInfo = new UserInfo("user20171@gmail.com","user201712",
                 1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
@@ -112,7 +113,7 @@ public class MemberController {
         return "input test";
     }
 
-    @GetMapping("/emailTest")
+    @PostMapping("/emailTest")
     public String emailTest() {
         UserInfo userInfo = new UserInfo("dabin6469@gmail.com","user201712",
                 1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);

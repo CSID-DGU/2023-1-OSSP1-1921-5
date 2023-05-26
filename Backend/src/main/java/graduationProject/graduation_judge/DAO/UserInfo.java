@@ -36,7 +36,7 @@ public class UserInfo {
     @Column(name = "TOEIC_Score", nullable = false)
     private int toeicScore;
 
-    @Column(name = "EnglishGrade", nullable = false)
+    @Column(name = "EnglishGrade", length = 200, nullable = false)
     @Enumerated(EnumType.STRING)
     private English_level englishGrade;
 
