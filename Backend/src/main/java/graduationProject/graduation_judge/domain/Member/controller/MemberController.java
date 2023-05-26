@@ -30,7 +30,7 @@ public class MemberController {
     }
 
     //회원 정보 조회
-    @PostMapping("/{memberId}/show")
+    @PostMapping("/{memberId}/mypage")
     public ResponseEntity<?> getUserById(@PathVariable String id) {
         try {
             UserInfo userInfo = memberService.getMemberById(id);
