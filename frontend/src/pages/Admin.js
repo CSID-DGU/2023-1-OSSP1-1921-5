@@ -1,11 +1,18 @@
 import React from 'react';
-import CreateDataSet from '../Components/CreateDataSet';
+import MenuBar from '../Components/MenuBar';
+import { NavLink as RouterLink, Route, Routes } from 'react-router-dom';
+import CreateDataSet from "./CreateDataSet"
 
 const Admin = () => {
-
     return (
         <div>
-            <CreateDataSet>데이터셋 만들기</CreateDataSet>
+            <MenuBar /> 
+            <Routes>
+                <Route path="/admin" exact={true} />
+                <Route path="/change" element={<CreateDataSet />} />
+                <Route path="/newsem" element={<CreateDataSet />} />
+                <Route path="/dataset" element={<CreateDataSet />} />
+            </Routes>
         </div>
     )
 }

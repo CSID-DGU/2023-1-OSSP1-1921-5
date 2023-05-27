@@ -8,10 +8,9 @@ import Input from './pages/Input';
 import Result from './pages/Result';
 import Stats from './pages/Stats';
 import Admin from './pages/Admin';
-
+import CreateDataSet from './pages/CreateDataSet'
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material';
-import MyComponent from './pages/Admin';
 
 const theme = createTheme({
   typography: {
@@ -32,6 +31,7 @@ const App = () => {
           <Route path="/result" element={<Result />} />
           <Route path="/stats" element={<Stats />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/dataset" element={<CreateDataSet />} />
         </Routes>
       </div>
     </ThemeProvider>
