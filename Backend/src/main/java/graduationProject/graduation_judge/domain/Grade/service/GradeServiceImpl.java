@@ -20,8 +20,7 @@ public class GradeServiceImpl implements GradeService{
 //        if(gradeRepository.isExistGrade(grade)>0) {
 //            gradeRepository.deleteGrade(grade);
 //        }
-        UserSelectList gradeEntity = grade.toEntity();
-        gradeRepository.save(gradeEntity);
+        gradeRepository.save(toEntity(grade));
     }
 
     @Override
@@ -71,5 +70,11 @@ public class GradeServiceImpl implements GradeService{
     public float getEntireMajorScore() {
         //전체 member의 전공 성적 평점 계산
         return 0;
+    }
+
+    @Override
+    public UserSelectList toEntity(GradeDTO gradeDTO) {
+        // GradeDTO to Entity
+        return new UserSelectList(gradeDTO.getMemberId(), gradeDTO.getTermNum(), gradeDTO.getClassNum(), gradeDTO.getScore());
     }
 }

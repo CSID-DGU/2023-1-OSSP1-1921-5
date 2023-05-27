@@ -1,7 +1,10 @@
 package graduationProject.graduation_judge.domain.Grade.service;
 
+import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.GradeDTO;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface GradeService {
     //성적 입력(동일과목 재수강 시, 기존 성적 제거하고 새로운 성적 insert 필요)
     void inputGrade(GradeDTO grade);
@@ -26,4 +29,7 @@ public interface GradeService {
 
     //전체 member의 전공 성적 평점 계산
     float getEntireMajorScore();
+
+    // GradeDTO to Entity
+    UserSelectList toEntity(GradeDTO gradeDTO);
 }

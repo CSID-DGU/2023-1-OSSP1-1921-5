@@ -3,7 +3,7 @@ Backend/src/main/resources/dbsettings.properties
 
 # Ignore .gradle & build
 Backend/.gradle/
-Backend/.build/
+Backend/build
 
 # Ignore .idea
 Backend/.idea
