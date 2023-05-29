@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:mail/email.properties")
+@PropertySource("classpath:mail/email.yml")
 public class MailConfig {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
