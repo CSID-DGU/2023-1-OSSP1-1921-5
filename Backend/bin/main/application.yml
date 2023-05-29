@@ -1,0 +1,36 @@
+server:
+  address: localhost
+  port: 8080
+spring:
+  config:
+    import: dbsettings.properties
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: ${db.password}
+    url: ${db.url}
+    username: ${db.user}
+  ## JPA Setting Info
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: validate  # option type: create, create-drop, update, validate, none
+    properties:
+      hibernate:
+        direct: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+      jakarta:
+        persistence:
+          persistence-unit-name: jpa-test
+    generate-ddl: true
+    show-sql: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
