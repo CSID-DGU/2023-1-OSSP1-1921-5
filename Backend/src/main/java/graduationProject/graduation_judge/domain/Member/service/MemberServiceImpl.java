@@ -1,6 +1,7 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
 import graduationProject.graduation_judge.DAO.UserInfo;
+import graduationProject.graduation_judge.DTO.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void register(UserInfo userInfo) {
+    public void register(UserInfoDTO userInfoDTO) {
         // 회원 가입 로직 구현
         //이메일 중복 확인 하기
-        if (memberRepository.findById(userInfo.getId()) != null) {
+        if (memberRepository.findById(userInfoDTO.getId()) != null) {
             throw new IllegalArgumentException("Email already exists");
         }
-        memberRepository.save(userInfo);
+        memberRepository.save(toEntity(userInfoDTO));
     }
 
     @Override
@@ -38,15 +39,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void updateMember(UserInfo userInfo) {
+    public void updateMember(UserInfoDTO userInfoDTO) {
         //회원 수정
-        memberRepository.save(userInfo);
+        memberRepository.save(toEntity(userInfoDTO));
     }
 
     @Override
-    public void deleteMember(UserInfo userInfo) {
+    public void deleteMember(UserInfoDTO userInfoDTO) {
         //회원 삭제
-        memberRepository.delete(userInfo);
+        memberRepository.delete(toEntity(userInfoDTO));
     }
 
     @Override
@@ -82,5 +83,17 @@ public class MemberServiceImpl implements MemberService {
         }else{
             throw new RuntimeException("존재하지 않는 회원입니다.");
         }
+    }
+
+    @Override
+    public UserInfo toEntity(UserInfoDTO userInfoDTO) {
+        // UserInfoDTO to Entity
+        return new UserInfo(userInfoDTO.getId(),
+                userInfoDTO.getPincode(),
+                userInfoDTO.getSemester(),
+                userInfoDTO.getStudentNumber(),
+                userInfoDTO.getCourse(),
+                userInfoDTO.getToeicScore(),
+                userInfoDTO.getEnglishGrade());
     }
 }
