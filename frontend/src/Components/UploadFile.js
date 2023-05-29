@@ -81,7 +81,7 @@ const UploadFile = () => {
     } else {
       console.log("1");
       console.log(JSON.stringify(jsonResult));
-      fetch("/input", {
+      fetch("/input/gradeFile", {
         method: "post",
         headers: {
           "content-type": "application/json",

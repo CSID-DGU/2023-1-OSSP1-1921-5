@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GradeRepository extends JpaRepository<UserSelectList, GradeId> {
     boolean existsByMemberId(String memberId);
+    void deleteAllByMemberId(String memberId);
 }

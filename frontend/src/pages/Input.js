@@ -15,7 +15,7 @@ const Input = () => {
         const data = {
             email: sessionStorage.getItem('userId')
         }
-        fetch("/input", {
+        fetch("/input/isExist", {
             method: 'post',
             headers: {
                 "content-type": "application/json",

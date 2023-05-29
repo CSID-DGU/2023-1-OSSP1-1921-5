@@ -5,6 +5,7 @@ import graduationProject.graduation_judge.DTO.GradeDTO;
 import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GradeServiceImpl implements GradeService{
@@ -16,10 +17,6 @@ public class GradeServiceImpl implements GradeService{
     @Override
     public void inputGrade(GradeDTO grade) {
         // 성적 입력
-        // 이미 해당 data가 존재하면 삭제후 삽입
-//        if(gradeRepository.isExistGrade(grade)>0) {
-//            gradeRepository.deleteGrade(grade);
-//        }
         gradeRepository.save(toEntity(grade));
     }
 
@@ -37,9 +34,10 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
+    @Transactional
     public void deleteGradeByMember(String memberId) {
         //성적 삭제 (member 단위)
-        //gradeDao.deleteGrade(memberId);
+        gradeRepository.deleteAllByMemberId(memberId);
     }
 
     @Override
