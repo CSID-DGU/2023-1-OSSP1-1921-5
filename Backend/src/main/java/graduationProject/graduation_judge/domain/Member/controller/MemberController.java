@@ -1,6 +1,6 @@
 package graduationProject.graduation_judge.domain.Member.controller;
 
-import graduationProject.graduation_judge.DAO.UserInfo;
+import graduationProject.graduation_judge.DTO.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
@@ -20,10 +20,10 @@ public class MemberController {
 
     //회원 가입
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody UserInfo userInfo) {
+    public ResponseEntity<?> signup(@RequestBody UserInfoDTO userInfoDTO) {
         try {
-            memberService.register(userInfo);
-            return ResponseEntity.ok(userInfo); //userInfo객체를 JSON형태로 반환
+            memberService.register(userInfoDTO);
+            return ResponseEntity.ok(userInfoDTO); //userInfoDTO객체를 JSON형태로 반환
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage()); //예외 메시지 반환
         }
@@ -33,8 +33,8 @@ public class MemberController {
     @PostMapping("/{memberId}/mypage")
     public ResponseEntity<?> getUserById(@PathVariable String id) {
         try {
-            UserInfo userInfo = memberService.getMemberById(id);
-            return ResponseEntity.ok(userInfo); //userInfo객체를 JSON형태로 반환
+            UserInfoDTO userInfoDTO = memberService.getMemberById(id);
+            return ResponseEntity.ok(userInfoDTO); //userInfo객체를 JSON형태로 반환
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage()); //예외 메시지 반환
         }
@@ -42,10 +42,10 @@ public class MemberController {
 
     //회원 정보 수정
     @PostMapping("/{memberId}/update")
-    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserInfo userInfo) {
+    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserInfoDTO userInfoDTO) {
         try {
-            memberService.updateMember(userInfo);
-            return ResponseEntity.ok(userInfo);
+            memberService.updateMember(userInfoDTO);
+            return ResponseEntity.ok(userInfoDTO);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -55,8 +55,8 @@ public class MemberController {
     @PostMapping("/{memberId}/delete")
     public ResponseEntity<?> deleteUser(@PathVariable String id) {
         try {
-            UserInfo userInfo = memberService.getMemberById(id);
-            memberService.deleteMember(userInfo);
+            UserInfoDTO userInfoDTO = memberService.getMemberById(id);
+            memberService.deleteMember(userInfoDTO);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -107,18 +107,18 @@ public class MemberController {
      */
     @PostMapping("/test")
     public String test(){
-        UserInfo userInfo = new UserInfo("user20171@gmail.com","user201712",
+        UserInfoDTO userInfoDTO = new UserInfoDTO("user20171@gmail.com","user201712",
                 1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
-        this.memberService.register(userInfo);
+        this.memberService.register(userInfoDTO);
         return "input test";
     }
 
     @PostMapping("/emailTest")
     public String emailTest() {
-        UserInfo userInfo = new UserInfo("dabin6469@gmail.com","user201712",
+        UserInfoDTO userInfoDTO = new UserInfoDTO("dabin6469@gmail.com","user201712",
                 1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
-        memberService.register(userInfo);
-        memberService.sendSecurityCodeToEmail(userInfo.getId());
+        memberService.register(userInfoDTO);
+        memberService.sendSecurityCodeToEmail(userInfoDTO.getId());
         return "email test";
     }
 }

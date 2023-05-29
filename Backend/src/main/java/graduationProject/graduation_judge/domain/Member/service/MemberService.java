@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MemberService {
     void register(UserInfoDTO userInfoDTO);  // 회원 가입
-    UserInfo getMemberById(String id);  // 회원 조회
+    UserInfoDTO getMemberById(String id);  // 회원 조회
 
     void updateMember(UserInfoDTO userInfoDTO); // 회원 수정
 
