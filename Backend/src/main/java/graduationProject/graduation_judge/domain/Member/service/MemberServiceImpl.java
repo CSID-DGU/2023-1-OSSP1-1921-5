@@ -76,9 +76,8 @@ public class MemberServiceImpl implements MemberService {
         if (userInfoDTO != null) {
             String securityCode = generateSecurityCode();
             memberRepository.save(toEntity(userInfoDTO));
-            String subject = "비밀번호를 찾기 위한 보안 코드입니다.";
             String text = "보안 코드: " + securityCode;
-            emailService.sendEmail(id, subject, text);
+            emailService.sendEmail(id, text);
             return securityCode;
         }else{
             throw new RuntimeException("존재하지 않는 회원입니다.");
