@@ -1,7 +1,6 @@
 package Member;
 
-
-import graduationProject.graduation_judge.DAO.UserInfo;
+import graduationProject.graduation_judge.DTO.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
 import graduationProject.graduation_judge.domain.Member.service.EmailService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
@@ -31,15 +30,15 @@ public class MemberServiceTest {
     @Test
     void join() {
         //given
-        UserInfo userInfo = new UserInfo("user20171@gmail.com","user201712",
+        UserInfoDTO userInfoDTO = new UserInfoDTO("user20171@gmail.com","user201712",
                 1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
         //when
         //doReturn(member).when(memberRepository).findById(member.getId());
-        memberService.register(userInfo);
-        UserInfo findMember = memberRepository.findById(userInfo.getId());
+        memberService.register(userInfoDTO);
+        UserInfoDTO findMember = memberRepository.findById(userInfoDTO.getId());
         //then
         //Assertions.assertThat(findMember).isEqualTo(member);
         System.out.println("findMember = " + findMember.getId());
-        System.out.println("member = " + userInfo.getId());
+        System.out.println("member = " + userInfoDTO.getId());
     }
 }
