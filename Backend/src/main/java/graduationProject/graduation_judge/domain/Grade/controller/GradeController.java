@@ -43,7 +43,7 @@ public class GradeController {
                 gradeService.inputGrade(gradeDTO);
             }
             
-            return ResponseEntity.ok().body("성적이 입력완료");
+            return ResponseEntity.ok().body("성적 입력완료");
 
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
