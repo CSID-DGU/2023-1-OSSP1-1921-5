@@ -11,7 +11,7 @@ public interface MemberService {
 
     void updateMember(UserInfoDTO userInfoDTO); // 회원 수정
 
-    void findPassword(String id, String securityCode, String inputSecurityCode, String newPassword); //비밀번호 찾기
+    void findPassword(String id, String inputSecurityCode, String newPassword); //비밀번호 찾기
 
     void deleteMember(UserInfoDTO userInfoDTO); // 회원 탈퇴(삭제)
 

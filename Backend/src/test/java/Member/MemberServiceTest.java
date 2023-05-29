@@ -1,13 +1,13 @@
 package Member;
 
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
+import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
 import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
 import graduationProject.graduation_judge.domain.Member.service.EmailService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 import graduationProject.graduation_judge.domain.Member.service.MemberServiceImpl;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,11 +20,12 @@ public class MemberServiceTest {
     @Mock
     MemberRepository memberRepository;
     EmailService emailService;
+    MailRepository mailRepository;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this); // Mockito 초기화
-        memberService = new MemberServiceImpl(memberRepository, emailService);
+        memberService = new MemberServiceImpl(memberRepository, emailService, mailRepository);
     }
 
     @Test

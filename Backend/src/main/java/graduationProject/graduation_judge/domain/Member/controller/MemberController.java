@@ -72,7 +72,7 @@ public class MemberController {
                                                @RequestParam String newPassword) {
 
         try {
-            memberService.findPassword(email, securityCode, inputSecurityCode, newPassword);
+            memberService.findPassword(email, inputSecurityCode, newPassword);
             //보안코드 확인 후 비밀번호 변경
             return ResponseEntity.ok("비밀번호 변경이 완료되었습니다.");
         } catch (IllegalArgumentException e) {

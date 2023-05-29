@@ -1,7 +1,9 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
 import graduationProject.graduation_judge.DAO.UserInfo;
+import graduationProject.graduation_judge.DTO.MailDTO;
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
+import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
 import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +14,13 @@ public class MemberServiceImpl implements MemberService {
 
     private final EmailService emailService;
     private final MemberRepository memberRepository;
+    private final MailRepository mailRepository;
 
     @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository, EmailService emailService) {
+    public MemberServiceImpl(MemberRepository memberRepository, EmailService emailService, MailRepository mailRepository) {
         this.memberRepository = memberRepository;
         this.emailService = emailService;
+        this.mailRepository = mailRepository;
     }
 
     @Override
@@ -51,9 +55,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void findPassword(String id, String securityCode, String inputSecurityCode, String newPassword) {
+    public void findPassword(String id, String inputSecurityCode, String newPassword) {
         //보안코드 확인 후 비밀번호 변경
         UserInfoDTO userInfoDTO = memberRepository.findById(id);
+        MailDTO mailDTO = mailRepository.findById(id);
         if (userInfoDTO != null && inputSecurityCode.equals(securityCode)) {
             userInfoDTO.setPincode(newPassword);
             memberRepository.save(toEntity(userInfoDTO));
@@ -73,9 +78,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String sendSecurityCodeToEmail(String id){
         UserInfoDTO userInfoDTO = memberRepository.findById(id);
+        MailDTO mailDTO = mailRepository.findById(id);
         if (userInfoDTO != null) {
             String securityCode = generateSecurityCode();
-            memberRepository.save(toEntity(userInfoDTO));
+            mailDTO.setMessage(securityCode); //MailDTO에 보안코드 저장
+            mailRepository.save(emailService.toEntity(mailDTO)); //db에 DTO저장
+            memberRepository.save(toEntity(userInfoDTO)); //save왜하냐?
             String text = "보안 코드: " + securityCode;
             emailService.sendEmail(id, text);
             return securityCode;
