@@ -3,6 +3,8 @@ import axios from 'axios';
 import MenuBar from '../Components/MenuBar';
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import './css/CreateDataSet.css';
 
 const CreateDataSet = () => {
   const [dataNum, setDataNum] = useState('');
@@ -45,7 +47,7 @@ const CreateDataSet = () => {
 
     console.log(parsedObject);
 
-    axios.post('http://localhost:3001/', parsedObject)
+    axios.post('/dataset', parsedObject)
       .then((response) => {
         console.log('요청 전송 성공', response);
       })
@@ -54,41 +56,54 @@ const CreateDataSet = () => {
       });
   };
 
+
   return (
     <div>
       <MenuBar />
-      <Box>
-        <div>
-        <TextField
-            type="text"
-            value={dataNum}
-            onChange={handleDataNumChange}
-            placeholder="데이터 개수"
-        />
+      <div className="container">
+        <div className="titleData">Test DataSet 생성</div>
+        <Box className="Box">
+          <div>
+            <TextField
+                className="textfield"
+                type="text"
+                value={dataNum}
+                onChange={handleDataNumChange}
+                label="생성 Data 개수"
+                variant="outlined"
+            />
 
-        <TextField
-            type="text"
-            value={admissionYear}
-            onChange={handleAdmissionYearChange}
-            placeholder="입학 연도"
-        />
+            <TextField
+                className="textfield"
+                type="text"
+                value={admissionYear}
+                onChange={handleAdmissionYearChange}
+                label="입학년도"
+                variant="outlined"
+            />
 
-        <TextField
-            type="text"
-            value={completeSem}
-            onChange={handleCompleteSemChange}
-            placeholder="이수 학기"
-        />
+            <TextField
+                className="textfield"
+                type="text"
+                value={completeSem}
+                onChange={handleCompleteSemChange}
+                label="이수 학기"
+                variant="outlined"
+            />
 
-        <textarea
-            value={subjects}
-            onChange={handleSubjectsChange}
-            placeholder="이수 강의 정보"
-        />
+            <TextField
+                className="textfield"
+                value={subjects}
+                onChange={handleSubjectsChange}
+                label="이수 강의 정보"
+                variant="outlined"
+                multiline
+            />
 
-        <button onClick={handleParsingAndSubmit}>전송</button>
-        </div>
-      </Box>
+            <Button onClick={handleParsingAndSubmit}>전송</Button>
+          </div>
+        </Box>
+      </div>
     </div>
   );
 };
