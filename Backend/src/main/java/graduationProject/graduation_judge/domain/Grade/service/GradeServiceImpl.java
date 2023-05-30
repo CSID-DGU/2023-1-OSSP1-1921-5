@@ -1,11 +1,14 @@
 package graduationProject.graduation_judge.domain.Grade.service;
 
+import graduationProject.graduation_judge.DAO.InfoLecture;
 import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.GradeDTO;
 import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class GradeServiceImpl implements GradeService{
@@ -68,6 +71,18 @@ public class GradeServiceImpl implements GradeService{
     public float getEntireMajorScore() {
         //전체 member의 전공 성적 평점 계산
         return 0;
+    }
+
+    @Override
+    public int getTotalClassCredit(String memberId) {
+        //특정 member의 총 이수학점을 계산
+        List<UserSelectList> userSelectLists = gradeRepository.findAllByMemberId(memberId);
+        int totalClassCredit = 0;
+        for(UserSelectList selectList: userSelectLists){
+            InfoLecture infoLecture = selectList.getEntireLecture().getInfoLecture();;
+            totalClassCredit += infoLecture.getClassCredit();
+        }
+        return totalClassCredit;
     }
 
     @Override

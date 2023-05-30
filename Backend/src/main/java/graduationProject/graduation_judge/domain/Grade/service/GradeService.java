@@ -30,6 +30,9 @@ public interface GradeService {
     //전체 member의 전공 성적 평점 계산
     float getEntireMajorScore();
 
+    //특정 member의 총 이수학점을 계산
+    int getTotalClassCredit(String memberId);
+
     // GradeDTO to Entity
     UserSelectList toEntity(GradeDTO gradeDTO);
 }

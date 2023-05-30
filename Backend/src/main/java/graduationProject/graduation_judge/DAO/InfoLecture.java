@@ -2,17 +2,23 @@ package graduationProject.graduation_judge.DAO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import graduationProject.graduation_judge.domain.Grade.GradeId;
+import graduationProject.graduation_judge.domain.Lecture.LectureId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @SuperBuilder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(LectureId.class)
 @Table(name = "info_lecture")
 public class InfoLecture {
     @Id
@@ -32,5 +38,7 @@ public class InfoLecture {
     @Column(name = "class_credit", nullable = false)
     private int classCredit;
 
-
+    @OneToOne(mappedBy = "infoLecture")
+    @ToString.Exclude
+    private EntireLecture entireLectureList;
 }

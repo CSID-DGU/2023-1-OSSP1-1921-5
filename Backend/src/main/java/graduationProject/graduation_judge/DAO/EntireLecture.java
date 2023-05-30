@@ -4,7 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @SuperBuilder
@@ -26,7 +30,12 @@ public class EntireLecture {
     @Column(name = "professor_name")
     private String professorName;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_number", referencedColumnName = "info_class_number")
+    @ToString.Exclude
     private InfoLecture infoLecture;
+
+    @OneToMany(mappedBy = "entireLecture")
+    @ToString.Exclude
+    private List<UserSelectList> userSelectLists = new ArrayList<>();
 }

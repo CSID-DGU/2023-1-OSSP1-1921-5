@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -31,4 +32,19 @@ public class UserSelectList {
 
     @Column(name = "class_score", length = 200, nullable = false)
     private String score;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "term_number", referencedColumnName = "term_number"),
+            @JoinColumn(name = "class_number", referencedColumnName = "class_number")
+    })
+    @ToString.Exclude
+    private EntireLecture entireLecture;
+
+    public UserSelectList(String memberId, String termNum, String classNum, String score) {
+        this.memberId = memberId;
+        this.termNum = termNum;
+        this.classNum = classNum;
+        this.score = score;
+    }
 }

@@ -22,12 +22,13 @@ public class StatsController {
     @PostMapping("/semester")
     public ResponseEntity<?> getUserStat(@RequestBody Map<String, String> request){
         String email = request.get("email");
-        int credit;
-        int count;
-        int classScore;
-        int semester;
+        int credit = 0;
+        int count = 0;
+        int classScore = 0;
+        int semester = 0;
         //TNumList
         try{
+            credit = gradeService.getTotalClassCredit(email);
             return null;
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -39,7 +40,7 @@ public class StatsController {
     @PostMapping("/stats")
     public ResponseEntity<?> getUserStatBySemester(@RequestBody Map<String, String> request){
         try{
-
+            return null;
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -49,7 +50,7 @@ public class StatsController {
     // user의 학기마다 전체 scorestat와 전공 scorestat 업데이트
     @PostMapping("/updatestat")
     public ResponseEntity<?> updateEntireStat(@RequestBody SemesterInfo semesterInfo){
-
+        return null;
     }
 
     // '/getstats'
@@ -57,6 +58,7 @@ public class StatsController {
     @PostMapping("/getstats")
     public ResponseEntity<?> getStatGraph(@RequestBody Map<String, String> request){
         String email = request.get("email");
+        return null;
     }
 
 }
