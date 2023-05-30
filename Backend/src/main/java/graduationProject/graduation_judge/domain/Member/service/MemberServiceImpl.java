@@ -93,8 +93,8 @@ public class MemberServiceImpl implements MemberService {
         //MailDTO mailDTO = mailRepository.findById(id);
         MailDTO mailDTO = new MailDTO();
         mailDTO.setAddress(id);
-        if (userInfoDTO != null) {
-            String securityCode = generateSecurityCode();
+        if (userInfoDTO != null) { //id에 해당하는 user가 존재한다면
+            String securityCode = generateSecurityCode(); //보안코드 생성
             mailDTO.setMessage(securityCode); //MailDTO에 보안코드 저장
             mailRepository.save(emailService.toEntity(mailDTO)); //db에 DTO저장
             //memberRepository.save(toEntity(userInfoDTO)); //save왜하냐?

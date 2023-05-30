@@ -47,7 +47,7 @@ public class MemberController {
             String id = request.get("id");
             String pincode = request.get("pincode");
             UserInfoDTO userInfoDTO = memberService.login(id, pincode);
-            return ResponseEntity.ok(userInfoDTO);
+            return ResponseEntity.ok(userInfoDTO); //userInfoDTO객체를 JSON형태로 반환
 
             /*return ResponseEntity.ok(new HashMap<String , String >(){{
                 put("id", userInfoDTO.getId());
@@ -103,10 +103,10 @@ public class MemberController {
     @PostMapping("/changepw")
     public ResponseEntity<String> findPassword(@RequestBody Map<String, String > request) {
         String email = request.get("email");
-        String inputSecutiryCode = request.get("inputSecurityCode");
+        String inputSecurityCode = request.get("inputSecurityCode");
         String newPassword = request.get("newPassword");
         try {
-            memberService.findPassword(email, inputSecutiryCode, newPassword);
+            memberService.findPassword(email, inputSecurityCode, newPassword);
             //보안코드 확인 후 비밀번호 변경
             return ResponseEntity.ok("비밀번호 변경이 완료되었습니다.");
         } catch (IllegalArgumentException e) {
