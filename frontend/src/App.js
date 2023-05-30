@@ -8,6 +8,7 @@ import Input from './pages/Input';
 import Result from './pages/Result';
 import Stats from './pages/Stats';
 import Admin from './pages/Admin';
+import AddNewSemester from './pages/AddNewSemster';
 import CreateDataSet from './pages/CreateDataSet'
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material';
