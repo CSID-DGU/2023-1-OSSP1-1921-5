@@ -6,5 +6,7 @@ import graduationProject.graduation_judge.domain.Stats.ScoreStatId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ScoreStatRepository extends JpaRepository<ScoreStat, ScoreStatId> {
-    ScoreStat findByUID(String UID);
+    ScoreStatId findByMemberId(String memberId);
+    void deleteAllByMemberId(String memberId);
+
 }

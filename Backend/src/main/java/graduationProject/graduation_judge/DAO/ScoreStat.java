@@ -16,7 +16,7 @@ public class ScoreStat {
 
     @Id
     @Column(name = "user_id", length = 200, nullable = false)
-    private String UID;
+    private String memberId;
 
     @Id
     @Column(name = "semester", nullable = false)

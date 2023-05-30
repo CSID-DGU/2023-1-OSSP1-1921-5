@@ -5,6 +5,7 @@ import graduationProject.graduation_judge.DAO.ScoreStat;
 import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.GradeDTO;
 import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
+import graduationProject.graduation_judge.domain.Stats.ScoreStatId;
 import graduationProject.graduation_judge.domain.Stats.repository.ScoreStatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,7 +88,7 @@ public class GradeServiceImpl implements GradeService{
             totalClassCredit += infoLecture.getClassCredit();
         }
         //이름으로 조회해서 update
-        ScoreStat scoreStat = scoreStatRepository.findByUID(memberId);
+        ScoreStatId scoreStat = scoreStatRepository.findByMemberId(memberId);
         //scoreStat.
         //scoreStatRepository.save(scoreStat);
         return totalClassCredit;
