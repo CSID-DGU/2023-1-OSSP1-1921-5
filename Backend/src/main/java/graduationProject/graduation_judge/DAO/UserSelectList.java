@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.DAO;
 
+import graduationProject.graduation_judge.DAO.identifier.UserSelectListPK;
 import graduationProject.graduation_judge.domain.Grade.GradeId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@IdClass(GradeId.class)
+@IdClass(UserSelectListPK.class)
 @Table(name = "user_select_list")
 public class UserSelectList {
 
