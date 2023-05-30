@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.domain.Member;
 
+import graduationProject.graduation_judge.domain.Member.service.YamlPropertySourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:mail/email.yml")
+@PropertySource(value = "classpath:application.yml", factory = YamlPropertySourceFactory.class)
 public class MailConfig {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

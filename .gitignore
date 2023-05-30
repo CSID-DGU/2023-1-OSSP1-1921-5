@@ -13,4 +13,4 @@ Backend/build/
 Backend/.idea
 
 # Ignore emailsettings.properties
-Backend/src/main/resources/emailsettings.properties
+#Backend/src/main/resources/emailsettings.properties
