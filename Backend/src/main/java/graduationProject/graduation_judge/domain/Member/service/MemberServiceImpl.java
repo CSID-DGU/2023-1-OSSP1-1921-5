@@ -34,6 +34,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public UserInfoDTO login(UserInfoDTO userInfoDTO){
+        if (memberRepository.findById(userInfoDTO.getId())==null){
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+        return userInfoDTO;
+    }
+
+    @Override
     public UserInfoDTO getMemberById(String id) {
         // 회원 조회 로직 구현
         if(memberRepository.findById(id) == null){

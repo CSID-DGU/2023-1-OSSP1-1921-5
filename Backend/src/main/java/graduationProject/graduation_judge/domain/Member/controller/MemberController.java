@@ -31,6 +31,17 @@ public class MemberController {
         }
     }
 
+    //로그인
+    @PostMapping("/singin")
+    public ResponseEntity<?> signin(@RequestBody UserInfoDTO userInfoDTO) {
+        try {
+            memberService.login(userInfoDTO);
+            return ResponseEntity.ok(userInfoDTO);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     //회원 정보 조회
     @PostMapping("/mypage")
     public ResponseEntity<?> getUserById(@RequestBody String id) {
@@ -54,7 +65,7 @@ public class MemberController {
     }
 
     //회원 정보 삭제
-    @PostMapping("/delete")
+    @PostMapping("/delete")//userinfo, scorestat, securitycodeofusermail, userselectlist다삭제해야함
     public ResponseEntity<?> deleteUser(@RequestBody String id) {
         try {
             UserInfoDTO userInfoDTO = memberService.getMemberById(id);
@@ -67,7 +78,7 @@ public class MemberController {
 
 
     //비밀번호 찾기
-    @PostMapping("/forgot-password")
+    @PostMapping("/changepw")
     public ResponseEntity<String> findPassword(@RequestBody Map<String, String > request) {
         String email = request.get("email");
         String inputSecutiryCode = request.get("inputSecurityCode");
@@ -83,7 +94,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/send-security-code")
+    @PostMapping("/sendemail")
     public ResponseEntity<String> sendSecurityCode(@RequestBody String id) {
 
         try {
