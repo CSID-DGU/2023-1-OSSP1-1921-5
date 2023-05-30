@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -32,6 +33,7 @@ public class MemberController {
     public ResponseEntity<?> signup(@RequestBody UserInfoDTO userInfoDTO) {
         try {
             memberService.register(userInfoDTO);
+
             return ResponseEntity.ok(userInfoDTO); //userInfoDTO객체를 JSON형태로 반환
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage()); //예외 메시지 반환
@@ -40,10 +42,18 @@ public class MemberController {
 
     //로그인
     @PostMapping("/singin")
-    public ResponseEntity<?> signin(@RequestBody UserInfoDTO userInfoDTO) {
+    public ResponseEntity<?> signin(@RequestBody Map<String, String > request) {
         try {
-            memberService.login(userInfoDTO);
+            String id = request.get("id");
+            String pincode = request.get("pincode");
+            UserInfoDTO userInfoDTO = memberService.login(id, pincode);
             return ResponseEntity.ok(userInfoDTO);
+
+            /*return ResponseEntity.ok(new HashMap<String , String >(){{
+                put("id", userInfoDTO.getId());
+                put("pincode", userInfoDTO.getPincode());
+            }}); //id와 pincode만을 포함하는 Map 객체를 JSON 형태로 반환*/
+
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

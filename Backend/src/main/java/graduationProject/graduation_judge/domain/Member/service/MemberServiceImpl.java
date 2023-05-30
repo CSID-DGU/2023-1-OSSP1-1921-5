@@ -34,9 +34,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public UserInfoDTO login(UserInfoDTO userInfoDTO){
-        if (memberRepository.findById(userInfoDTO.getId())==null){
+    public UserInfoDTO login(String id, String pincode){
+        UserInfoDTO userInfoDTO = memberRepository.findById(id);
+        if (userInfoDTO == null){
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+        else if (userInfoDTO.getPincode() != pincode){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
         return userInfoDTO;
     }
