@@ -5,6 +5,8 @@ import graduationProject.graduation_judge.DTO.MailDTO;
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
 import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
+import graduationProject.graduation_judge.global.common_unit.English_level;
+import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,8 +57,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void updateMember(UserInfoDTO userInfoDTO) {
-        //회원 수정
+    public void updateMember(String id, int semester, int studentNumber,
+                             Major_curriculum course, int toeicScore,
+                             English_level englishGrade) {
+        //회원 수정 (id, pincode빼고 수정)
+        UserInfoDTO userInfoDTO = memberRepository.findById(id);
+        userInfoDTO.setSemester(semester);
+        userInfoDTO.setStudentNumber(studentNumber);
+        userInfoDTO.setCourse(course);
+        userInfoDTO.setToeicScore(toeicScore);
+        userInfoDTO.setEnglishGrade(englishGrade);
         memberRepository.save(toEntity(userInfoDTO));
     }
 

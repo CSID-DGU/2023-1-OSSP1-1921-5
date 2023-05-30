@@ -72,9 +72,17 @@ public class MemberController {
 
     //회원 정보 수정
     @PostMapping("/updateuserinfo")
-    public ResponseEntity<?> updateUser(@RequestBody UserInfoDTO userInfoDTO) {
+    public ResponseEntity<?> updateUser(@RequestBody Map<String, String > request) {
+        String id = request.get("email");
+        int studentNumber = Integer.parseInt(request.get("year"));
+        int semester = Integer.parseInt(request.get("register"));
+        Major_curriculum course = Major_curriculum.valueOf(request.get("course"));
+        English_level englishGrade = English_level.valueOf(request.get("english"));
+        int toeicScore = Integer.parseInt(request.get("score"));
         try {
-            memberService.updateMember(userInfoDTO);
+            memberService.updateMember(id, studentNumber, semester, course,
+                    toeicScore, englishGrade); //id, pincode빼고 수정
+            UserInfoDTO userInfoDTO = memberService.getMemberById(id);
             return ResponseEntity.ok(userInfoDTO);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
