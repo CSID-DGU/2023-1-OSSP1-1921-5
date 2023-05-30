@@ -1,4 +1,4 @@
-package graduationProject.graduation_judge.domain.Grade;
+package graduationProject.graduation_judge.domain.Stats;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -11,13 +11,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class GradeId implements Serializable {
-
-    private String memberId;
-
-    private String termNum;
-
-    private String classNum;
-
+public class ScoreStatId implements Serializable {
+    private String UID;
+    private int semester;
+    private String typeId;
 }
-

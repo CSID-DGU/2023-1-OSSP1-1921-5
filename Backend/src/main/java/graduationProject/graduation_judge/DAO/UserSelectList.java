@@ -1,14 +1,11 @@
 package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.UserSelectListPK;
-import graduationProject.graduation_judge.domain.Grade.GradeId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.io.Serializable;
 
 @Getter
 @AllArgsConstructor

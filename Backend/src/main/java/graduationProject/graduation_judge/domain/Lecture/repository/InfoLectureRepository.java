@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface InfoLectureRepository extends JpaRepository<InfoLecture, LectureId> {
+public interface InfoLectureRepository extends JpaRepository<InfoLecture, String> {
 
 }

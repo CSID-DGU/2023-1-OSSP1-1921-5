@@ -29,6 +29,8 @@ public class StatsController {
         //TNumList
         try{
             credit = gradeService.getTotalClassCredit(email);
+            count = gradeService.getCompletedCourseCount(email);
+
             return null;
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

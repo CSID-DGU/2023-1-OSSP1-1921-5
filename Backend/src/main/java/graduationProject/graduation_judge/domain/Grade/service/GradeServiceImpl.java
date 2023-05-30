@@ -1,9 +1,11 @@
 package graduationProject.graduation_judge.domain.Grade.service;
 
 import graduationProject.graduation_judge.DAO.InfoLecture;
+import graduationProject.graduation_judge.DAO.ScoreStat;
 import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.GradeDTO;
 import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
+import graduationProject.graduation_judge.domain.Stats.repository.ScoreStatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,8 @@ public class GradeServiceImpl implements GradeService{
 
     @Autowired
     private GradeRepository gradeRepository;
+    @Autowired
+    private ScoreStatRepository scoreStatRepository;
 
 
     @Override
@@ -82,7 +86,17 @@ public class GradeServiceImpl implements GradeService{
             InfoLecture infoLecture = selectList.getEntireLecture().getInfoLecture();;
             totalClassCredit += infoLecture.getClassCredit();
         }
+        //이름으로 조회해서 update
+        ScoreStat scoreStat = scoreStatRepository.findByUID(memberId);
+        //scoreStat.
+        //scoreStatRepository.save(scoreStat);
         return totalClassCredit;
+    }
+
+    @Override
+    public int getCompletedCourseCount(String memberId) {
+        //특정 member의 총 이수과목 수를 계산
+        return gradeRepository.countAllByMemberId(memberId);
     }
 
     @Override
