@@ -39,9 +39,9 @@ const CreateDataSet = () => {
 
     const subjectLines = subjects.split('\n');
 
-    subjectLines.forEach((line) => {
-      const [key, value] = line.split(':');
-      const subjects = value.split(',').map((subject) => subject.trim());
+    subjectLines.forEach((line, index) => {
+      const key = `subject${index + 1}`;
+      const subjects = line.split(',').map((subject) => subject.trim());
       parsedObject.subjects[key.trim()] = subjects;
     });
 
