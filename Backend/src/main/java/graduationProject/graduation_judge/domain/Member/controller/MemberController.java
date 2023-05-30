@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/member")
+//@RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
 
