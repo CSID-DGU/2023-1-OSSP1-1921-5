@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -30,8 +32,8 @@ public class MemberController {
     }
 
     //회원 정보 조회
-    @PostMapping("/{memberId}/mypage")
-    public ResponseEntity<?> getUserById(@PathVariable String id) {
+    @PostMapping("/mypage")
+    public ResponseEntity<?> getUserById(@RequestBody String id) {
         try {
             UserInfoDTO userInfoDTO = memberService.getMemberById(id);
             return ResponseEntity.ok(userInfoDTO); //userInfo객체를 JSON형태로 반환
@@ -41,8 +43,8 @@ public class MemberController {
     }
 
     //회원 정보 수정
-    @PostMapping("/{memberId}/update")
-    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserInfoDTO userInfoDTO) {
+    @PostMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody UserInfoDTO userInfoDTO) {
         try {
             memberService.updateMember(userInfoDTO);
             return ResponseEntity.ok(userInfoDTO);
@@ -52,8 +54,8 @@ public class MemberController {
     }
 
     //회원 정보 삭제
-    @PostMapping("/{memberId}/delete")
-    public ResponseEntity<?> deleteUser(@PathVariable String id) {
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteUser(@RequestBody String id) {
         try {
             UserInfoDTO userInfoDTO = memberService.getMemberById(id);
             memberService.deleteMember(userInfoDTO);
@@ -65,13 +67,13 @@ public class MemberController {
 
 
     //비밀번호 찾기
-    @PostMapping("/{memberId}/forgot-password")
-    public ResponseEntity<String> findPassword(@PathVariable String email,
-                                               @RequestParam String inputSecurityCode,
-                                               @RequestParam String newPassword) {
-
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> findPassword(@RequestBody Map<String, String > request) {
+        String email = request.get("email");
+        String inputSecutiryCode = request.get("inputSecurityCode");
+        String newPassword = request.get("newPassword");
         try {
-            memberService.findPassword(email, inputSecurityCode, newPassword);
+            memberService.findPassword(email, inputSecutiryCode, newPassword);
             //보안코드 확인 후 비밀번호 변경
             return ResponseEntity.ok("비밀번호 변경이 완료되었습니다.");
         } catch (IllegalArgumentException e) {
@@ -81,8 +83,8 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/{memberId}/send-security-code")
-    public ResponseEntity<String> sendSecurityCode(@PathVariable String id) {
+    @PostMapping("/send-security-code")
+    public ResponseEntity<String> sendSecurityCode(@RequestBody String id) {
 
         try {
             memberService.sendSecurityCodeToEmail(id);

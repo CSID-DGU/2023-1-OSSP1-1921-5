@@ -13,7 +13,7 @@ import org.springframework.context.annotation.FilterType;
 //}, excludeFilters = {
 //		@ComponentScan.Filter(
 //				type = FilterType.REGEX,
-//				pattern = "graduationProject.graduation_judge.domain.*"
+//				pattern = "graduationProject.graduation_judge.domain.Stats.controller.*"
 //		),
 //})
 public class GraduationJudgeApplication {
