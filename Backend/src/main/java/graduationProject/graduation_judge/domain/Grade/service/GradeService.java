@@ -14,6 +14,9 @@ public interface GradeService {
     //member 성적 존재하는지 여부
     boolean isExistGrade(String memberId);
 
+    //UserSelectList 조회
+    //List<UserSelectList> getUserSelecListbyMemberId(String memberId);
+
     //특정 과목 성적 조회
     String getGradeByLec(String cNum);
 
