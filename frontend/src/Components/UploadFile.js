@@ -49,20 +49,27 @@ const UploadFile = () => {
 
       const data = XLSX.utils.sheet_to_json(ws);
       console.log(data)
-
+       
       const userDatas = [ sessionStorage.getItem("userId") ];
-      for (var i = 0; i < data.length; i++) {
-        const userData = {};
-        userData["CNumber"] = modify(data, i);
-        userData["ClassScore"] = data[i]["등급"];
-        if (data[i]["학기"] === "여름학기") {
-          userData["TNumber"] = data[i]["년도"] + "_ss";
-        } else if (data[i]["학기"] == "겨울학기") {
-          userData["TNumber"] = data[i]["년도"] + "_ws";
-        } else {
-          userData["TNumber"] = data[i]["년도"] + "_" + data[i]["학기"][0];
+      try {
+        for (var i = 0; i < data.length; i++) {
+          const userData = {};
+          userData["CNumber"] = modify(data, i);
+          userData["ClassScore"] = data[i]["등급"];
+          if (data[i]["학기"] === "여름학기") {
+            userData["TNumber"] = data[i]["년도"] + "_ss";
+          } else if (data[i]["학기"] == "겨울학기") {
+            userData["TNumber"] = data[i]["년도"] + "_ws";
+          } else {
+            userData["TNumber"] = data[i]["년도"] + "_" + data[i]["학기"][0];
+          }
+          userDatas.push(userData);
         }
-        userDatas.push(userData);
+      } catch(error) {
+        alert("올바른 형식의 엑셀 파일을 업로드해주세요.");
+        setUserDatas([]);
+        setPlaceholder("");
+        input.current.value = null;
       }
       setUserDatas(userDatas);
     };
@@ -81,7 +88,7 @@ const UploadFile = () => {
     } else {
       console.log("1");
       console.log(JSON.stringify(jsonResult));
-      fetch("/input/gradeFile", {
+      fetch("/input", {
         method: "post",
         headers: {
           "content-type": "application/json",
@@ -96,7 +103,12 @@ const UploadFile = () => {
           throw new Error("성적 입력 실패");
         }}) 
         .catch((error) => {
-          console.error("성적 입력 실패 : ", error);
+          if(error.message === '400') {
+            alert("회원 정보와 입력 파일의 이수학기 수가 일치하지 않습니다.");
+            window.location.href = "/";
+          } else {
+            console.error("성적 입력 실패 : ", error);
+          }
         });
     }
   };
