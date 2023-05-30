@@ -81,6 +81,7 @@ public class MemberController {
             memberService.deleteMember(userInfoDTO); //userinfo삭제
             emailService.deleteMailDTO(mailDTO); //securitycodeofusermail삭제
             gradeService.deleteGradeByMember(id); //userselectlist삭제
+
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

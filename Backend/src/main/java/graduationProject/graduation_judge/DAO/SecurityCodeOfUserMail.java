@@ -20,6 +20,6 @@ public class SecurityCodeOfUserMail {
     @Column(name = "user_mail_id", length = 200, nullable = false)
     private String id;
 
-    @Column(name = "security_code")
+    @Column(name = "security_code", length = 200)
     private String securityCode;
 }
