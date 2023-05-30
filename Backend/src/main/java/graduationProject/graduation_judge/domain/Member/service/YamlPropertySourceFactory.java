@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Properties;
-
+//PropertySource에 yml파일 추가하기 위해 넣음
 @Service
 public class YamlPropertySourceFactory implements PropertySourceFactory {
     @Override

@@ -8,4 +8,6 @@ import graduationProject.graduation_judge.DTO.UserInfoDTO;
 public interface EmailService {
     public void sendEmail(String to, String text);
     SecurityCodeOfUserMail toEntity(MailDTO mailDTO);
+    public void deleteMailDTO(MailDTO mailDTO);
+    public MailDTO getMailMemberById(String id);
 }
