@@ -2,6 +2,7 @@ package graduationProject.graduation_judge.domain.Member.controller;
 
 import graduationProject.graduation_judge.DTO.MailDTO;
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
+import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.EmailService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 import graduationProject.graduation_judge.global.common_unit.English_level;
@@ -23,6 +24,8 @@ public class MemberController {
     private final MemberService memberService;
     @Autowired
     private final EmailService emailService;
+    @Autowired
+    private final GradeService gradeService;
 
     //회원 가입
     @PostMapping("/signup")
@@ -74,9 +77,10 @@ public class MemberController {
         try {
             UserInfoDTO userInfoDTO = memberService.getMemberById(id);
             MailDTO mailDTO = emailService.getMailMemberById(id);
+
             memberService.deleteMember(userInfoDTO); //userinfo삭제
             emailService.deleteMailDTO(mailDTO); //securitycodeofusermail삭제
-
+            gradeService.deleteGradeByMember(id); //userselectlist삭제
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
