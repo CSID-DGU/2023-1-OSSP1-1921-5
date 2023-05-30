@@ -54,7 +54,7 @@ public class MemberController {
     }
 
     //회원 정보 수정
-    @PostMapping("/update")
+    @PostMapping("/updateuserinfo")
     public ResponseEntity<?> updateUser(@RequestBody UserInfoDTO userInfoDTO) {
         try {
             memberService.updateMember(userInfoDTO);
@@ -65,7 +65,7 @@ public class MemberController {
     }
 
     //회원 정보 삭제
-    @PostMapping("/delete")//userinfo, scorestat, securitycodeofusermail, userselectlist다삭제해야함
+    @PostMapping("/deleteuser")//userinfo, scorestat, securitycodeofusermail, userselectlist다삭제해야함
     public ResponseEntity<?> deleteUser(@RequestBody String id) {
         try {
             UserInfoDTO userInfoDTO = memberService.getMemberById(id);
