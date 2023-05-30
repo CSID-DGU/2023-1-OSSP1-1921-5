@@ -1,6 +1,7 @@
 package graduationProject.graduation_judge.domain.Stats.controller;
 
 import graduationProject.graduation_judge.DTO.SemesterInfo;
+import graduationProject.graduation_judge.DTO.UserTermList;
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -33,13 +34,19 @@ public class StatsController {
         float classScore = 0; // 사용자 전체 평점
         int semester = 0; // 사용자 이수학기 수
         List<String> TNumList = new ArrayList<>(); //사용자가 이수한 학기 리스트
+        UserTermList userTermList = new UserTermList(); //반환 data
+        userTermList.setEmail(email);
+
         try{
             credit = gradeService.getTotalClassCredit(email);
             count = gradeService.getCompletedCourseCount(email);
             classScore = gradeService.getEntireAllScore(email);
             semester = memberService.getMemberById(email).getSemester();
+            userTermList.setSemester(semester);
             //TNumList;
-            return null;
+            userTermList.setTNumList(TNumList);
+            //update scorestat
+            return ResponseEntity.ok().body(userTermList);
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
