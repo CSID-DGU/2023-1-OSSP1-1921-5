@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[103]:
+# In[209]:
 
 
 from z3 import *
 import pandas as pd
 
 
-# In[104]:
+# In[210]:
 
 
 def search_credit(dataset, grad):
@@ -56,7 +56,7 @@ def search_credit(dataset, grad):
 search_credit(pd.read_excel("./grad/data020188.xlsx"), pd.read_excel("./grad/GraduationRequirements2020.xlsx"))
 
 
-# In[122]:
+# In[255]:
 
 
 def search_credit(grad):
@@ -95,55 +95,84 @@ def search_credit(grad):
     solver = Solver()
     solver.reset()
     
+#     for key in grad_dict_keys:
+#         constraint = check_vars[grad_dict_keys.index(key)] == And(*[Bool(course) for course in grad_dict[key]])
+#         solver.add(constraint)
+    modify = pd.read_excel("./grad/변경사항.xlsx")
     for key in grad_dict_keys:
-        constraint = check_vars[grad_dict_keys.index(key)] == And(*[Bool(course) for course in grad_dict[key]])
+        constraints = []
+        for course in grad_dict[key]:
+            change = False
+            for k, row in modify.iterrows():
+                if row['기존학수강좌번호'] == course:
+                    constraints.append(Or(Bool(course), Bool(row['새학수강좌번호'])))
+                    change = True
+                    break
+
+            if not change:
+                constraints.append(Bool(course))
+
+        constraint = check_vars[grad_dict_keys.index(key)] == And(*constraints)
         solver.add(constraint)
         
+            
     for key in select_dict_keys:
-        constraint = check_vars[len(grad_dict_keys)+select_dict_keys.index(key)] == Or(*[Bool(course) for course in select_dict[key]])
+        constraints = []
+        for course in select_dict[key]:
+            change = False  
+            for k, row in modify.iterrows():
+                if row['기존학수강좌번호'] == course:
+                    constraints.append(Or(Bool(course), Bool(row['새학수강좌번호'])))
+                    change = True
+                    break
+
+            if not change:
+                constraints.append(Bool(course))
+        constraint = check_vars[len(grad_dict_keys) + select_dict_keys.index(key)] == AtLeast(*constraints, int(key[-1])) 
         solver.add(constraint)
-#         solver.add(check_vars[grad_dict_keys.index(key)] ==And(*[Bool(course) for course in grad_dict[key]]))
-    
+        
     print(solver.check())
     return solver
 
-search_credit(pd.read_excel("./grad/GraduationRequirements2020.xlsx"))
+search_credit(pd.read_excel("./grad/GraduationRequirements2023.xlsx"))
 
 
-# In[123]:
+# In[261]:
 
 
 def user_subject(dataset, solver):
     s = Solver()
+    s.reset()
     s.add(solver.assertions())
     s.check()
     for k, row in dataset.iterrows():
-        a = row['학수강좌번호']
-        a = Bool(a)
-        s.add(a == True)
+        if row['등급'] != 'F':
+            a = row['학수강좌번호']
+            a = Bool(a)
+            s.add(a == True)
     return s
 
 
-# In[131]:
+# In[262]:
 
 
 s = user_subject(pd.read_excel("./samples/data0입학2018이수8학기.xlsx"), search_credit(pd.read_excel("./grad/GraduationRequirements2020.xlsx")))
 
 
-# In[132]:
+# In[263]:
 
 
 print(s)
 
 
-# In[133]:
+# In[264]:
 
 
 print(s.check())
 print(s.model())
 
 
-# In[134]:
+# In[265]:
 
 
 for key in grad_dict_keys:
