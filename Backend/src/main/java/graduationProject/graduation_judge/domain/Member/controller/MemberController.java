@@ -67,7 +67,6 @@ public class MemberController {
     //비밀번호 찾기
     @PostMapping("/{memberId}/forgot-password")
     public ResponseEntity<String> findPassword(@PathVariable String email,
-                                               @RequestParam String securityCode,
                                                @RequestParam String inputSecurityCode,
                                                @RequestParam String newPassword) {
 

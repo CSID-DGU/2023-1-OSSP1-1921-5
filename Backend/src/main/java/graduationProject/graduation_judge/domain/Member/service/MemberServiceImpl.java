@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
         //보안코드 확인 후 비밀번호 변경
         UserInfoDTO userInfoDTO = memberRepository.findById(id);
         MailDTO mailDTO = mailRepository.findById(id);
-        if (userInfoDTO != null && inputSecurityCode.equals(securityCode)) {
+        if (userInfoDTO != null && inputSecurityCode.equals(mailDTO.getMessage())) {
             userInfoDTO.setPincode(newPassword);
             memberRepository.save(toEntity(userInfoDTO));
         } else {
@@ -76,17 +76,18 @@ public class MemberServiceImpl implements MemberService {
 
     //보안 코드를 이메일로 전송하는 메서드
     @Override
-    public String sendSecurityCodeToEmail(String id){
+    public void sendSecurityCodeToEmail(String id){
         UserInfoDTO userInfoDTO = memberRepository.findById(id);
-        MailDTO mailDTO = mailRepository.findById(id);
+        //MailDTO mailDTO = mailRepository.findById(id);
+        MailDTO mailDTO = new MailDTO();
+        mailDTO.setAddress(id);
         if (userInfoDTO != null) {
             String securityCode = generateSecurityCode();
             mailDTO.setMessage(securityCode); //MailDTO에 보안코드 저장
             mailRepository.save(emailService.toEntity(mailDTO)); //db에 DTO저장
-            memberRepository.save(toEntity(userInfoDTO)); //save왜하냐?
+            //memberRepository.save(toEntity(userInfoDTO)); //save왜하냐?
             String text = "보안 코드: " + securityCode;
             emailService.sendEmail(id, text);
-            return securityCode;
         }else{
             throw new RuntimeException("존재하지 않는 회원입니다.");
         }
