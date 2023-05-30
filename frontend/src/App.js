@@ -31,6 +31,7 @@ const App = () => {
           <Route path="/result" element={<Result />} />
           <Route path="/stats" element={<Stats />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/newsem" element={<AddNewSemester />} />
           <Route path="/dataset" element={<CreateDataSet />} />
         </Routes>
       </div>
