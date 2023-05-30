@@ -26,8 +26,8 @@ public interface GradeService {
     //특정 member의 전공 성적 평점 계산
     float getMajorScoreByMember(String memberId);
 
-    //전체 member의 전체 성적 평점 계산
-    float getEntireAllScore();
+    //특정 member의 전체 성적 평점 계산
+    float getEntireAllScore(String memberId);
 
     //전체 member의 전공 성적 평점 계산
     float getEntireMajorScore();

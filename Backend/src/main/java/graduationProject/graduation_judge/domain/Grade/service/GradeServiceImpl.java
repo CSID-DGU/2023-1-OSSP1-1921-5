@@ -67,9 +67,44 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public float getEntireAllScore() {
-        //전체 member의 전체 성적 평점 계산
-        return 0;
+    public float getEntireAllScore(String memberId) {
+        //특정 member의 전체 성적 평점 계산
+        List<UserSelectList> userSelectLists = gradeRepository.findAllByMemberId(memberId);
+
+        float totalScore = 0;
+        int totalCredit = 0;
+        int credit;
+        String grade;
+        for (UserSelectList userSelectList : userSelectLists){
+            grade = userSelectList.getScore();
+            credit = userSelectList.getEntireLecture().getInfoLecture().getClassCredit();
+            totalCredit+=credit;
+            if (grade.equals("A+")) {
+                totalScore += 4.5f * credit;
+            } else if (grade.equals("A0")) {
+                totalScore += 4.0f * credit;
+            } else if (grade.equals("B+")) {
+                totalScore += 3.5f * credit;
+            } else if (grade.equals("B0")) {
+                totalScore += 3.0f * credit;
+            } else if (grade.equals("C+")) {
+                totalScore += 2.5f * credit;
+            } else if (grade.equals("C0")) {
+                totalScore += 2.0f * credit;
+            } else if (grade.equals("D+")) {
+                totalScore += 1.5f * credit;
+            } else if (grade.equals("D0")) {
+                totalScore += 1.0f * credit;
+            } else if (grade.equals("P")) {
+                totalCredit -= credit;
+            } else if (grade.equals("F")) {
+
+            }
+        }
+
+        totalScore = totalScore/totalCredit;
+
+        return totalScore;
     }
 
     @Override
