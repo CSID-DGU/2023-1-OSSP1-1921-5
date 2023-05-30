@@ -1,2 +1,17 @@
 # 2023-1-OPPS1-1921-5
 2023년 1학기 공개SW프로젝트01 5조입니다.
+
+## TEAM MEMBER
+|    | 이름                                   |학과| 역할       |
+|----|--------------------------------------|----|----------|
+| 팀장 | [최다빈](https://github.com/dabeann)    |컴퓨터공학과| BackEnd  |
+| 팀원 | [김태형](https://github.com/pletain)    |컴퓨터공학과| BackEnd  |
+| 팀원 | [김희진](https://github.com/heejjinkim) |컴퓨터공학과| BackEnd  |
+| 팀원 | [신지영](https://github.com/Sj0-0i)    |컴퓨터공학과| FrontEnd |
+| 팀원 | [하유경](https://github.com/eeheueklf)    |컴퓨터공학과| FrontEnd |
+| 팀원 | [허준상](https://github.com/junnyange)  |컴퓨터공학과| FrontEnd |
+
+## 1. 프로젝트 주제
+<div>
+<h4> 컴퓨터공학과 학생들을 위한 졸업 가능 여부 판정 웹 서비스
+</div>
