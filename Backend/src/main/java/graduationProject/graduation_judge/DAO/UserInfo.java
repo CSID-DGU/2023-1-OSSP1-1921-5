@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +20,7 @@ public class UserInfo {
 
     @Id
     @Column(name = "user_id", length = 200, nullable = false)
-    private String id;
+    private String user_id;
 
     @Column(name = "pincode", length = 200, nullable = false)
     private String pincode;
@@ -27,7 +29,7 @@ public class UserInfo {
     private int semester;
 
     @Column(name = "student_number", nullable = false)
-    private int studentNumber;
+    private int student_number;
 
     @Column(name = "course", length = 200, nullable = false)
     @Enumerated(EnumType.STRING)
@@ -40,4 +42,11 @@ public class UserInfo {
     @Enumerated(EnumType.STRING)
     private English_level englishGrade;
 
+    //1:M UserSelectList
+    @OneToMany(mappedBy = "user_id")
+    private List<UserSelectList> userSelectList;
+
+    //1:M ScoreStat
+    @OneToMany(mappedBy = "userInfo")
+    private List<ScoreStat> scoreStats;
 }

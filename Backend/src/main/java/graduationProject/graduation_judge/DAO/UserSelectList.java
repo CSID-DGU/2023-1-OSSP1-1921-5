@@ -14,35 +14,35 @@ import lombok.ToString;
 @IdClass(UserSelectListPK.class)
 @Table(name = "user_select_list")
 public class UserSelectList {
-
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id", insertable=false, updatable=false)
+    private UserInfo memberId;
 
     @Id
-    @Column(name = "user_id", length = 200, nullable = false)
-    private String memberId;
-
-    @Id
-    @Column(name = "term_number", length = 200, nullable = false)
-    private String termNum;
-
-    @Id
-    @Column(name = "class_number", length = 200, nullable = false)
+    @Column(name = "class_number", insertable = false, updatable = false)  // 일치하는 필드 추가
     private String classNum;
 
-    @Column(name = "class_score", length = 200, nullable = false)
-    private String score;
-
+    @Id
+    @Column(name = "term_number", insertable = false, updatable = false)    // 일치하는 필드 추가
+    private String termNum;
+    @Id
+    //M:1 EntireLecture
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
             @JoinColumn(name = "term_number", referencedColumnName = "term_number"),
             @JoinColumn(name = "class_number", referencedColumnName = "class_number")
     })
     @ToString.Exclude
-    private EntireLecture entireLecture;
+    private EntireLecture us_entireLecture;
 
-    public UserSelectList(String memberId, String termNum, String classNum, String score) {
-        this.memberId = memberId;
-        this.termNum = termNum;
-        this.classNum = classNum;
-        this.score = score;
-    }
+
+    //M:1 UserInfo
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserInfo user_id;
+
+    @Column(name = "class_score", length = 200, nullable = false)
+    private String score;
+
 }

@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+<<<<<<< HEAD
+=======
+import java.util.List;
+
+>>>>>>> 13acf0a (feat: DAO 연관관계 매핑 추가)
 @Entity
 @SuperBuilder
 @Getter
@@ -14,10 +19,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Table(name = "info_lecture")
 public class InfoLecture {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "info_class_number", length = 200, nullable = false)
-    private String classNum;
 
     @Column(name = "lecture_nick", length = 200, nullable = false)
     private String lectureNick;
@@ -31,7 +32,16 @@ public class InfoLecture {
     @Column(name = "class_credit", nullable = false)
     private int classCredit;
 
-    @OneToOne(mappedBy = "infoLecture")
-    @ToString.Exclude
-    private EntireLecture entireLectureList;
+    @Id
+    @Column(name = "info_class_number", length = 200, nullable = false)
+    private String classNumber;
+
+
+    @OneToOne
+    @JoinColumn(name = "class_number")
+    private EntireLecture entireLecture;
+//    //1:1 EntireLecture
+//    @OneToOne(mappedBy = "infoLectures")
+//    private EntireLecture entireLecture;
+
 }

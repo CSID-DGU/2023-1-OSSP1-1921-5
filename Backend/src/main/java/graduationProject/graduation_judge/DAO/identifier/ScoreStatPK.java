@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 public class ScoreStatPK implements Serializable {
-    private String memberId;
+    private String UID;
     private int semester;
     private String typeId;
 }
