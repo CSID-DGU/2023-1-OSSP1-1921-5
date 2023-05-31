@@ -1,18 +1,19 @@
 # Ignore dbsettings.properties
 Backend/src/main/resources/dbsettings.properties
 
-# Ignore .gradle & build
+# Ignore spring file
 Backend/.gradle/
 Backend/build
+Backend/bin
 
-# Ignore .idea
+# Ignore .idea file
 .idea
 Backend/.idea
 
 # Ignore emailsettings.properties
 Backend/src/main/resources/emailsettings.properties
 
-# Ignore .DS_Store
+# Ignore .DS_Store file
 .DS_Store
 Backend/.DS_Store
 Backend/src/.DS_Store
