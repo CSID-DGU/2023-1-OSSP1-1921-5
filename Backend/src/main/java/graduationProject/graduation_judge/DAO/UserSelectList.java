@@ -6,18 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 @Entity
 @IdClass(UserSelectListPK.class)
 @Table(name = "user_select_list")
 public class UserSelectList {
     @Id
-    @ManyToOne
-    @JoinColumn(name = "user_id", insertable=false, updatable=false)
-    private UserInfo memberId;
+    @Column(name = "user_id", insertable=false, updatable=false)
+    private String memberId;
 
     @Id
     @Column(name = "class_number", insertable = false, updatable = false)  // 일치하는 필드 추가
@@ -26,7 +27,7 @@ public class UserSelectList {
     @Id
     @Column(name = "term_number", insertable = false, updatable = false)    // 일치하는 필드 추가
     private String termNum;
-    @Id
+
     //M:1 EntireLecture
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
