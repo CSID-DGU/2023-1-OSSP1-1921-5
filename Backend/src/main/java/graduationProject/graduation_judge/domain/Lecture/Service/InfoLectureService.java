@@ -1,8 +1,6 @@
 package graduationProject.graduation_judge.domain.Lecture.Service;
 
 import graduationProject.graduation_judge.DAO.InfoLecture;
-import graduationProject.graduation_judge.DAO.UserSelectList;
-import graduationProject.graduation_judge.DTO.GradeDTO;
 import graduationProject.graduation_judge.DTO.InfoLectureDTO;
 import org.springframework.stereotype.Service;
 
