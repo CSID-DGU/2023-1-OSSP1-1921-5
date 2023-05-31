@@ -107,6 +107,5 @@
   "main": "index.js",
   "devDependencies": {},
   "author": "",
-  "license": "ISC",
-  "proxy": "http://localhost:8080"
+  "license": "ISC"
 }
