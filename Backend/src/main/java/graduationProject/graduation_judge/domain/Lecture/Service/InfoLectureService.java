@@ -1,5 +1,8 @@
 package graduationProject.graduation_judge.domain.Lecture.Service;
 
+import graduationProject.graduation_judge.DAO.InfoLecture;
+import graduationProject.graduation_judge.DAO.UserSelectList;
+import graduationProject.graduation_judge.DTO.GradeDTO;
 import graduationProject.graduation_judge.DTO.InfoLectureDTO;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +37,7 @@ public interface InfoLectureService {
     //전체 테이블 삭제
     void deleteInfoLectureTable();
 
+    //InfoLectureDTO to Entity
+    InfoLecture toEntity(InfoLectureDTO infoLectureDTO);
     //...
 }

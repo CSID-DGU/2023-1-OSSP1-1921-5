@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.domain.Lecture.Service;
 
+import graduationProject.graduation_judge.DAO.EntireLecture;
 import graduationProject.graduation_judge.DTO.EntireLectureDTO;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,10 @@ public class EntireLectureServiceImpl implements EntireLectureService{
     @Override
     public void deleteEntireLectureTable() {
 
+    }
+
+    @Override
+    public EntireLecture toEntity(EntireLectureDTO entireLectureDTO) {
+        return null;
     }
 }
