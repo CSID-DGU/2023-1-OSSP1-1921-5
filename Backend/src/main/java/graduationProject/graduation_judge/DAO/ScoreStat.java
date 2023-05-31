@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@IdClass(ScoreStatId.class)
 @IdClass(ScoreStatPK.class)
 @Table(name = "score_stat")
 public class ScoreStat {
