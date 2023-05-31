@@ -1,6 +1,8 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
+import graduationProject.graduation_judge.DAO.ScoreStat;
 import graduationProject.graduation_judge.DAO.UserInfo;
+import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.MailDTO;
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
@@ -10,6 +12,7 @@ import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -124,6 +127,8 @@ public class MemberServiceImpl implements MemberService {
                 userInfoDTO.getStudentNumber(),
                 userInfoDTO.getCourse(),
                 userInfoDTO.getToeicScore(),
-                userInfoDTO.getEnglishGrade());
+                userInfoDTO.getEnglishGrade(),
+                userInfoDTO.getSelectLists(),
+                userInfoDTO.getScoreStats());
     }
 }
