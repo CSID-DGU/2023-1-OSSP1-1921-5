@@ -3,11 +3,7 @@ Backend/src/main/resources/dbsettings.properties
 
 # Ignore .gradle & build
 Backend/.gradle/
-<<<<<<< HEAD
 Backend/build
-=======
-Backend/build/
->>>>>>> 3668a99 (chore: modify .gitignore)
 
 # Ignore .idea
 Backend/.idea

@@ -32,9 +32,10 @@ public class InfoLecture {
     private String classNumber;
 
 
-    @OneToOne
-    @JoinColumn(name = "class_number")
-    private EntireLecture entireLecture;
+//    @OneToOne
+//    @JoinColumn(name = "class_number")
+//    private EntireLecture entireLecture;
+
 //    //1:1 EntireLecture
 //    @OneToOne(mappedBy = "infoLectures")
 //    private EntireLecture entireLecture;

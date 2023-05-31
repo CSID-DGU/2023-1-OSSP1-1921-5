@@ -1,6 +1,5 @@
 package graduationProject.graduation_judge.DAO;
 
-import graduationProject.graduation_judge.domain.Stats.ScoreStatId;
 import graduationProject.graduation_judge.DAO.identifier.ScoreStatPK;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

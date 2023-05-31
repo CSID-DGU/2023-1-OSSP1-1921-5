@@ -31,13 +31,13 @@ public class EntireLecture {
     @Column(name = "professor_name")
     private String professorName;
 
-//    //1:1 InfoLecture
-//    @OneToOne
-//    @JoinColumn(name = "class_number", referencedColumnName = "info_class_number" ,nullable = false)
-//    private InfoLecture infoLectures;
+    //1:1 InfoLecture
+    @OneToOne
+    @JoinColumn(name = "class_number", referencedColumnName = "info_class_number" ,nullable = false)
+    private InfoLecture infoLectures;
 
-    @OneToOne(mappedBy = "entireLecture")
-    private InfoLecture infoLecture;
+//    @OneToOne(mappedBy = "entireLecture")
+//    private InfoLecture infoLecture;
 
     //1:1 EnglishLecture
     @OneToOne(mappedBy = "eng_entireLecture")
