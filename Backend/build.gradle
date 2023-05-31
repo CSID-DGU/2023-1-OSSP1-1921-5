@@ -30,7 +30,7 @@ dependencies {
 }
 
 //스프링 빌드 시 특정 디렉토리 or 파일 제외 예시
-sourceSets {
+/*sourceSets {
 	main {
 		java {
 			exclude 'graduationProject/graduation_judge/domain/Stats/**'
@@ -40,7 +40,7 @@ sourceSets {
 //			exclude 'graduationProject/graduation_judge/domain/DAO/SecurityCodeOfUserMail.java'
 		}
 	}
-}
+}*/
 
 tasks.named('test') {
 	useJUnitPlatform()

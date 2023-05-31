@@ -3,12 +3,12 @@ package graduationProject.graduation_judge.domain.Member.controller;
 import graduationProject.graduation_judge.DTO.MailDTO;
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
-/*
+
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.EmailService;
 import graduationProject.graduation_judge.domain.Stats.service.StatsService;
 
- */
+
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +27,14 @@ public class MemberController {
 
     @Autowired
     private final MemberService memberService;
-    /*
+
     @Autowired
     private final EmailService emailService;
     @Autowired
     private final GradeService gradeService;
     @Autowired
     private final StatsService statsService;
-    */
+
 
     //회원 가입
     @PostMapping("/signup")
@@ -97,7 +97,7 @@ public class MemberController {
         }
     }
 
-    /*
+
     //회원 정보 삭제
     @PostMapping("/deleteuser")//userinfo, scorestat, securitycodeofusermail, userselectlist다삭제해야함
     public ResponseEntity<?> deleteUser(@RequestBody String id) {
@@ -116,7 +116,7 @@ public class MemberController {
         }
     }
 
-     */
+
 
 
     //비밀번호 찾기
