@@ -18,7 +18,7 @@ import java.util.List;
 public class ScoreStat {
 
     @Id
-    @Column(name = "user_id", length = 200, nullable = false)
+    @Column(name = "user_id", length = 200, nullable = false, insertable=false, updatable=false)
     private String memberId;
 
     @Column(name = "user_id", length = 200, nullable = false, insertable=false, updatable=false)
