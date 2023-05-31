@@ -6,6 +6,7 @@ Backend/.gradle/
 Backend/build
 
 # Ignore .idea
+.idea
 Backend/.idea
 
 # Ignore emailsettings.properties
