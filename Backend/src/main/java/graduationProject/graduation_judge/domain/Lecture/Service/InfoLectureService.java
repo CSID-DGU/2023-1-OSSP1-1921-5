@@ -16,7 +16,7 @@ public interface InfoLectureService {
     // 정규화 전 lecture 컬럼
     // infolecture, entirelecture, designlecture, englishlecture에 필요한 것만 담은 JSON정보
     // (학기 TermNumber), (학수번호 ClassNumber), (교수님성함 ProfessorName),
-    // (교과목명 LectureNick), (교과과정 Curriculum),
+    // (교과목명 LectureNick), (교과과정 Curriculum)->이수구분으로 할듯,
     // (교과영역구분 ClassArea), (학점 ClassCredit),
     // (설계학점 DesignCredit)
 
