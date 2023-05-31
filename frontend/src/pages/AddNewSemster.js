@@ -85,6 +85,11 @@ const AddNewSemester = () => {
     };
 
     const onClickInput = (e) => {
+        if (!year || !semester) {
+            alert("년도와 학기를 입력해주세요.");
+            return;
+        }
+
         e.preventDefault();
             console.log(JSON.stringify(jsonResult));
             fetch("/uploadNewSemester", {

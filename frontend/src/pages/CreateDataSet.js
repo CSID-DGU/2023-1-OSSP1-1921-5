@@ -29,6 +29,11 @@ const CreateDataSet = () => {
   };
 
   const handleParsingAndSubmit = () => {
+    if (!dataNum || !admissionYear || !completeSem || !subjects) {
+      alert("항목을 모두 입력해주세요.");
+      return;
+    }
+
     const parsedObject = {
       dataNum: dataNum,
       admissionYear: admissionYear,
@@ -45,7 +50,7 @@ const CreateDataSet = () => {
     });
 
     console.log(parsedObject);
-    
+
     fetch("/createDataSet", {
       method: "post",
       headers: {
