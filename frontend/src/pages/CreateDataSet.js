@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import MenuBar from '../Components/MenuBar';
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -46,13 +45,26 @@ const CreateDataSet = () => {
     });
 
     console.log(parsedObject);
-
-    axios.post('/dataset', parsedObject)
+    
+    fetch("/createDataSet", {
+      method: "post",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(parsedObject),
+    })
       .then((response) => {
-        console.log('요청 전송 성공', response);
+        if (response.ok) {
+          alert("DataSet 생성 요청 성공");
+          console.log('요청이 성공적으로 전송되었습니다.', response);
+        } else {
+          alert("요청 실패");
+          console.error('요청이 실패하였습니다.', response);
+          window.location.href = "/dataset";
+        }
       })
       .catch((error) => {
-        console.error('요청 중 오류', error);
+        console.error('요청 전송 중 오류가 발생했습니다.', error);
       });
   };
 

@@ -13,7 +13,7 @@ const AddNewSemester = () => {
     const [placeholder, setPlaceholder] = useState("");
     const [year, setYear] = useState("");
     const [semester, setSemester] = useState("");
-    const [lectureData, setLectureDatas] = useState([]);
+    const [lectureDatas, setLectureDatas] = useState([]);
 
     const handleYearChange = (event) => {
         setYear(event.target.value);
@@ -21,10 +21,6 @@ const AddNewSemester = () => {
 
     const handleSemesterChange = (event) => {
         setSemester(event.target.value);
-    };
-
-    const handleLectureDataChange = (event) => {
-        setLectureDatas(event.target.value);
     };
 
     const readExcel = async (file) => {
@@ -39,20 +35,59 @@ const AddNewSemester = () => {
     
           const data = XLSX.utils.sheet_to_json(ws);
           console.log(data);
-          setLectureDatas(data);
+
+          /*
+          (학수번호 ClassNumber), 
+          (교수님성함 ProfessorName), 
+          (교과목명 LectureNick), 
+          (교과과정 Curriculum), 
+          (교과영역구분 ClassArea), 
+          (학점 ClassCredit), 
+          (설계학점 DesignCredit) 
+          (원어강의 )
+          */
+          
+          try {
+            for (var i = 0; i < data.length; i++) {
+                const lectureData = {};
+                lectureData["ClassNumber"] = data[i]["학수번호"];
+                lectureData["ProfessorName"] = data[i]["교원명"];
+                lectureData["LectureNick"] = data[i]["교과목명"];
+                lectureData["Curriculum"] = data[i]["교과과정"];
+                lectureData["ClassArea"] = data[i]["이수구분"];
+                lectureData["ClassCredit"] = data[i]["학점"];
+                lectureData["DesignCredit"] = data[i]["공학설계"];
+
+                if (data[i]["원어강의"] == "영어") {
+                    lectureData["IsEnglish"] = 1
+                } else {
+                    lectureData["IsEnglish"] = 0
+                }
+                lectureDatas.push(lectureData);
+            }
+
+          } catch(error) {
+            alert("올바른 형식의 엑셀 파일을 업로드해주세요.");
+            setYear("");
+            setSemester("");
+            setLectureDatas([]);
+            setPlaceholder("");
+            input.current.value = null;
+          }
+          setLectureDatas(lectureDatas);
         };
     };
     
     const jsonResult = {
         year: year,
         semester: semester,
-        lectureDataList: lectureData
+        lectureDataList: lectureDatas
     };
 
     const onClickInput = (e) => {
         e.preventDefault();
             console.log(JSON.stringify(jsonResult));
-            fetch("", {
+            fetch("/uploadNewSemester", {
             method: "post",
             headers: {
                 "content-type": "application/json",
@@ -63,7 +98,8 @@ const AddNewSemester = () => {
             if(response.ok) {
                 alert("새로운 학기 강좌가 입력되었습니다.");
             } else {
-                throw new Error("강좌 입력 실패");
+                alert("강좌 입력 실패");
+                window.location.href = "/newsem";
             }
         }) 
     }

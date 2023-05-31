@@ -105,7 +105,7 @@ const UploadFile = () => {
         .catch((error) => {
           if(error.message === '400') {
             alert("회원 정보와 입력 파일의 이수학기 수가 일치하지 않습니다.");
-            window.location.href = "/";
+            window.location.href = "/input";
           } else {
             console.error("성적 입력 실패 : ", error);
           }
