@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.domain.Lecture.Service;
 
+import graduationProject.graduation_judge.DTO.InfoLectureDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,19 @@ public interface InfoLectureService {
     // (교과영역구분 ClassArea), (학점 ClassCredit),
     // (설계학점 DesignCredit)
 
-    //bsm_수학, bsm_과학, 기본소양 db에 추가...ClassArea repository만들기? 구분이 필요할까 생각하기
-    //위와 같이 ClassArea를 구분안하고 그냥 엑셀에서 "교과영역구분"을 input해도 괜찮을지?
+    //위에서 (강의명), (교과과정), (교과영역구분), (학점), (학수번호)PK 추가
+
+    //InfoLecture table에 추가
+    void inputInfoLecture(InfoLectureDTO infoLectureDTO);
+
+    //InfoLecture 학수번호에 해당하는 tuple table에서 제거
+    void deleteInfoLectureTuple(String classNumber);
+
+    //InfoLecture table 수정 ? 필요한가 ?
+    void modifyInfoLectureTuple(InfoLectureDTO infoLectureDTO);
+
+    //전체 테이블 삭제
+    void deleteInfoLectureTable();
+
+    //...
 }
