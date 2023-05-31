@@ -23,8 +23,4 @@ public class UserInfoDTO {
     private Major_curriculum course;
     private int toeicScore;
     private English_level englishGrade;
-
-    //이게맞냐
-    private List<UserSelectList> selectLists;
-    private List<ScoreStat> scoreStats;
 }

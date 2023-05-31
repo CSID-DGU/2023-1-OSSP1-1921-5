@@ -159,7 +159,7 @@ public class MemberController {
      *     - 로그인
      *     - ~~(회원 탈퇴)~~
      */
-    @PostMapping("/test")
+    /*@PostMapping("/test")
     public String test(){
         UserInfoDTO userInfoDTO = new UserInfoDTO("user20171@gmail.com","user201712",
                 1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
@@ -174,5 +174,5 @@ public class MemberController {
         memberService.register(userInfoDTO);
         memberService.sendSecurityCodeToEmail(userInfoDTO.getId());
         return "email test";
-    }
+    }*/
 }
