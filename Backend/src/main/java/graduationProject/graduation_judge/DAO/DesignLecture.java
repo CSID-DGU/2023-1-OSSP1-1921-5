@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.DAO;
 
+import graduationProject.graduation_judge.DAO.identifier.DesignLecturePK;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(DesignLecturePK.class)
 @Table(name = "design_lecture")
 public class DesignLecture {
     @Id
@@ -25,10 +27,11 @@ public class DesignLecture {
     @Column(name = "design_credit")
     private Float designCredit;
 
+    //1:1 EntireLecture
     @OneToOne
     @JoinColumns({
             @JoinColumn(name = "design_term_number", referencedColumnName = "termNumber"),
             @JoinColumn(name = "design_class_number", referencedColumnName = "classNumber")
     })
-    private EntireLecture entireLecture;
+    private EntireLecture des_entireLecture;
 }

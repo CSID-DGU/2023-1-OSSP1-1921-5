@@ -16,7 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 public class EntireLecturePK implements Serializable {
-    private String termNum;
-    private String classNum;
+    private String term_number;
+    private String class_number;
 }
 
