@@ -1,7 +1,7 @@
 package graduationProject.graduation_judge.domain.Lecture.Service;
 
 import graduationProject.graduation_judge.DAO.EnglishLecture;
-import graduationProject.graduation_judge.DTO.EnglishLectureDTO;
+import graduationProject.graduation_judge.DTO.Lecture.EnglishLectureDTO;
 import org.springframework.stereotype.Service;
 
 @Service
