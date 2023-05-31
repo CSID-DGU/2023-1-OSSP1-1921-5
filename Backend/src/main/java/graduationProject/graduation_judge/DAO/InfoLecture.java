@@ -7,11 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-<<<<<<< HEAD
-=======
-import java.util.List;
-
->>>>>>> 13acf0a (feat: DAO 연관관계 매핑 추가)
 @Entity
 @SuperBuilder
 @Getter

@@ -20,4 +20,5 @@ public interface InfoLectureService {
     // (설계학점 DesignCredit)
 
     //bsm_수학, bsm_과학, 기본소양 db에 추가...ClassArea repository만들기? 구분이 필요할까 생각하기
+    //위와 같이 ClassArea를 구분안하고 그냥 엑셀에서 "교과영역구분"을 input해도 괜찮을지?
 }
