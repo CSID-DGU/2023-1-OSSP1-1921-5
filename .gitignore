@@ -14,3 +14,12 @@ Backend/.idea
 
 # Ignore emailsettings.properties
 Backend/src/main/resources/emailsettings.properties
+
+# Ignore .DS_Store
+.DS_Store
+Backend/.DS_Store
+Backend/src/.DS_Store
+Backend/src/main.DS_Store
+Backend/src/main/java/.DS_Store
+Backend/src/main/java/graduationProject/graduation_judge/.DS_Store
+Backend/src/main/java/graduationProject/graduation_judge/DAO/.DS_Store
