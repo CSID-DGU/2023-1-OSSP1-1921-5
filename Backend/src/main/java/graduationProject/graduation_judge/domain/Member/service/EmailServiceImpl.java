@@ -45,9 +45,4 @@ public class EmailServiceImpl implements EmailService{
         mailRepository.delete(toEntity(mailDTO));
     }
 
-    @Override
-    public SecurityCodeOfUserMail toEntity(MailDTO mailDTO) {
-        // MailDTO to Entity
-        return new SecurityCodeOfUserMail(mailDTO.getAddress(), mailDTO.getMessage());
-    }
 }

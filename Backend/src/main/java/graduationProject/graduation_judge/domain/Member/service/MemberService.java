@@ -24,5 +24,4 @@ public interface MemberService {
     //보안 코드를 이메일로 전송하는 메서드
     void sendSecurityCodeToEmail(String id);
 
-    UserInfo toEntity(UserInfoDTO userInfoDTO);
 }

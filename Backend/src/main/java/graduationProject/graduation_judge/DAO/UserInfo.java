@@ -3,17 +3,13 @@ package graduationProject.graduation_judge.DAO;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "user_info")
 public class UserInfo {
@@ -49,4 +45,18 @@ public class UserInfo {
     //1:M ScoreStat
     @OneToMany(mappedBy = "userInfo")
     private List<ScoreStat> scoreStats;
+
+    @Builder
+    public UserInfo(String user_id, String pincode,
+                    int semester, int student_number,
+                    Major_curriculum course,
+                    int toeicScore, English_level englishGrade){
+        this.user_id = user_id;
+        this.pincode = pincode;
+        this.semester = semester;
+        this.student_number = student_number;
+        this.course = course;
+        this.toeicScore = toeicScore;
+        this.englishGrade = englishGrade;
+    }
 }

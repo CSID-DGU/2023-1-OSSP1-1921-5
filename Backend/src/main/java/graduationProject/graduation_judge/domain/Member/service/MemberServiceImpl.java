@@ -117,17 +117,4 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-    @Override
-    public UserInfo toEntity(UserInfoDTO userInfoDTO) {
-        // UserInfoDTO to Entity
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUser_id(userInfoDTO.getId());
-        userInfo.setPincode(userInfoDTO.getPincode());
-        userInfo.setSemester(userInfoDTO.getSemester());
-        userInfo.setStudent_number(userInfoDTO.getStudentNumber());
-        userInfo.setCourse(userInfoDTO.getCourse());
-        userInfo.setToeicScore(userInfoDTO.getToeicScore());
-        userInfo.setEnglishGrade(userInfoDTO.getEnglishGrade());
-        return userInfo;
-    }
 }

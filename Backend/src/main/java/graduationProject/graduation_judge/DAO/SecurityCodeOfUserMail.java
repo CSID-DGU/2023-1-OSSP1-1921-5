@@ -4,15 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "security_code_of_user_mail")
 public class SecurityCodeOfUserMail {
@@ -22,4 +18,10 @@ public class SecurityCodeOfUserMail {
 
     @Column(name = "security_code", length = 200)
     private String securityCode;
+
+    @Builder
+    public SecurityCodeOfUserMail(String id, String securityCode) {
+        this.id = id;
+        this.securityCode = securityCode;
+    }
 }

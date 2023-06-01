@@ -1,6 +1,7 @@
 package graduationProject.graduation_judge.DTO;
 
 import graduationProject.graduation_judge.DAO.ScoreStat;
+import graduationProject.graduation_judge.DAO.UserInfo;
 import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
@@ -21,4 +22,16 @@ public class UserInfoDTO {
     private Major_curriculum course;
     private int toeicScore;
     private English_level englishGrade;
+
+    public UserInfo toEntity(){
+        return UserInfo.builder()
+                .user_id(id)
+                .pincode(pincode)
+                .semester(semester)
+                .student_number(studentNumber)
+                .course(course)
+                .toeicScore(toeicScore)
+                .englishGrade(englishGrade)
+                .build();
+    }
 }
