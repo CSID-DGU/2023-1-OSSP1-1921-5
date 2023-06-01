@@ -14,15 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/input")
 public class GradeController {
 
     @Autowired
-    private final GradeService gradeService;
+    private GradeService gradeService;
 
     @Autowired
-    private final MemberService memberService;
+    private MemberService memberService;
 
     //성적파일 입력
     @PostMapping("/gradeFile")
