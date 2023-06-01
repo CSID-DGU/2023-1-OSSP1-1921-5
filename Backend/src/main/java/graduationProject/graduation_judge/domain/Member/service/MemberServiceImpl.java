@@ -27,12 +27,20 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public int emailCheck(String id) {
+        if(memberRepository.findUserInfoByUserid(id) == null){
+            return 0;
+        }
+        else return 1; //email 중복일 경우
+    }
+
+    @Override
     public void register(UserInfoDTO userInfoDTO) {
         // 회원 가입 로직 구현
         //이메일 중복 확인 하기
-        if (memberRepository.findUserInfoByUserid(userInfoDTO.getUserid()) != null) {
+        /*if (memberRepository.findUserInfoByUserid(userInfoDTO.getUserid()) != null) {
             throw new IllegalArgumentException("Email already exists");
-        }
+        }*/
         memberRepository.save(userInfoDTO.toEntity());
     }
 

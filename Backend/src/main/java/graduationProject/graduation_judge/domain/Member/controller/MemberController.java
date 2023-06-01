@@ -32,6 +32,10 @@ public class MemberController {
     @Autowired
     private StatsService statsService;
 
+    @PostMapping("emailcheck")
+    public int emailCheck(@RequestBody String email){
+        return memberService.emailCheck(email);
+    }
 
     //회원 가입
     @PostMapping("/signup")
