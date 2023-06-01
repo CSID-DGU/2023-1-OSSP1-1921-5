@@ -46,11 +46,11 @@ const SignUp = () => {
     const data = {
         email: email + '@' + emailAddress,
         pw: password,
-        year: year,
         semester: semester,
+        year: year,
         course: course,
-        english: english,
         score: score,
+        english: english
     }
 
     const onClickDuplication = (e) => {
