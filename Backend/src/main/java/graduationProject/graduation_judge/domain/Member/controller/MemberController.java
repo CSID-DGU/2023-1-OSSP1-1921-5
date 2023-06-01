@@ -38,8 +38,19 @@ public class MemberController {
 
     //회원 가입
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody UserInfoDTO userInfoDTO) {
+    public ResponseEntity<?> signup(@RequestBody  Map<String, String> request) {
         try {
+            String id = request.get("email");
+            String pincode =request.get("pw");
+            int semester = Integer.parseInt(request.get("semester"));
+            int student_number= Integer.parseInt(request.get("year"));
+            Major_curriculum course = Major_curriculum.valueOf(request.get("course"));
+            int toeicScore = Integer.parseInt(request.get("score"));
+            English_level englishLevel = English_level.valueOf(request.get("english"));
+
+            UserInfoDTO userInfoDTO = new UserInfoDTO(id, pincode, semester ,
+                    student_number, course, toeicScore, englishLevel);
+
             memberService.register(userInfoDTO);
 
             return ResponseEntity.ok(userInfoDTO); //userInfoDTO객체를 JSON형태로 반환
@@ -52,8 +63,8 @@ public class MemberController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody Map<String, String > request) {
         try {
-            String id = request.get("id");
-            String pincode = request.get("pincode");
+            String id = request.get("email");
+            String pincode = request.get("pw");
             memberService.login(id, pincode);
             return ResponseEntity.ok().body(id); //id를 JSON형태로 반환
 
@@ -83,7 +94,7 @@ public class MemberController {
     public ResponseEntity<?> updateUser(@RequestBody Map<String, String > request) {
         String id = request.get("email");
         int studentNumber = Integer.parseInt(request.get("year"));
-        int semester = Integer.parseInt(request.get("register"));
+        int semester = Integer.parseInt(request.get("semester"));
         Major_curriculum course = Major_curriculum.valueOf(request.get("course"));
         English_level englishGrade = English_level.valueOf(request.get("english"));
         int toeicScore = Integer.parseInt(request.get("score"));
