@@ -54,8 +54,8 @@ public class MemberController {
         try {
             String id = request.get("id");
             String pincode = request.get("pincode");
-            UserInfoDTO userInfoDTO = memberService.login(id, pincode);
-            return ResponseEntity.ok(userInfoDTO); //userInfoDTO객체를 JSON형태로 반환
+            memberService.login(id, pincode);
+            return ResponseEntity.ok().body(id); //id를 JSON형태로 반환
 
             /*return ResponseEntity.ok(new HashMap<String , String >(){{
                 put("id", userInfoDTO.getId());

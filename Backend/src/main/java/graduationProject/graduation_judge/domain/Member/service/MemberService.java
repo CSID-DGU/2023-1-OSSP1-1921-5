@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MemberService {
     void register(UserInfoDTO userInfoDTO);  // 회원 가입
-    UserInfoDTO login(String id, String pincode);    //로그인
+    void login(String id, String pincode);    //로그인
 
     UserInfoDTO getMemberById(String id);  // 회원 조회
 
