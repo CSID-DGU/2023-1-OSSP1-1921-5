@@ -1,9 +1,11 @@
 package graduationProject.graduation_judge.domain.Stats.controller;
 
+import graduationProject.graduation_judge.DTO.ScoreStatDTO;
 import graduationProject.graduation_judge.DTO.SemesterInfo;
 import graduationProject.graduation_judge.DTO.UserTermList;
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
+import graduationProject.graduation_judge.domain.Stats.service.StatsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +17,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/stats")
-@RequiredArgsConstructor
 public class StatsController {
 
     @Autowired
-    private final GradeService gradeService;
+    private GradeService gradeService;
 
     @Autowired
-    private final MemberService memberService;
+    private MemberService memberService;
+
+    @Autowired
+    private StatsService statsService;
 
     // user의 전체 총 이수학점, 총 이수과목 수, 전체 평점, 이수학기 수
     // -> 프론트: 이수학기 수마다 data(email, TNumber, semester) 생성해 '/stats' ,'/updatestat'에 순서대로 요청
@@ -30,23 +34,31 @@ public class StatsController {
     public ResponseEntity<?> getUserStat(@RequestBody Map<String, String> request){
         String email = request.get("email");
         int credit = 0; // 사용자 총 이수학점
-        int count = 0; // 사용자 총 이수과목 수
+        //int count = 0; // 사용자 총 이수과목 수
         float classScore = 0; // 사용자 전체 평점
         int semester = 0; // 사용자 이수학기 수
         List<String> TNumList = new ArrayList<>(); //사용자가 이수한 학기 리스트
         UserTermList userTermList = new UserTermList(); //반환 data
         userTermList.setEmail(email);
 
+
         try{
             credit = gradeService.getTotalClassCredit(email);
-            count = gradeService.getCompletedCourseCount(email);
+            //count = gradeService.getCompletedCourseCount(email);
             classScore = gradeService.getEntireAllScore(email);
             semester = memberService.getMemberById(email).getSemester();
             userTermList.setSemester(semester);
+
             //TNumList;
+            TNumList = gradeService.getTermList(email);
             userTermList.setTNumList(TNumList);
+
             //update scorestat
+            ScoreStatDTO scoreStatDTO = new ScoreStatDTO(email,semester,"전체", classScore, credit);
+            statsService.insertScoreStat(scoreStatDTO);
+
             return ResponseEntity.ok().body(userTermList);
+
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -26,11 +26,11 @@ public class ScoreStat {
     @Column(name = "type_id", length = 200, nullable = false)
     private String typeId;
 
-    @Column(name = "grade", length = 200, nullable = false)
-    private String grade;
+    @Column(name = "grade", nullable = false)
+    private float grade;
 
-    @Column(name = "credit", length = 200, nullable = false)
-    private String credit;
+    @Column(name = "credit", nullable = false)
+    private int credit;
 
     //M:1 UserInfo
     @ManyToOne
@@ -38,11 +38,12 @@ public class ScoreStat {
     private UserInfo userInfo;
 
     @Builder
-    public ScoreStat(String memberId, int semester, String typeId, String grade, String credit){
+    public ScoreStat(String memberId, int semester, String typeId, float grade, int credit){
         this.memberId = memberId;
         this.semester = semester;
         this.typeId = typeId;
         this.grade = grade;
+        this.credit = credit;
     }
 
 }

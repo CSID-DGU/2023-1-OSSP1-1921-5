@@ -4,6 +4,7 @@ import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.GradeDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,6 +39,9 @@ public interface GradeService {
     //특정 member의 총 이수학점을 계산
     int getTotalClassCredit(String memberId);
 
+    //특정 member의 학기 리스트 반환
+    List<String> getTermList(String memberId);
+
     //특정 member의 총 이수과목 수를 계산
-    int getCompletedCourseCount(String memberId);
+    //int getCompletedCourseCount(String memberId);
 }
