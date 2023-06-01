@@ -49,7 +49,7 @@ public class MemberController {
     }
 
     //로그인
-    @PostMapping("/singin")
+    @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody Map<String, String > request) {
         try {
             String id = request.get("id");
