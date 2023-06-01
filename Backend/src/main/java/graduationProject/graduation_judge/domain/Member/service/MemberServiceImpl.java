@@ -1,8 +1,6 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
-import graduationProject.graduation_judge.DAO.ScoreStat;
 import graduationProject.graduation_judge.DAO.UserInfo;
-import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.MailDTO;
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
@@ -32,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
     public void register(UserInfoDTO userInfoDTO) {
         // 회원 가입 로직 구현
         //이메일 중복 확인 하기
-        if (memberRepository.findUserInfoByUser_id(userInfoDTO.getId()) != null) {
+        if (memberRepository.findUserInfoByUser_id(userInfoDTO.getUser_id()) != null) {
             throw new IllegalArgumentException("Email already exists");
         }
         memberRepository.save(userInfoDTO.toEntity());
@@ -40,7 +38,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void login(String id, String pincode){
-        UserInfoDTO userInfoDTO = memberRepository.findUserInfoByUser_id(id);
+        UserInfo userInfo = memberRepository.findUserInfoByUser_id(id);
+        UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUser_id(), userInfo.getPincode(), userInfo.getSemester(),
+                userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(),userInfo.getEnglishGrade());
         if (userInfoDTO == null){
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         }
@@ -55,7 +55,10 @@ public class MemberServiceImpl implements MemberService {
         if(memberRepository.findUserInfoByUser_id(id) == null){
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         }
-        return memberRepository.findUserInfoByUser_id(id);
+        UserInfo userInfo = memberRepository.findUserInfoByUser_id(id);
+        UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUser_id(), userInfo.getPincode(), userInfo.getSemester(),
+                userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(),userInfo.getEnglishGrade());
+        return userInfoDTO;
     }
 
     @Override
@@ -63,13 +66,16 @@ public class MemberServiceImpl implements MemberService {
                              Major_curriculum course, int toeicScore,
                              English_level englishGrade) {
         //회원 수정 (id, pincode빼고 수정)
-        UserInfoDTO userInfoDTO = memberRepository.findUserInfoByUser_id(id);
+        UserInfo userInfo = memberRepository.findUserInfoByUser_id(id);
+        UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUser_id(), userInfo.getPincode(), userInfo.getSemester(),
+                userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(),userInfo.getEnglishGrade());
+
         userInfoDTO.setSemester(semester);
-        userInfoDTO.setStudentNumber(studentNumber);
+        userInfoDTO.setStudent_number(studentNumber);
         userInfoDTO.setCourse(course);
         userInfoDTO.setToeicScore(toeicScore);
         userInfoDTO.setEnglishGrade(englishGrade);
-        memberRepository.save(userInfoDTO.toEntity());
+        memberRepository.save(userInfo);
     }
 
     @Override
@@ -81,7 +87,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void findPassword(String id, String inputSecurityCode, String newPassword) {
         //보안코드 확인 후 비밀번호 변경
-        UserInfoDTO userInfoDTO = memberRepository.findUserInfoByUser_id(id);
+        UserInfo userInfo = memberRepository.findUserInfoByUser_id(id);
+        UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUser_id(), userInfo.getPincode(), userInfo.getSemester(),
+                userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(),userInfo.getEnglishGrade());
         MailDTO mailDTO = mailRepository.findById(id);
         if (userInfoDTO != null && inputSecurityCode.equals(mailDTO.getMessage())) {
             userInfoDTO.setPincode(newPassword);
@@ -101,8 +109,9 @@ public class MemberServiceImpl implements MemberService {
     //보안 코드를 이메일로 전송하는 메서드
     @Override
     public void sendSecurityCodeToEmail(String id){
-        UserInfoDTO userInfoDTO = memberRepository.findUserInfoByUser_id(id);
-        //MailDTO mailDTO = mailRepository.findById(id);
+        UserInfo userInfo = memberRepository.findUserInfoByUser_id(id);
+        UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUser_id(), userInfo.getPincode(), userInfo.getSemester(),
+                userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(),userInfo.getEnglishGrade());
         MailDTO mailDTO = new MailDTO();
         mailDTO.setAddress(id);
         if (userInfoDTO != null) { //id에 해당하는 user가 존재한다면

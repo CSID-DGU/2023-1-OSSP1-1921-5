@@ -15,20 +15,20 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class UserInfoDTO {
-    private String id;
+    private String user_id;
     private String pincode;
     private int semester;
-    private int studentNumber;
+    private int student_number;
     private Major_curriculum course;
     private int toeicScore;
     private English_level englishGrade;
 
     public UserInfo toEntity(){
         return UserInfo.builder()
-                .user_id(id)
+                .user_id(user_id)
                 .pincode(pincode)
                 .semester(semester)
-                .student_number(studentNumber)
+                .student_number(student_number)
                 .course(course)
                 .toeicScore(toeicScore)
                 .englishGrade(englishGrade)
