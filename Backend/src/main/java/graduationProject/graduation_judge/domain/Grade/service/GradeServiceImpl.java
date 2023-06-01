@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -121,17 +122,21 @@ public class GradeServiceImpl implements GradeService{
             InfoLecture infoLecture = selectList.getUs_entireLecture().getInfoLectures();
             totalClassCredit += infoLecture.getClassCredit();
         }
-        //이름으로 조회해서 update
-        ScoreStatPK scoreStat = scoreStatRepository.findByMemberId(memberId);
-        //scoreStat.
-        //scoreStatRepository.save(scoreStat);
+
         return totalClassCredit;
     }
 
     @Override
-    public int getCompletedCourseCount(String memberId) {
-        //특정 member의 총 이수과목 수를 계산
-        return gradeRepository.countAllByMemberId(memberId);
+    public List<String> getTermList(String memberId) {
+        //특정 member의 학기 리스트 반환
+        List<String> termList = gradeRepository.findDistinctTermNumByMemberId(memberId);
+        return termList;
     }
+
+//    @Override
+//    public int getCompletedCourseCount(String memberId) {
+//        //특정 member의 총 이수과목 수를 계산
+//        return gradeRepository.countAllByMemberId(memberId);
+//    }
 
 }
