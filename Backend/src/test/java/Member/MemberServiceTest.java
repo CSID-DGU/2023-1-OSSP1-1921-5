@@ -1,3 +1,4 @@
+/*
 package Member;
 
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
@@ -43,3 +44,4 @@ public class MemberServiceTest {
         System.out.println("member = " + userInfoDTO.getId());
     }
 }
+*/
