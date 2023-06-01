@@ -42,7 +42,7 @@ public class EmailServiceImpl implements EmailService{
     @Override
     public void deleteMailDTO(MailDTO mailDTO) {
         //MailDTO 삭제
-        mailRepository.delete(toEntity(mailDTO));
+        mailRepository.delete(mailDTO.toEntity());
     }
 
 }

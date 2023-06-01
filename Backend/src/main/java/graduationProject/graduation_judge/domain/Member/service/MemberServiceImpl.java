@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
         if (memberRepository.findUserInfoByUser_id(userInfoDTO.getId()) != null) {
             throw new IllegalArgumentException("Email already exists");
         }
-        memberRepository.save(toEntity(userInfoDTO));
+        memberRepository.save(userInfoDTO.toEntity());
     }
 
     @Override
@@ -69,13 +69,13 @@ public class MemberServiceImpl implements MemberService {
         userInfoDTO.setCourse(course);
         userInfoDTO.setToeicScore(toeicScore);
         userInfoDTO.setEnglishGrade(englishGrade);
-        memberRepository.save(toEntity(userInfoDTO));
+        memberRepository.save(userInfoDTO.toEntity());
     }
 
     @Override
     public void deleteMember(UserInfoDTO userInfoDTO) {
         //회원 삭제
-        memberRepository.delete(toEntity(userInfoDTO));
+        memberRepository.delete(userInfoDTO.toEntity());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MemberServiceImpl implements MemberService {
         MailDTO mailDTO = mailRepository.findById(id);
         if (userInfoDTO != null && inputSecurityCode.equals(mailDTO.getMessage())) {
             userInfoDTO.setPincode(newPassword);
-            memberRepository.save(toEntity(userInfoDTO));
+            memberRepository.save(userInfoDTO.toEntity());
         } else {
             throw new RuntimeException("올바르지 않은 보안 코드입니다.");
         }
@@ -108,7 +108,7 @@ public class MemberServiceImpl implements MemberService {
         if (userInfoDTO != null) { //id에 해당하는 user가 존재한다면
             String securityCode = generateSecurityCode(); //보안코드 생성
             mailDTO.setMessage(securityCode); //MailDTO에 보안코드 저장
-            mailRepository.save(emailService.toEntity(mailDTO)); //db에 DTO저장
+            mailRepository.save(mailDTO.toEntity()); //db에 DTO저장
             //memberRepository.save(toEntity(userInfoDTO)); //save왜하냐?
             String text = "보안 코드: " + securityCode;
             emailService.sendEmail(id, text);
