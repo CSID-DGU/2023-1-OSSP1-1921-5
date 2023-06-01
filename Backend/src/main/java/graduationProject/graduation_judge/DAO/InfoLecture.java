@@ -1,17 +1,12 @@
 package graduationProject.graduation_judge.DAO;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Entity
-@SuperBuilder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 @Table(name = "info_lecture")
 public class InfoLecture {
 
@@ -31,6 +26,14 @@ public class InfoLecture {
     @Column(name = "info_class_number", length = 200, nullable = false)
     private String classNumber;
 
+    @Builder
+    public InfoLecture(String lectureNick, String curriculum, String classArea, int classCredit, String classNumber){
+        this.lectureNick = lectureNick;
+        this.curriculum = curriculum;
+        this.classArea = classArea;
+        this.classCredit = classCredit;
+        this.classNumber = classNumber;
+    }
 
 //    @OneToOne
 //    @JoinColumn(name = "class_number")

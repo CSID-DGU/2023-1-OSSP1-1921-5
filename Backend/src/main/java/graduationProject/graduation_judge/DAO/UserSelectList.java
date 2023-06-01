@@ -2,16 +2,11 @@ package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.UserSelectListPK;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @IdClass(UserSelectListPK.class)
 @Table(name = "user_select_list")
@@ -45,5 +40,13 @@ public class UserSelectList {
 
     @Column(name = "class_score", length = 200, nullable = false)
     private String score;
+
+    @Builder
+    public UserSelectList(String memberId, String classNum, String termNum, String score){
+        this.memberId = memberId;
+        this.classNum = classNum;
+        this.termNum = termNum;
+        this.score = score;
+    }
 
 }

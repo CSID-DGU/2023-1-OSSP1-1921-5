@@ -2,16 +2,13 @@ package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.ScoreStatPK;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @IdClass(ScoreStatPK.class)
 @Table(name = "score_stat")
@@ -20,9 +17,6 @@ public class ScoreStat {
     @Id
     @Column(name = "user_id", length = 200, nullable = false, insertable=false, updatable=false)
     private String memberId;
-
-    @Column(name = "user_id", length = 200, nullable = false, insertable=false, updatable=false)
-    private String UID;
 
     @Id
     @Column(name = "semester", nullable = false)
@@ -42,5 +36,13 @@ public class ScoreStat {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserInfo userInfo;
+
+    @Builder
+    public ScoreStat(String memberId, int semester, String typeId, String grade, String credit){
+        this.memberId = memberId;
+        this.semester = semester;
+        this.typeId = typeId;
+        this.grade = grade;
+    }
 
 }

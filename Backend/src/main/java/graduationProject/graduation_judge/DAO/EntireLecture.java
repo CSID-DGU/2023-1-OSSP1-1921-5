@@ -2,21 +2,16 @@ package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.EntireLecturePK;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.mapping.ToOne;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@SuperBuilder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 @IdClass(EntireLecturePK.class)
 @Table(name = "entire_lecture")
 public class EntireLecture {
@@ -51,4 +46,10 @@ public class EntireLecture {
     @OneToMany(mappedBy = "us_entireLecture")
     private List<UserSelectList> userSelectList;
 
+    @Builder
+    public EntireLecture(String term_number, String class_number, String professorName){
+        this.term_number =term_number;
+        this.class_number = class_number;
+        this.professorName = professorName;
+    }
 }

@@ -40,7 +40,4 @@ public interface GradeService {
 
     //특정 member의 총 이수과목 수를 계산
     int getCompletedCourseCount(String memberId);
-
-    // GradeDTO to Entity
-    UserSelectList toEntity(GradeDTO gradeDTO);
 }

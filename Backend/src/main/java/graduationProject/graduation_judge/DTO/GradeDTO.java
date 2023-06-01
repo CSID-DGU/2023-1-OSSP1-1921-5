@@ -14,4 +14,13 @@ public class GradeDTO {
     private String termNum;
     private String classNum;
     private String score;
+
+    public UserSelectList toEntity(){
+        return UserSelectList.builder()
+                .memberId(memberId)
+                .termNum(termNum)
+                .classNum(classNum)
+                .score(score)
+                .build();
+    }
 }

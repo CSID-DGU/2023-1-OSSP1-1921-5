@@ -2,16 +2,12 @@ package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.EnglishLecturePK;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Entity
-@SuperBuilder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 @IdClass(EnglishLecturePK.class)
 @Table(name = "english_lecture")
 public class EnglishLecture {
@@ -34,4 +30,10 @@ public class EnglishLecture {
         @JoinColumn(name = "english_class_number")
     })
     private EntireLecture eng_entireLecture;
+
+    @Builder
+    public EnglishLecture(String termNum, String classNum){
+        this.termNum =termNum;
+        this.classNum =classNum;
+    }
 }

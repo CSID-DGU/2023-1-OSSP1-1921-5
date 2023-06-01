@@ -2,17 +2,13 @@ package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.DesignLecturePK;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 
-@Entity
-@SuperBuilder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 @IdClass(DesignLecturePK.class)
 @Table(name = "design_lecture")
 public class DesignLecture {
@@ -34,4 +30,11 @@ public class DesignLecture {
             @JoinColumn(name = "design_class_number", referencedColumnName = "classNumber")
     })
     private EntireLecture des_entireLecture;
+
+    @Builder
+    public DesignLecture(String termNum, String classNum, Float designCredit){
+        this.termNum =termNum;
+        this.classNum = classNum;
+        this.designCredit = designCredit;
+    }
 }

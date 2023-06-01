@@ -24,7 +24,7 @@ public class GradeServiceImpl implements GradeService{
     @Override
     public void inputGrade(GradeDTO grade) {
         // 성적 입력
-        gradeRepository.save(toEntity(grade));
+        gradeRepository.save(grade.toEntity());
     }
 
     @Override
@@ -76,7 +76,7 @@ public class GradeServiceImpl implements GradeService{
         String grade;
         for (UserSelectList userSelectList : userSelectLists){
             grade = userSelectList.getScore();
-            credit = userSelectList.getEntireLecture().getInfoLecture().getClassCredit();
+            credit = userSelectList.getUs_entireLecture().getInfoLectures().getClassCredit();
             totalCredit+=credit;
             if (grade.equals("A+")) {
                 totalScore += 4.5f * credit;
@@ -118,7 +118,7 @@ public class GradeServiceImpl implements GradeService{
         List<UserSelectList> userSelectLists = gradeRepository.findAllByMemberId(memberId);
         int totalClassCredit = 0;
         for(UserSelectList selectList: userSelectLists){
-            InfoLecture infoLecture = selectList.getEntireLecture().getInfoLecture();;
+            InfoLecture infoLecture = selectList.getUs_entireLecture().getInfoLectures();
             totalClassCredit += infoLecture.getClassCredit();
         }
         //이름으로 조회해서 update
@@ -134,9 +134,4 @@ public class GradeServiceImpl implements GradeService{
         return gradeRepository.countAllByMemberId(memberId);
     }
 
-    @Override
-    public UserSelectList toEntity(GradeDTO gradeDTO) {
-        // GradeDTO to Entity
-        return new UserSelectList(gradeDTO.getMemberId(), gradeDTO.getTermNum(), gradeDTO.getClassNum(), gradeDTO.getScore());
-    }
 }
