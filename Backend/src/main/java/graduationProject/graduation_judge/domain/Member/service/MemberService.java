@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public interface MemberService {
     int emailCheck(String id); //이메일확인
     void register(UserInfoDTO userInfoDTO);  // 회원 가입
-    void login(String id, String pincode);    //로그인
+    String login(String id, String pincode);    //로그인
 
     UserInfoDTO getMemberById(String id);  // 회원 조회
 

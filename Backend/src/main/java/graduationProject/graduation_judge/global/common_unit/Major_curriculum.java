@@ -1,6 +1,6 @@
 package graduationProject.graduation_judge.global.common_unit;
 
 public enum Major_curriculum{
-    ADVANCED,
-    BASIC
+    심화,
+    일반
 }

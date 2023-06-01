@@ -28,10 +28,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public int emailCheck(String id) {
-        if(memberRepository.findUserInfoByUserid(id) == null){
-            return 0;
+        if(memberRepository.findUserInfoByUserid(id) != null){
+            return 1;//email중복일 경우
         }
-        else return 1; //email 중복일 경우
+        else return 0;
     }
 
     @Override
@@ -45,16 +45,18 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void login(String id, String pincode){
+    public String login(String id, String pincode){
         UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
-        UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUserid(), userInfo.getPincode(), userInfo.getSemester(),
-                userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(),userInfo.getEnglishGrade());
-        if (userInfoDTO == null){
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+
+        if (userInfo == null){
+            return "undefined";
         }
-        else if (userInfoDTO.getPincode() != pincode){
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        else if (userInfo.getPincode() != pincode){
+            return null;
+        } else if (userInfo.getUserid() == id && userInfo.getPincode() == pincode) {
+            return id;
         }
+        return "dd";
     }
 
     @Override

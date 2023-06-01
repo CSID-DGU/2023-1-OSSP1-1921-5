@@ -32,7 +32,7 @@ public class MemberController {
     @Autowired
     private StatsService statsService;
 
-    @PostMapping("emailcheck")
+    @PostMapping("/emailcheck")
     public int emailCheck(@RequestBody String email){
         return memberService.emailCheck(email);
     }
@@ -41,7 +41,7 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody  UserInfoDTO userInfoDTO) {
         try {
-            memberService.register(userInfoDTO);
+            this.memberService.register(userInfoDTO);
 
             return ResponseEntity.ok(userInfoDTO); //userInfoDTO객체를 JSON형태로 반환
         } catch (Exception e) {
@@ -53,9 +53,9 @@ public class MemberController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody Map<String, String > request) {
         try {
-            String id = request.get("id");
-            String pincode = request.get("pincode");
-            memberService.login(id, pincode);
+            String email = request.get("email");
+            String pw = request.get("pw");
+            String id = memberService.login(email, pw);
             return ResponseEntity.ok().body(id); //id를 JSON형태로 반환
 
             /*return ResponseEntity.ok(new HashMap<String , String >(){{
