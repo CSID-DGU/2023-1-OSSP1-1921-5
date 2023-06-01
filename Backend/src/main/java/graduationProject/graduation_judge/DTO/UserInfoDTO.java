@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class UserInfoDTO {
-    private String user_id;
+    private String userid;
     private String pincode;
     private int semester;
     private int student_number;
@@ -25,7 +25,7 @@ public class UserInfoDTO {
 
     public UserInfo toEntity(){
         return UserInfo.builder()
-                .user_id(user_id)
+                .userid(userid)
                 .pincode(pincode)
                 .semester(semester)
                 .student_number(student_number)

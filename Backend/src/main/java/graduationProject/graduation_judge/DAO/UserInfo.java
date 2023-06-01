@@ -15,7 +15,7 @@ public class UserInfo {
 
     @Id
     @Column(name = "user_id", length = 200, nullable = false)
-    private String user_id;
+    private String userid;
 
     @Column(name = "pincode", length = 200, nullable = false)
     private String pincode;
@@ -38,7 +38,7 @@ public class UserInfo {
     private English_level englishGrade;
 
     //1:M UserSelectList
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "userid")
     private List<UserSelectList> userSelectList;
 
     //1:M ScoreStat
@@ -46,11 +46,11 @@ public class UserInfo {
     private List<ScoreStat> scoreStats;
 
     @Builder
-    public UserInfo(String user_id, String pincode,
+    public UserInfo(String userid, String pincode,
                     int semester, int student_number,
                     Major_curriculum course,
                     int toeicScore, English_level englishGrade){
-        this.user_id = user_id;
+        this.userid = userid;
         this.pincode = pincode;
         this.semester = semester;
         this.student_number = student_number;

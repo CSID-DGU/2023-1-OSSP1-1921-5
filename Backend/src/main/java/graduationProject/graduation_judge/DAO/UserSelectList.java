@@ -35,8 +35,8 @@ public class UserSelectList {
 
     //M:1 UserInfo
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserInfo user_id;
+    @JoinColumn(name = "userid")
+    private UserInfo userid;
 
     @Column(name = "class_score", length = 200, nullable = false)
     private String score;
