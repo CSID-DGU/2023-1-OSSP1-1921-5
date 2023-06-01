@@ -15,5 +15,8 @@ public interface GradeRepository extends JpaRepository<UserSelectList, UserSelec
     List<String> findDistinctTermNumByMemberId(String memberId);
     int countAllByMemberId(String memberId);
     @EntityGraph(attributePaths = { "entireLecture.infoLecture" })
-    List<UserSelectList> findAllByMemberId(String userId);
+    List<UserSelectList> findAllByMemberId(String memberId);
+
+    @EntityGraph(attributePaths = { "entireLecture.infoLecture" })
+    List<UserSelectList> findAllByMemberIdAndTermNum(String memberId, String termNum);
 }

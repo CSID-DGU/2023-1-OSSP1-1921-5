@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/stats")
@@ -43,7 +44,7 @@ public class StatsController {
 
 
         try{
-            credit = gradeService.getTotalClassCredit(email);
+            credit = gradeService.getTotalClassCredit(email, null);
             //count = gradeService.getCompletedCourseCount(email);
             classScore = gradeService.getEntireAllScore(email);
             semester = memberService.getMemberById(email).getSemester();
@@ -67,8 +68,19 @@ public class StatsController {
     // '/stats'
     // user의 학기마다 이수학점, 이수과목 수, 전체 평점, 전공이수학점, 전공 이수과목 수, 전공 평점 json 반환
     @PostMapping("/stats")
-    public ResponseEntity<?> getUserStatBySemester(@RequestBody Map<String, String> request){
+    public ResponseEntity<?> getUserStatBySemester(@RequestBody UserTermList userTermList){ // 리스트로 받을지 고민
         try{
+            String email = userTermList.getEmail();
+            List<String> TNumList= userTermList.getTNumList();
+            int semester = userTermList.getSemester(); // 이수학기 수
+            SemesterInfo semesterInfo = new SemesterInfo(); // 반환 data
+
+            for(int sem=0; sem<semester; sem++){
+                gradeService.getTotalClassCredit(email, Optional.of(TNumList.get(sem))); // 특정 학기 총 이수학점
+
+            }
+
+
             return null;
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

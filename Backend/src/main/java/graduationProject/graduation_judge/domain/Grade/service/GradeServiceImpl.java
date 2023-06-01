@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GradeServiceImpl implements GradeService{
@@ -114,10 +115,18 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public int getTotalClassCredit(String memberId) {
+    public int getTotalClassCredit(String memberId, Optional<String> termNum) {
         //특정 member의 총 이수학점을 계산
-        List<UserSelectList> userSelectLists = gradeRepository.findAllByMemberId(memberId);
+        List<UserSelectList> userSelectLists = new ArrayList<UserSelectList>();
         int totalClassCredit = 0;
+
+        if (termNum.isPresent()){ // 특정 이수 학기의 총 이수학점
+            userSelectLists = gradeRepository.findAllByMemberIdAndTermNum(memberId, termNum.get());
+        }
+        else{ // 전체 이수 학기의 총 이수학점
+            userSelectLists = gradeRepository.findAllByMemberId(memberId);
+        }
+
         for(UserSelectList selectList: userSelectLists){
             InfoLecture infoLecture = selectList.getUs_entireLecture().getInfoLectures();
             totalClassCredit += infoLecture.getClassCredit();

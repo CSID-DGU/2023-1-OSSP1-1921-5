@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface GradeService {
@@ -36,8 +37,8 @@ public interface GradeService {
     //전체 member의 전공 성적 평점 계산
     float getEntireMajorScore();
 
-    //특정 member의 총 이수학점을 계산
-    int getTotalClassCredit(String memberId);
+    //특정 member의 총 이수학점을 계산 (전체 or 학기마다)
+    int getTotalClassCredit(String memberId, Optional<String> termNum);
 
     //특정 member의 학기 리스트 반환
     List<String> getTermList(String memberId);
