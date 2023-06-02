@@ -34,7 +34,8 @@ public class MemberController {
     private StatsService statsService;
 
     @PostMapping("/emailcheck")
-    public HashMap<String, Integer> emailCheck(@RequestBody String email){
+    public HashMap<String, Integer> emailCheck(@RequestBody Map<String ,String > request){
+        String email = request.get("email");
         HashMap<String, Integer> map = new HashMap<>();
         map.put("result", memberService.emailCheck(email));
         return map;
