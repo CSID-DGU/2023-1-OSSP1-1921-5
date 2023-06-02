@@ -61,20 +61,20 @@ const ConversionTable = () => {
                         <TableBody>
                           {rows.map((row, idx) => (
                             <TableRow
-                              key={row.name}
+                              key={idx}
                               sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
                             >
-                              <TableCell key={idx} align="center" component="th" scope="row" sx={{backgroundColor:'#F2F2F2'}}>
-                                {row.toeic}
-                              </TableCell>
-                              <TableCell key={idx} align="center">{row.toeflCBT}</TableCell>
-                              <TableCell key={idx} align="center">{row.toeflIBT}</TableCell>
-                              <TableCell key={idx} align="center">{row.newTeps}</TableCell>
-                              <TableCell key={idx} align="center">{row.toeicSpeaking}</TableCell>
-                              <TableCell key={idx} align="center">{row.opic}</TableCell>
-                              <TableCell key={idx} align="center">{row.esol}</TableCell>
-                              <TableCell key={idx} align="center">{row.ielts}</TableCell>
-                              <TableCell key={idx} align="center">{row.gtelp}</TableCell>
+                                <TableCell key={`toeic_${idx}`} align="center" component="th" scope="row" sx={{backgroundColor:'#F2F2F2'}}>
+                                    {row.toeic}
+                                </TableCell>
+                                <TableCell key={`toeflCBT_${idx}`} align="center">{row.toeflCBT}</TableCell>
+                                <TableCell key={`toefLBT_${idx}`} align="center">{row.toeflIBT}</TableCell>
+                                <TableCell key={`newTeps_${idx}`} align="center">{row.newTeps}</TableCell>
+                                <TableCell key={`toeicSpeaking_${idx}`} align="center">{row.toeicSpeaking}</TableCell>
+                                <TableCell key={`opic_${idx}`} align="center">{row.opic}</TableCell>
+                                <TableCell key={`esol_${idx}`} align="center">{row.esol}</TableCell>
+                                <TableCell key={`ielts_${idx}`} align="center">{row.ielts}</TableCell>
+                                <TableCell key={`gtelp_${idx}`} align="center">{row.gtelp}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
