@@ -36,7 +36,7 @@ const SignIn = () => {
             .then((json) => {
                 console.log('json', json)
 
-                if (json.id === undefined) {
+                if (json.id === "undefined") {
                     // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
                     console.log('없는 id')
                     alert('없는 ID입니다.')
