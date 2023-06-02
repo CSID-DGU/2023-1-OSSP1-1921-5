@@ -121,6 +121,7 @@ const SignUp = () => {
             alert('이메일 중복확인을 하세요.')
         }
         else {
+            console.log(data)
             fetch("/signup", {
                 method: 'post',
                 headers: {
@@ -130,14 +131,14 @@ const SignUp = () => {
             })
                 .then(res => console.log(res))
             alert("회원가입 성공!")
-            //window.location.replace('/')
+            window.location.replace('/')
         }
     }
 
     const YEAR = [2018, 2019, 2020, 2021, 2022];
     const SEMESTER = [8, 7, 6, 5, 4, 3, 2, 1];
     const COURSE = ["심화", "일반"];
-    const ENGLISH = [0, 1, 2, 3, 4];
+    const ENGLISH = ["S0", "S1", "S2", "S3", "S4"];
     const SCORE_TOEIC = [550, 600, 620, 650, 680, 700, 750, 800];
 
     return (
@@ -295,7 +296,7 @@ const SignUp = () => {
                         >
                             {
                                 ENGLISH.map((english, idx) => {
-                                    return <MenuItem key={idx} value={english}>S{english}</MenuItem>
+                                    return <MenuItem key={idx} value={english}>{english}</MenuItem>
                                 })
                             }
                         </Select>
