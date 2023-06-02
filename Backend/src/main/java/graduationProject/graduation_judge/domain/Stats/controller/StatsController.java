@@ -6,7 +6,6 @@ import graduationProject.graduation_judge.DTO.UserTermList;
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 import graduationProject.graduation_judge.domain.Stats.service.StatsService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +43,8 @@ public class StatsController {
 
 
         try{
-            credit = gradeService.getTotalClassCredit(email, null);
+            credit = gradeService.getTotalClassCredit(email, Optional.ofNullable(null));
+
             //count = gradeService.getCompletedCourseCount(email);
             classScore = gradeService.getEntireAllScore(email);
             semester = memberService.getMemberById(email).getSemester();
