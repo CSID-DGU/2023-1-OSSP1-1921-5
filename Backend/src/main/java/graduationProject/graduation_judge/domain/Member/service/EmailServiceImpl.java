@@ -33,10 +33,13 @@ public class EmailServiceImpl implements EmailService{
     @Override
     public MailDTO getMailMemberById(String id) {
         // MailDTO 조회 로직 구현
-        if(mailRepository.findById(id) == null){
+        SecurityCodeOfUserMail securityCodeOfUserMail = mailRepository.findSecurityCodeOfUserMailById(id);
+        if(securityCodeOfUserMail == null){
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         }
-        return mailRepository.findById(id);
+        MailDTO mailDTO = new MailDTO(securityCodeOfUserMail.getId(),
+                securityCodeOfUserMail.getSecurityCode());
+        return mailDTO;
     }
 
     @Override

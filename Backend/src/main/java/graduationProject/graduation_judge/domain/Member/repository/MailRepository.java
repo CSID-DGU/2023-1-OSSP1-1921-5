@@ -5,5 +5,5 @@ import graduationProject.graduation_judge.DTO.MailDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MailRepository extends JpaRepository<SecurityCodeOfUserMail, Long> {
-    MailDTO findById(String id);
+    SecurityCodeOfUserMail findSecurityCodeOfUserMailById(String id);
 }

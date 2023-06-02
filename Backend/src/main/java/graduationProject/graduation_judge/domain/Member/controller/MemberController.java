@@ -1,13 +1,7 @@
 package graduationProject.graduation_judge.domain.Member.controller;
 
-import graduationProject.graduation_judge.DTO.MailDTO;
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
-
-import graduationProject.graduation_judge.domain.Grade.service.GradeService;
-import graduationProject.graduation_judge.domain.Member.service.EmailService;
-import graduationProject.graduation_judge.domain.Stats.service.StatsService;
-
 
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
@@ -15,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,13 +20,7 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private GradeService gradeService;
-    @Autowired
-    private StatsService statsService;
-
+    //회원가입 시 중복아이디 확인000
     @PostMapping("/emailcheck")
     public HashMap<String, Integer> emailCheck(@RequestBody Map<String ,String > request){
         String email = request.get("email");
@@ -42,7 +29,7 @@ public class MemberController {
         return map;
     }
 
-    //회원 가입
+    //회원 가입000
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody  Map<String, String > request) {
         try {
@@ -53,24 +40,15 @@ public class MemberController {
                     Integer.parseInt(request.get("score")),
                     English_level.valueOf(request.get("english")));
             memberService.register(userInfoDTO);
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("email", request.get("email"));
-            map.put("pw", request.get("pw"));
-            map.put("semester",request.get("semester"));
-            map.put("year",request.get("year"));
-            map.put("course", request.get("course"));
-            map.put("score", request.get("score"));
-            map.put("english", request.get("english"));
             return ResponseEntity.ok(userInfoDTO);
             //userInfoDTO객체를 JSON형태로 반환
         } catch (Exception e) {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("error", "error");
-            return ResponseEntity.badRequest().body(e.getMessage()); //예외 메시지 반환
+            return ResponseEntity.badRequest().body(e.getMessage());
+            //예외 메시지 반환
         }
     }
 
-    //로그인
+    //로그인000
     @PostMapping("/signin")
     public HashMap<String, Object> signin(@RequestBody Map<String, String > request) {
         try {
@@ -83,23 +61,33 @@ public class MemberController {
 
         }catch (Exception e){
             HashMap<String, Object> map = new HashMap<>();
-            map.put("error", "error");
+            map.put("error", e);
             return map;
         }
     }
 
-    //회원 정보 조회
+    //회원 정보 조회000
     @PostMapping("/mypage")
-    public ResponseEntity<?> getUserById(@RequestBody String id) {
+    public HashMap<String,Object> getUserById(@RequestBody Map<String,String> request) {
         try {
+            String id = request.get("email");
+
             UserInfoDTO userInfoDTO = memberService.getMemberById(id);
-            return ResponseEntity.ok(userInfoDTO); //userInfo객체를 JSON형태로 반환
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("Semester", String.valueOf(userInfoDTO.getSemester()));
+            map.put("StudentNumber", String.valueOf(userInfoDTO.getStudent_number()));
+            map.put("Course", String.valueOf(userInfoDTO.getCourse()));
+            map.put("EnglishGrade", String.valueOf(userInfoDTO.getEnglishGrade()));
+            map.put("Score", String.valueOf(userInfoDTO.getToeicScore()));
+            return map;
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage()); //예외 메시지 반환
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("error", e);
+            return map;
         }
     }
 
-    //회원 정보 수정
+    //회원 정보 수정000
     @PostMapping("/updateuserinfo")
     public ResponseEntity<?> updateUser(@RequestBody Map<String, String > request) {
         String id = request.get("email");
@@ -109,7 +97,7 @@ public class MemberController {
         English_level englishGrade = English_level.valueOf(request.get("english"));
         int toeicScore = Integer.parseInt(request.get("score"));
         try {
-            memberService.updateMember(id, studentNumber, semester, course,
+            memberService.updateMember(id, semester, studentNumber, course,
                     toeicScore, englishGrade); //id, pincode빼고 수정
             UserInfoDTO userInfoDTO = memberService.getMemberById(id);
             return ResponseEntity.ok(userInfoDTO);
@@ -120,17 +108,11 @@ public class MemberController {
 
 
     //회원 정보 삭제
-    @PostMapping("/deleteuser")//userinfo, scorestat, securitycodeofusermail, userselectlist다삭제해야함
-    public ResponseEntity<?> deleteUser(@RequestBody String id) {
+    @PostMapping("/deletepf")
+    public ResponseEntity<?> deleteUser(@RequestBody HashMap<String,String> request) {
+        String id = request.get("email");
         try {
-            UserInfoDTO userInfoDTO = memberService.getMemberById(id);
-            MailDTO mailDTO = emailService.getMailMemberById(id);
-
-            memberService.deleteMember(userInfoDTO); //userinfo삭제 --> id로 삭제
-            emailService.deleteMailDTO(mailDTO); //securitycodeofusermail삭제
-            gradeService.deleteGradeByMember(id); //userselectlist삭제
-            statsService.deleteStatByMemberId(id); //scorestat삭제
-
+            memberService.deleteMember(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -138,31 +120,35 @@ public class MemberController {
     }
 
 
-
-
-    //비밀번호 찾기
+    //비밀번호 변경000
     @PostMapping("/changepw")
-    public ResponseEntity<String> findPassword(@RequestBody Map<String, String > request) {
+    public ResponseEntity<String> changePassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
-        String inputSecurityCode = request.get("inputSecurityCode");
-        String newPassword = request.get("newPassword");
+        String newpw = request.get("pw");
         try {
-            memberService.findPassword(email, inputSecurityCode, newPassword);
-            //보안코드 확인 후 비밀번호 변경
-            return ResponseEntity.ok("비밀번호 변경이 완료되었습니다.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            memberService.changePassword(email, newpw);
+            return ResponseEntity.ok("비밀번호 변경 완료");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PostMapping("/sendemail")
-    public ResponseEntity<String> sendSecurityCode(@RequestBody String id) {
+    //비밀번호 변경시 이메일 확인000
+    @PostMapping("/isthereemail")
+    public HashMap<String, Integer> isThereEmail(@RequestBody HashMap<String, String> request) {
+        String email = request.get("email");
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("result", memberService.emailCheck(email));
+        return map;
+    }
 
+    //email로 보안코드 전송
+    @PostMapping("/sendemail")
+    public ResponseEntity<Object> sendSecurityCode(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
         try {
-            memberService.sendSecurityCodeToEmail(id);
-            return ResponseEntity.ok("이메일로 보안 코드가 전송되었습니다.");
+            String number = memberService.sendSecurityCodeToEmail(email);
+            return ResponseEntity.ok(Integer.parseInt(number));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (RuntimeException e) {

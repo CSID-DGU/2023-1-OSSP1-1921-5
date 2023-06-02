@@ -18,11 +18,11 @@ public interface MemberService {
                       Major_curriculum course, int toeicScore,
                       English_level englishGrade); // 회원 수정
 
-    void findPassword(String id, String inputSecurityCode, String newPassword); //비밀번호 찾기
-
-    void deleteMember(UserInfoDTO userInfoDTO); // 회원 탈퇴(삭제)
+    /*void findPassword(String id, String inputSecurityCode, String newPassword); //비밀번호 찾기*/
+    void changePassword(String id, String pincode);//비밀번호 변경
+    void deleteMember(String id); // 회원 탈퇴(삭제)
 
     //보안 코드를 이메일로 전송하는 메서드
-    void sendSecurityCodeToEmail(String id);
+    String sendSecurityCodeToEmail(String id);
 
 }

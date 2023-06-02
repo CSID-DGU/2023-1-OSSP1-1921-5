@@ -1,12 +1,9 @@
 package graduationProject.graduation_judge.DTO;
 
 import graduationProject.graduation_judge.DAO.SecurityCodeOfUserMail;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class MailDTO {
     private String address;
