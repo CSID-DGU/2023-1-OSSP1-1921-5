@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.DTO.Lecture;
 
+import graduationProject.graduation_judge.DAO.InfoLecture;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,4 +12,14 @@ public class InfoLectureDTO {
     private String classArea;
     private  int classCredit;
     private String classNumber;
+
+    public InfoLecture toEntity() {
+        return InfoLecture.builder()
+                .lectureNick(lectureNick)
+                .curriculum(curriculum)
+                .classArea(classArea)
+                .classCredit(classCredit)
+                .classNumber(classNumber)
+                .build();
+    }
 }
