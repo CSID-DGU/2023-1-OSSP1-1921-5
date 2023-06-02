@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MailRepository extends JpaRepository<SecurityCodeOfUserMail, Long> {
     SecurityCodeOfUserMail findSecurityCodeOfUserMailById(String id);
+    void deleteAllById(String id);
 }
