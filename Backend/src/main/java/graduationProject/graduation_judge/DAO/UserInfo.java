@@ -34,7 +34,7 @@ public class UserInfo {
     private int toeicScore;
 
     @Column(name = "english_grade", length = 200, nullable = false, columnDefinition = "tinyint")
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private English_level englishGrade;
 
     //1:M UserSelectList

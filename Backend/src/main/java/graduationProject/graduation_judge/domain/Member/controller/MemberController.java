@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -33,38 +34,55 @@ public class MemberController {
     private StatsService statsService;
 
     @PostMapping("/emailcheck")
-    public int emailCheck(@RequestBody String email){
-        return memberService.emailCheck(email);
+    public HashMap<String, Integer> emailCheck(@RequestBody String email){
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("result", memberService.emailCheck(email));
+        return map;
     }
 
     //회원 가입
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody  UserInfoDTO userInfoDTO) {
+    public HashMap<String, Object> signup(@RequestBody  Map<String, String > request) {
         try {
-            this.memberService.register(userInfoDTO);
-
-            return ResponseEntity.ok(userInfoDTO); //userInfoDTO객체를 JSON형태로 반환
+            UserInfoDTO userInfoDTO = new UserInfoDTO(request.get("email"),
+                    request.get("pw"), Integer.parseInt(request.get("semester")),
+                    Integer.parseInt(request.get("year")),
+                    Major_curriculum.valueOf(request.get("course")),
+                    Integer.parseInt(request.get("score")),
+                    English_level.valueOf(request.get("english")));
+            memberService.register(userInfoDTO);
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("email", request.get("email"));
+            map.put("pw", request.get("pw"));
+            map.put("semester",request.get("semester"));
+            map.put("year",request.get("year"));
+            map.put("course", request.get("course"));
+            map.put("score", request.get("score"));
+            map.put("english", request.get("english"));
+            return map;
+            //userInfoDTO객체를 JSON형태로 반환
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage()); //예외 메시지 반환
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("error", "error");
+            return map; //예외 메시지 반환
         }
     }
 
     //로그인
     @PostMapping("/signin")
-    public ResponseEntity<?> signin(@RequestBody Map<String, String > request) {
+    public HashMap<String, Object> signin(@RequestBody Map<String, String > request) {
         try {
             String email = request.get("email");
             String pw = request.get("pw");
             String id = memberService.login(email, pw);
-            return ResponseEntity.ok().body(id); //id를 JSON형태로 반환
-
-            /*return ResponseEntity.ok(new HashMap<String , String >(){{
-                put("id", userInfoDTO.getId());
-                put("pincode", userInfoDTO.getPincode());
-            }}); //id와 pincode만을 포함하는 Map 객체를 JSON 형태로 반환*/
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("id", id);
+            return map; //id를 JSON형태로 반환
 
         }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("error", "error");
+            return map;
         }
     }
 

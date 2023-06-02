@@ -28,10 +28,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public int emailCheck(String id) {
-        if(memberRepository.findUserInfoByUserid(id) != null){
+        UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
+        if(userInfo!=null){
             return 1;//email중복일 경우
         }
-        else return 0;
+        else if(userInfo==null){
+            return 0;
+        }
+        return 2;
     }
 
     @Override
@@ -51,10 +55,13 @@ public class MemberServiceImpl implements MemberService {
         if (userInfo == null){
             return "undefined";
         }
-        else if (userInfo.getPincode() != pincode){
+        else if (userInfo.getPincode().equals(pincode)){
+            if(userInfo.getUserid().equals(id)){
+                return id;
+            }
+        }
+        else{
             return null;
-        } else if (userInfo.getUserid() == id && userInfo.getPincode() == pincode) {
-            return id;
         }
         return "dd";
     }
