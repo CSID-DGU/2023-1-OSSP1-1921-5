@@ -21,6 +21,4 @@ public interface DesignLectureService {
     //전체 테이블 삭제
     void deleteDesignLectureTable();
 
-    //DesignLectureDTO to Entity
-    DesignLecture toEntity(DesignLectureDTO designLectureDTO);
 }

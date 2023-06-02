@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InfoLectureRepository extends JpaRepository<InfoLecture, String> {
-
+    void deleteAllByClassNumber(String ClassNumber);
 }

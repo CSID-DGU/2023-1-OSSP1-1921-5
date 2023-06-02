@@ -17,12 +17,11 @@ import java.util.Random;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-    private final EmailService emailService;
-    private final MemberRepository memberRepository;
-    private final MailRepository mailRepository;
-    private final GradeRepository gradeRepository;
-
-    private final ScoreStatRepository scoreStatRepository;
+    private EmailService emailService;
+    private MemberRepository memberRepository;
+    private MailRepository mailRepository;
+    private GradeRepository gradeRepository;
+    private ScoreStatRepository scoreStatRepository;
 
     @Autowired
     public MemberServiceImpl(MemberRepository memberRepository, EmailService emailService, MailRepository mailRepository, GradeRepository gradeRepository, ScoreStatRepository scoreStatRepository) {

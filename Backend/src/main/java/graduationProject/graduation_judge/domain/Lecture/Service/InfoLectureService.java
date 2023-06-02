@@ -32,7 +32,5 @@ public interface InfoLectureService {
     //전체 테이블 삭제
     void deleteInfoLectureTable();
 
-    //InfoLectureDTO to Entity
-    InfoLecture toEntity(InfoLectureDTO infoLectureDTO);
     //...
 }

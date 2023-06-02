@@ -9,6 +9,9 @@ public interface EnglishLectureService {
     //infolecture에 넣은 후에 entirelecture에 넣은 후에 Designlecture에 넣어야함
     //IsEnglish == 1 이면 (학기), (학수번호)넣기
 
+    //영어강의인지 확인
+    boolean isEnglishLecture(String isEnglish);
+
     //EnglishLecture table에 추가
     void inputEnglishLecture(EnglishLectureDTO englishLectureDTO);
 
@@ -21,6 +24,4 @@ public interface EnglishLectureService {
     //전체 테이블 삭제
     void deleteEnglishLectureTable();
 
-    //EnglishLectureDTO to Entity
-    EnglishLecture toEntity(EnglishLectureDTO englishLectureDTO);
 }

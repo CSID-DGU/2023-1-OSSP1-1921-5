@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EnglishLectureRepository extends JpaRepository<EnglishLecture, EnglishLecturePK> {
-
+    void deleteAllByTermNumAndClassNum(String termNumber, String classNumber);
 }

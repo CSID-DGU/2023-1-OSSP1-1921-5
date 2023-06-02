@@ -14,8 +14,8 @@ public class EntireLectureDTO {
 
     public EntireLecture toEntity() {
         return EntireLecture.builder()
-                .term_number(termNum)
-                .class_number(classNum)
+                .termNumber(termNum)
+                .classNumber(classNum)
                 .professorName(professorName)
                 .build();
     }

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EntireLectureRepository extends JpaRepository<EntireLecture, EntireLecturePK> {
-    //강의정보를 받아서 저장
+    void deleteAllByTermNumberAndClassNumber(String TermNumber, String ClassNumber);
 }

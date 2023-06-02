@@ -17,11 +17,11 @@ import java.util.List;
 public class EntireLecture {
     @Id
     @Column(name = "term_number", length = 200, nullable = false)
-    private String term_number;
+    private String termNumber;
 
     @Id
     @Column(name = "class_number", length = 200, nullable = false)
-    private String class_number;
+    private String classNumber;
 
     @Column(name = "professor_name")
     private String professorName;
@@ -47,9 +47,9 @@ public class EntireLecture {
     private List<UserSelectList> userSelectList;
 
     @Builder
-    public EntireLecture(String term_number, String class_number, String professorName){
-        this.term_number =term_number;
-        this.class_number = class_number;
+    public EntireLecture(String termNumber, String classNumber, String professorName){
+        this.termNumber =termNumber;
+        this.classNumber = classNumber;
         this.professorName = professorName;
     }
 }

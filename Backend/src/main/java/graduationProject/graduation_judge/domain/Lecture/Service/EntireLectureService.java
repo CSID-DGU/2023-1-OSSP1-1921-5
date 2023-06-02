@@ -21,6 +21,4 @@ public interface EntireLectureService {
     //전체 테이블 삭제
     void deleteEntireLectureTable();
 
-    //EntireLectureDTO to Entity
-    EntireLecture toEntity(EntireLectureDTO entireLectureDTO);
 }
