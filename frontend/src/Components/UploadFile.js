@@ -58,7 +58,7 @@ const UploadFile = () => {
           userData["ClassScore"] = data[i]["등급"];
           if (data[i]["학기"] === "여름학기") {
             userData["TNumber"] = data[i]["년도"] + "_ss";
-          } else if (data[i]["학기"] == "겨울학기") {
+          } else if (data[i]["학기"] === "겨울학기") {
             userData["TNumber"] = data[i]["년도"] + "_ws";
           } else {
             userData["TNumber"] = data[i]["년도"] + "_" + data[i]["학기"][0];
