@@ -73,7 +73,7 @@ class MyPage extends Component {
             body: JSON.stringify(data)
         })
         alert('변경이 완료되었습니다.')
-        document.location.href = '/'
+        document.location.href = '/mypage'
     }
 
     render() {
@@ -82,7 +82,7 @@ class MyPage extends Component {
         const YEAR = [2018, 2019, 2020, 2021, 2022];
         const REGISTER = [8, 7, 6, 5, 4, 3, 2, 1];
         const COURSE = ["심화", "일반"];
-        const ENGLISH = [0, 1, 2, 3, 4];
+        const ENGLISH = ["S0", "S1", "S2", "S3", "S4"];
         const SCORE_TOEIC = [550, 600, 620, 650, 680, 700, 750, 800];
 
         return (
@@ -177,7 +177,7 @@ class MyPage extends Component {
                             >
                                 {
                                     ENGLISH.map((english, idx) => {
-                                        return <MenuItem key={idx} value={english}>S{english}</MenuItem>
+                                        return <MenuItem key={idx} value={english}>{english}</MenuItem>
                                     })
                                 }
                             </Select>
