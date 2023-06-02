@@ -78,7 +78,7 @@ public class GradeServiceImpl implements GradeService{
         String grade;
         for (UserSelectList userSelectList : userSelectLists){
             grade = userSelectList.getScore();
-            credit = userSelectList.getUs_entireLecture().getInfoLectures().getClassCredit();
+            credit = userSelectList.getEntireLecture().getInfoLecture().getClassCredit();
             totalCredit+=credit;
             if (grade.equals("A+")) {
                 totalScore += 4.5f * credit;
@@ -115,20 +115,20 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public int getTotalClassCredit(String memberId, Optional<String> termNum) {
+    public int getTotalClassCredit(String memberId, String termNum) {
         //특정 member의 총 이수학점을 계산
-        List<UserSelectList> userSelectLists = new ArrayList<UserSelectList>();
+        List<UserSelectList> userSelectLists;
         int totalClassCredit = 0;
 
-        if (termNum.isPresent()){ // 특정 이수 학기의 총 이수학점
-            userSelectLists = gradeRepository.findAllByMemberIdAndTermNum(memberId, termNum.get());
+        if (termNum == null){ // 특정 이수 학기의 총 이수학점
+            userSelectLists = gradeRepository.findAllByMemberId(memberId);
         }
         else{ // 전체 이수 학기의 총 이수학점
-            userSelectLists = gradeRepository.findAllByMemberId(memberId);
+            userSelectLists = gradeRepository.findAllByMemberIdAndTermNum(memberId, termNum);
         }
 
         for(UserSelectList selectList: userSelectLists){
-            InfoLecture infoLecture = selectList.getUs_entireLecture().getInfoLectures();
+            InfoLecture infoLecture = selectList.getEntireLecture().getInfoLecture();
             totalClassCredit += infoLecture.getClassCredit();
         }
 

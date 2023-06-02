@@ -43,7 +43,7 @@ public class StatsController {
 
 
         try{
-            credit = gradeService.getTotalClassCredit(email, Optional.ofNullable(null));
+            credit = gradeService.getTotalClassCredit(email, null);
 
             //count = gradeService.getCompletedCourseCount(email);
             classScore = gradeService.getEntireAllScore(email);
@@ -76,7 +76,7 @@ public class StatsController {
             SemesterInfo semesterInfo = new SemesterInfo(); // 반환 data
 
             for(int sem=0; sem<semester; sem++){
-                gradeService.getTotalClassCredit(email, Optional.of(TNumList.get(sem))); // 특정 학기 총 이수학점
+                gradeService.getTotalClassCredit(email, TNumList.get(sem)); // 특정 학기 총 이수학점
 
             }
 

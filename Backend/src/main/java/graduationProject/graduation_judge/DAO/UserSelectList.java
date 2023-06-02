@@ -33,7 +33,7 @@ public class UserSelectList {
             @JoinColumn(name = "class_number", referencedColumnName = "class_number", insertable=false, updatable=false)
     })
     @ToString.Exclude
-    private EntireLecture us_entireLecture;
+    private EntireLecture entireLecture;
 
 
     //M:1 UserInfo

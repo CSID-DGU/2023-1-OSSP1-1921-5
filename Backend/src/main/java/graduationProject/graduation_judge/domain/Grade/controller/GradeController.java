@@ -75,7 +75,6 @@ public class GradeController {
 
             Map<String, Boolean> response = new HashMap<>();
             response.put("result", hasResult);
-            System.out.println("response = " + response);
             return ResponseEntity.ok().body(response);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

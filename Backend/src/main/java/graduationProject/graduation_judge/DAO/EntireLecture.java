@@ -29,7 +29,7 @@ public class EntireLecture {
     //1:1 InfoLecture
     @OneToOne
     @JoinColumn(name = "class_number", referencedColumnName = "info_class_number" ,nullable = false, insertable=false, updatable=false)
-    private InfoLecture infoLectures;
+    private InfoLecture infoLecture;
 
 //    @OneToOne(mappedBy = "entireLecture")
 //    private InfoLecture infoLecture;
@@ -43,7 +43,7 @@ public class EntireLecture {
     private DesignLecture designLecture;
 
     //1:M UserSelectList
-    @OneToMany(mappedBy = "us_entireLecture")
+    @OneToMany(mappedBy = "entireLecture")
     private List<UserSelectList> userSelectList;
 
     @Builder

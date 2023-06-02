@@ -38,7 +38,7 @@ public interface GradeService {
     float getEntireMajorScore();
 
     //특정 member의 총 이수학점을 계산 (전체 or 학기마다)
-    int getTotalClassCredit(String memberId, Optional<String> termNum);
+    int getTotalClassCredit(String memberId, String termNum);
 
     //특정 member의 학기 리스트 반환
     List<String> getTermList(String memberId);
