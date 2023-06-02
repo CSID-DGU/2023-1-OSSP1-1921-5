@@ -153,7 +153,7 @@ const FindPW = () => {
 
   const handleClickResend = () => {
     const data = {
-      email: email,
+      email: email + "@" + emailAddress,
     };
 
     // 이메일 다시 보내기
