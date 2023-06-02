@@ -15,7 +15,7 @@ import java.util.List;
 public class ScoreStat {
 
     @Id
-    @Column(name = "user_id", length = 200, nullable = false, insertable=false, updatable=false)
+    @Column(name = "user_id", length = 200, nullable = false)
     private String memberId;
 
     @Id
@@ -34,7 +34,7 @@ public class ScoreStat {
 
     //M:1 UserInfo
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable=false, updatable=false)
     private UserInfo userInfo;
 
     @Builder

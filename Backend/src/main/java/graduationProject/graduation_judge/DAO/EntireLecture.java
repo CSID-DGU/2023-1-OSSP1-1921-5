@@ -16,11 +16,11 @@ import java.util.List;
 @Table(name = "entire_lecture")
 public class EntireLecture {
     @Id
-    @Column(name = "term_number", length = 200, nullable = false, insertable=false, updatable=false)
+    @Column(name = "term_number", length = 200, nullable = false)
     private String term_number;
 
     @Id
-    @Column(name = "class_number", length = 200, nullable = false, insertable=false, updatable=false)
+    @Column(name = "class_number", length = 200, nullable = false)
     private String class_number;
 
     @Column(name = "professor_name")
@@ -28,7 +28,7 @@ public class EntireLecture {
 
     //1:1 InfoLecture
     @OneToOne
-    @JoinColumn(name = "class_number", referencedColumnName = "info_class_number" ,nullable = false)
+    @JoinColumn(name = "class_number", referencedColumnName = "info_class_number" ,nullable = false, insertable=false, updatable=false)
     private InfoLecture infoLectures;
 
 //    @OneToOne(mappedBy = "entireLecture")

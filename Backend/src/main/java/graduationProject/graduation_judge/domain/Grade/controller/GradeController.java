@@ -27,7 +27,6 @@ public class GradeController {
     @PostMapping("/gradeFile")
     public ResponseEntity<String> inputFile(@RequestBody UserGradeList userGradeList){
         try{
-            System.out.println(userGradeList.toString());
             String email = userGradeList.getEmail();
             List<UserGradeList.GradeData> gradeDataList = userGradeList.getUserDataList();
 
@@ -36,9 +35,10 @@ public class GradeController {
             for (UserGradeList.GradeData gradeData : gradeDataList) {
                 uniqueTermNumbers.add(gradeData.getTermNumber());
             }
-            int uniqueTermNumberCount = uniqueTermNumbers.size(); //실제 파일 학기 수
 
+            int uniqueTermNumberCount = uniqueTermNumbers.size(); //실제 파일 학기 수
             UserInfoDTO userDTO = memberService.getMemberById(email);
+
             int semUserInfo = userDTO.getSemester(); //UserInfo 학기 수
             if (uniqueTermNumberCount != semUserInfo) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("학기 수가 일치하지 않습니다");
@@ -75,7 +75,7 @@ public class GradeController {
 
             Map<String, Boolean> response = new HashMap<>();
             response.put("result", hasResult);
-
+            System.out.println("response = " + response);
             return ResponseEntity.ok().body(response);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

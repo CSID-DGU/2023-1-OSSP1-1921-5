@@ -88,7 +88,7 @@ const UploadFile = () => {
     } else {
       console.log("1");
       console.log(JSON.stringify(jsonResult));
-      fetch("/input", {
+      fetch("/input/gradeFile", {
         method: "post",
         headers: {
           "content-type": "application/json",
@@ -99,15 +99,11 @@ const UploadFile = () => {
           if(response.ok) {
             alert("성적이 입력되었습니다!");
             window.location.replace("/result");
-          } else {
-          throw new Error("성적 입력 실패");
-        }}) 
-        .catch((error) => {
-          if(error.message === '400') {
+          }else if (response.status === 400){
             alert("회원 정보와 입력 파일의 이수학기 수가 일치하지 않습니다.");
             window.location.href = "/input";
           } else {
-            console.error("성적 입력 실패 : ", error);
+            console.error("성적 입력 실패 : ", response.body);
           }
         });
     }
