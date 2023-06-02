@@ -57,6 +57,12 @@ const SignIn = () => {
             .catch()
     }
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            onClickSignIn(e);
+        }
+    };
+
     const onChangeId = (e) => {
         setId(e.target.value)
     }
@@ -83,7 +89,9 @@ const SignIn = () => {
                     label='이메일'
                     variant="outlined"
                     margin="normal"
-                    onChange={onChangeId} />
+                    onChange={onChangeId}
+                    onKeyDown={handleKeyDown}
+                />
                 <span className="helper">{emptyId && '이메일을 입력하세요.'}</span>
                 <TextField
                     className="text_in"
@@ -93,7 +101,9 @@ const SignIn = () => {
                     type='password'
                     variant="outlined"
                     margin="normal"
-                    onChange={onChangePw} />
+                    onChange={onChangePw}
+                    onKeyDown={handleKeyDown}
+                />
                 <span className="helper">{emptyPw && '비밀번호를 입력하세요.'}</span>
             </Box>
             <Box className="btn_area" style={{ marginBottom: 0 }}>
