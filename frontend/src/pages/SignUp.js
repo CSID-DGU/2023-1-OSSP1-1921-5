@@ -130,7 +130,7 @@ const SignUp = () => {
             })
                 .then(res => console.log(res))
             alert("회원가입 성공!")
-            window.location.replace('/')
+            //window.location.replace('/')
         }
     }
 

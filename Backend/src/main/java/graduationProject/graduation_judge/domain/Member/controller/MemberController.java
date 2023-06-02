@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class MemberController {
 
     //회원 가입
     @PostMapping("/signup")
-    public HashMap<String, Object> signup(@RequestBody  Map<String, String > request) {
+    public ResponseEntity<?> signup(@RequestBody  Map<String, String > request) {
         try {
             UserInfoDTO userInfoDTO = new UserInfoDTO(request.get("email"),
                     request.get("pw"), Integer.parseInt(request.get("semester")),
@@ -60,12 +61,12 @@ public class MemberController {
             map.put("course", request.get("course"));
             map.put("score", request.get("score"));
             map.put("english", request.get("english"));
-            return map;
+            return ResponseEntity.ok(userInfoDTO);
             //userInfoDTO객체를 JSON형태로 반환
         } catch (Exception e) {
             HashMap<String, Object> map = new HashMap<>();
             map.put("error", "error");
-            return map; //예외 메시지 반환
+            return ResponseEntity.badRequest().body(e.getMessage()); //예외 메시지 반환
         }
     }
 

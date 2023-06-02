@@ -7,6 +7,7 @@ import graduationProject.graduation_judge.domain.Member.repository.MailRepositor
 import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,10 +42,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void register(UserInfoDTO userInfoDTO) {
         // 회원 가입 로직 구현
-        //이메일 중복 확인 하기
-        /*if (memberRepository.findUserInfoByUserid(userInfoDTO.getUserid()) != null) {
-            throw new IllegalArgumentException("Email already exists");
-        }*/
         memberRepository.save(userInfoDTO.toEntity());
     }
 
@@ -96,6 +93,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public void deleteMember(UserInfoDTO userInfoDTO) {
         //회원 삭제
         memberRepository.delete(userInfoDTO.toEntity());
