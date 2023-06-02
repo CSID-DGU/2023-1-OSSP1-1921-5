@@ -12,10 +12,9 @@ import java.util.List;
 public interface GradeRepository extends JpaRepository<UserSelectList, UserSelectListPK> {
     boolean existsByMemberId(String memberId);
     void deleteAllByMemberId(String memberId);
-    List<String> findDistinctTermNumByMemberId(String memberId);
     int countAllByMemberId(String memberId);
-    @EntityGraph(attributePaths = { "entireLecture.infoLecture" })
-    List<UserSelectList> findAllByMemberId(String memberId);
+    
+    List<UserSelectList> findAllByMemberId(String memberId); //queryDSL로 고치기
 
     @EntityGraph(attributePaths = { "entireLecture.infoLecture" })
     List<UserSelectList> findAllByMemberIdAndTermNum(String memberId, String termNum);

@@ -15,8 +15,7 @@ import java.io.Serializable;
 @Getter
 public class UserSelectListPK implements Serializable {
     private String memberId;
-    private String termNum;
     private String classNum;
-
+    private String termNum;
 }
 

@@ -10,6 +10,10 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "info_lecture")
 public class InfoLecture {
 
+    @Id
+    @Column(name = "info_class_number", length = 200, nullable = false)
+    private String classNumber;
+
     @Column(name = "lecture_nick", length = 200, nullable = false)
     private String lectureNick;
 
@@ -21,10 +25,6 @@ public class InfoLecture {
 
     @Column(name = "class_credit", nullable = false)
     private int classCredit;
-
-    @Id
-    @Column(name = "info_class_number", length = 200, nullable = false)
-    private String classNumber;
 
     @Builder
     public InfoLecture(String lectureNick, String curriculum, String classArea, int classCredit, String classNumber){

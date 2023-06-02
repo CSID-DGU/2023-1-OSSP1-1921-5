@@ -1,7 +1,7 @@
 package graduationProject.graduation_judge.domain.Stats.controller;
 
 import graduationProject.graduation_judge.DTO.ScoreStatDTO;
-import graduationProject.graduation_judge.DTO.SemesterInfo;
+import graduationProject.graduation_judge.DTO.SemesterInfoList;
 import graduationProject.graduation_judge.DTO.UserTermList;
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/stats")
@@ -44,7 +43,6 @@ public class StatsController {
 
         try{
             credit = gradeService.getTotalClassCredit(email, null);
-
             //count = gradeService.getCompletedCourseCount(email);
             classScore = gradeService.getEntireAllScore(email);
             semester = memberService.getMemberById(email).getSemester();
@@ -53,11 +51,9 @@ public class StatsController {
             //TNumList;
             TNumList = gradeService.getTermList(email);
             userTermList.setTNumList(TNumList);
-
             //update scorestat
             ScoreStatDTO scoreStatDTO = new ScoreStatDTO(email,semester,"전체", classScore, credit);
             statsService.insertScoreStat(scoreStatDTO);
-
             return ResponseEntity.ok().body(userTermList);
 
         }catch(Exception e){
@@ -73,13 +69,26 @@ public class StatsController {
             String email = userTermList.getEmail();
             List<String> TNumList= userTermList.getTNumList();
             int semester = userTermList.getSemester(); // 이수학기 수
-            SemesterInfo semesterInfo = new SemesterInfo(); // 반환 data
+            SemesterInfoList semesterInfoList = new SemesterInfoList();
+            List<SemesterInfoList.SemesterInfo> semesterInfos = new ArrayList<>();
+
+            String curSem;
+            int count = 0;
+            int majorCount = 0;
+            int credit = 0;
+            int majorCredit = 0;
+            float classScore = 0.f;
+            float majorClassScore = 0.f;
 
             for(int sem=0; sem<semester; sem++){
-                gradeService.getTotalClassCredit(email, TNumList.get(sem)); // 특정 학기 총 이수학점
+                curSem = TNumList.get(sem); // 현재 계산하는 학기
+                gradeService.getTotalClassCredit(email, curSem); // 특정 학기 총 이수학점
+
+                SemesterInfoList.SemesterInfo semesterInfo = new SemesterInfoList.SemesterInfo(curSem, count, majorCount, credit, majorCredit, classScore, majorClassScore);
 
             }
 
+            //SemesterInfo semesterInfo = new SemesterInfo(email, semester, count, majorCount, credit, majorCredit, classScore,majorClassScore); // 반환 data
 
             return null;
         }catch(Exception e){
@@ -90,7 +99,7 @@ public class StatsController {
     // '/updatestat'
     // user의 학기마다 전체 scorestat와 전공 scorestat 업데이트
     @PostMapping("/updatestat")
-    public ResponseEntity<?> updateEntireStat(@RequestBody SemesterInfo semesterInfo){
+    public ResponseEntity<?> updateEntireStat(@RequestBody SemesterInfoList semesterInfoList){
         return null;
     }
 

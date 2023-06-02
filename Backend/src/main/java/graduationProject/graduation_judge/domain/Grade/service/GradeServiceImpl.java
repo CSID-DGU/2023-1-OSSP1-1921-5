@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class GradeServiceImpl implements GradeService{
@@ -120,14 +118,15 @@ public class GradeServiceImpl implements GradeService{
         List<UserSelectList> userSelectLists;
         int totalClassCredit = 0;
 
-        if (termNum == null){ // 특정 이수 학기의 총 이수학점
+        if (termNum == null){ // 전체 이수 학기의 총 이수학점
             userSelectLists = gradeRepository.findAllByMemberId(memberId);
         }
-        else{ // 전체 이수 학기의 총 이수학점
+        else{ // 특정 이수 학기의 총 이수학점
             userSelectLists = gradeRepository.findAllByMemberIdAndTermNum(memberId, termNum);
         }
 
         for(UserSelectList selectList: userSelectLists){
+            System.out.println("selectList.getEntireLecture() = " + selectList.getEntireLecture());
             InfoLecture infoLecture = selectList.getEntireLecture().getInfoLecture();
             totalClassCredit += infoLecture.getClassCredit();
         }
@@ -138,8 +137,14 @@ public class GradeServiceImpl implements GradeService{
     @Override
     public List<String> getTermList(String memberId) {
         //특정 member의 학기 리스트 반환
-        List<String> termList = gradeRepository.findDistinctTermNumByMemberId(memberId);
-        return termList;
+        List<UserSelectList> UserSelectLists = gradeRepository.findAllByMemberId(memberId);
+        Set<String> uniqueTermNums = new HashSet<>();
+        for (UserSelectList userSelectList : UserSelectLists) {
+            uniqueTermNums.add(userSelectList.getTermNum());
+        }
+        List<String> uniqueTermNumList = new ArrayList<>(uniqueTermNums);
+
+        return uniqueTermNumList;
     }
 
 //    @Override
