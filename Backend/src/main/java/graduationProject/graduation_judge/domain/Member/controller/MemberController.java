@@ -107,7 +107,7 @@ public class MemberController {
     }
 
 
-    //회원 정보 삭제
+    //회원 정보 삭제000
     @PostMapping("/deletepf")
     public ResponseEntity<?> deleteUser(@RequestBody HashMap<String,String> request) {
         String id = request.get("email");
@@ -144,15 +144,17 @@ public class MemberController {
 
     //email로 보안코드 전송
     @PostMapping("/sendemail")
-    public ResponseEntity<Object> sendSecurityCode(@RequestBody Map<String, String> request) {
+    public HashMap<?,?> sendSecurityCode(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         try {
             String number = memberService.sendSecurityCodeToEmail(email);
-            return ResponseEntity.ok(Integer.parseInt(number));
+            HashMap<String, String> map = new HashMap<>();
+            map.put("number", number);
+            return map;
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return (HashMap<?, ?>) new HashMap<>().put(e.getMessage(), e);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return (HashMap<?, ?>) new HashMap<>().put(e.getMessage(), e);
         }
     }
 

@@ -1,18 +1,18 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
-import graduationProject.graduation_judge.DAO.SecurityCodeOfUserMail;
 import graduationProject.graduation_judge.DAO.UserInfo;
 import graduationProject.graduation_judge.DTO.MailDTO;
 import graduationProject.graduation_judge.DTO.UserInfoDTO;
+import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
 import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
 import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
+import graduationProject.graduation_judge.domain.Stats.repository.ScoreStatRepository;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Random;
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -20,12 +20,17 @@ public class MemberServiceImpl implements MemberService {
     private final EmailService emailService;
     private final MemberRepository memberRepository;
     private final MailRepository mailRepository;
+    private final GradeRepository gradeRepository;
+
+    private final ScoreStatRepository scoreStatRepository;
 
     @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository, EmailService emailService, MailRepository mailRepository) {
+    public MemberServiceImpl(MemberRepository memberRepository, EmailService emailService, MailRepository mailRepository, GradeRepository gradeRepository, ScoreStatRepository scoreStatRepository) {
         this.memberRepository = memberRepository;
         this.emailService = emailService;
         this.mailRepository = mailRepository;
+        this.gradeRepository = gradeRepository;
+        this.scoreStatRepository = scoreStatRepository;
     }
 
     @Override
@@ -100,14 +105,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void deleteMember(String id) {
-        //회원 삭제
-        //userinfo000, mail어쩌고000, scorestat, securitycodeofusermail, userselectlist다삭제해야함
-        UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
-        memberRepository.delete(userInfo); //UserInfo 삭제
-        SecurityCodeOfUserMail securityCodeOfUserMail = mailRepository.findSecurityCodeOfUserMailById(id);
-        mailRepository.delete(securityCodeOfUserMail);//SecurityCodeOfUserMail 삭제
-        //...
-        //...
+        //회원 탈퇴
+        memberRepository.deleteAllByUserid(id);//UserInfo 삭제
+        mailRepository.deleteAllById(id);//SecurityCodeOfUserMail 삭제
+        gradeRepository.deleteAllByMemberId(id);//UserSelectList 삭제
+        scoreStatRepository.deleteAllByMemberId(id);//ScoreStat 삭제
     }
 
     /*@Override
@@ -156,7 +158,7 @@ public class MemberServiceImpl implements MemberService {
 
             String text = "보안 코드: " + securityCode;
             emailService.sendEmail(id, text);
-            return text;
+            return securityCode;
         }else{
             throw new RuntimeException("존재하지 않는 회원입니다.");
         }
