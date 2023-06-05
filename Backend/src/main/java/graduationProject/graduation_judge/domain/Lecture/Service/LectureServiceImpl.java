@@ -2,7 +2,9 @@ package graduationProject.graduation_judge.domain.Lecture.Service;
 
 import graduationProject.graduation_judge.DTO.Lecture.GetLectureInfo.GetLectureInfoIncludeSemesterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LectureServiceImpl implements LectureService{
 
     @Autowired

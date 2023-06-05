@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("/adminpage")
+//@RequestMapping("/adminpage")
 public class LectureController {
 
     @Autowired
     private LectureService lectureService;
 
-    @PostMapping("/uploadNewSemester")
+    @PostMapping("/newsem")
     public ResponseEntity<?> uploadNewSemester(@RequestBody GetLectureInfoIncludeSemesterDTO getLectureDTO){
 
         try{
