@@ -11,7 +11,7 @@ import pandas as pd
 # In[210]:
 
 
-def search_credit(dataset, grad):
+def search_credit(dataset, grad): #전체 수강 학점 탐색
     total = 0 #전체 학점
     
     major = 0 #전공 학점
@@ -59,7 +59,7 @@ search_credit(pd.read_excel("./grad/data020188.xlsx"), pd.read_excel("./grad/Gra
 # In[255]:
 
 
-def search_credit(grad):
+def listing_lecture(grad): #필수 과목 리스트화
     row = grad.loc[0]
     total_major = row[6]
     total_common = row[7]
@@ -105,7 +105,7 @@ def search_credit(grad):
             change = False
             for k, row in modify.iterrows():
                 if row['기존학수강좌번호'] == course:
-                    constraints.append(Or(Bool(course), Bool(row['새학수강좌번호'])))
+                    constraints.append(Or(Bool(course), Bool(row['새학수강좌번호']))) #변경사항에 인정/변경과목이 존재하면 OR 조건을 추가해줌
                     change = True
                     break
 
@@ -134,13 +134,13 @@ def search_credit(grad):
     print(solver.check())
     return solver
 
-search_credit(pd.read_excel("./grad/GraduationRequirements2023.xlsx"))
+listing_lecture(pd.read_excel("./grad/GraduationRequirements2023.xlsx"))
 
 
 # In[261]:
 
 
-def user_subject(dataset, solver):
+def user_subject(dataset, solver): #F학점 반영
     s = Solver()
     s.reset()
     s.add(solver.assertions())
