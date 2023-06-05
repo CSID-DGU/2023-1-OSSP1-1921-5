@@ -1,5 +1,7 @@
 package graduationProject.graduation_judge.DTO.Graduation;
 
+import lombok.Builder;
+
 /**
  * <h3>학번별 적용 졸업요건 DTO</h3>
  * <p>
@@ -30,5 +32,20 @@ public class GraduationRequirementCond {
     private int Total_earned_credit;
     private float GPA;
     private int English_class;
+
+    @Builder
+    public GraduationRequirementCond(
+            int Registered_semesters,
+            int English_score,
+            int Total_earned_credit,
+            float GPA,
+            int English_class
+    ) {
+        this.Registered_semesters = Registered_semesters;
+        this.English_score = English_score;
+        this.Total_earned_credit = Total_earned_credit;
+        this.GPA = GPA;
+        this.English_class = English_class;
+    }
 
 }

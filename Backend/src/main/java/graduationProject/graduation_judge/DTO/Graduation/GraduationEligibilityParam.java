@@ -1,5 +1,8 @@
 package graduationProject.graduation_judge.DTO.Graduation;
 
+import graduationProject.graduation_judge.DAO.GraduationRequirement;
+import graduationProject.graduation_judge.DAO.identifier.GraduationRequirementPK;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -27,6 +30,32 @@ public class GraduationEligibilityParam {
     private int TotalCredit;
     private float TotalScore;
     private int EngClassCount;
+
+    @Builder
+    public GraduationEligibilityParam(
+            int Register,
+            int EngScore,
+            int TotalCredit,
+            float TotalScore,
+            int EngClassCount
+    ) {
+        this.Register = Register;
+        this.EngScore = EngScore;
+        this.TotalCredit = TotalCredit;
+        this.TotalScore = TotalScore;
+        this.EngClassCount = EngClassCount;
+    };
+
+    //testcode
+    GraduationRequirementPK grdpk_2019_a = GraduationRequirementPK.builder()
+            .enrollmentYear(2019)
+            .course("심화")
+            .build();
+    public GraduationRequirement toEntity() {
+        return GraduationRequirement.builder()
+                .id(grdpk_2019_a)
+                .build();
+    }
 
     public GraduationEligibilityParam() {}
 }
