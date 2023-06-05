@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import './css/CreateDataSet.css';
+import SideBar from '../Components/SideBar';
 
 const CreateDataSet = () => {
   const [dataNum, setDataNum] = useState('');
@@ -76,7 +77,8 @@ const CreateDataSet = () => {
 
   return (
     <div>
-      <MenuBar />
+      {/* <MenuBar /> */}
+      <SideBar />
       <div className="container">
         <div className="titleData">Test DataSet 생성</div>
         <Box className="Box">

@@ -13,7 +13,7 @@ const LoadingSpinner = ({op}) => {
                         transform: "translate(-50%, -50%)",
                     }}
                 >
-                    <PulseLoader color="#007FFF" size={12} margin={4} />
+                    <PulseLoader color="#FE9654" size={12} margin={4} />
                 </div> :
                 <div
                     style={{
@@ -24,7 +24,7 @@ const LoadingSpinner = ({op}) => {
                         textAlign: 'center',
                     }}
                 >
-                    <PulseLoader color="silver" size={8} margin={3} />
+                    <PulseLoader color="#FE9654" size={8} margin={3} />
                 </div>
             }
         </div>

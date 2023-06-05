@@ -4,12 +4,14 @@ import { NavLink as RouterLink, Route, Routes } from 'react-router-dom';
 import CreateDataSet from "./CreateDataSet"
 import Header from '../Components/Header';
 import './css/Admin.css';
+import SideBar from '../Components/SideBar';
 
 const Admin = () => {
     return (
         <div className="fade-in">
             <Header signout />
-            <MenuBar /> 
+            {/* <MenuBar />  */}
+            <SideBar />
             <Routes>
                 <Route path="/admin" exact={true} />
                 <Route path="/change" element={<CreateDataSet />} />
