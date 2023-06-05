@@ -2,6 +2,7 @@ package graduationProject.graduation_judge.domain.Lecture.Service;
 
 import graduationProject.graduation_judge.DAO.EnglishLecture;
 import graduationProject.graduation_judge.DTO.Lecture.EnglishLectureDTO;
+import graduationProject.graduation_judge.DTO.Lecture.GetLectureInfo.GetLectureInfoIncludeSemesterDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,10 +11,10 @@ public interface EnglishLectureService {
     //IsEnglish == 1 이면 (학기), (학수번호)넣기
 
     //영어강의인지 확인
-    boolean isEnglishLecture(String isEnglish);
+    //boolean isEnglishLecture(String isEnglish);
 
     //EnglishLecture table에 추가
-    void inputEnglishLecture(EnglishLectureDTO englishLectureDTO);
+    void inputEnglishLecture(GetLectureInfoIncludeSemesterDTO getLectureDTO);
 
     //EnglishLecture (학기, 학수번호)에 해당하는 tuple table에서 제거
     void deleteEnglishLectureTuple(String termNumber, String classNumber);

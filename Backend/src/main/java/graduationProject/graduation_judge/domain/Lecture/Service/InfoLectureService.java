@@ -1,6 +1,7 @@
 package graduationProject.graduation_judge.domain.Lecture.Service;
 
 import graduationProject.graduation_judge.DAO.InfoLecture;
+import graduationProject.graduation_judge.DTO.Lecture.GetLectureInfo.GetLectureInfoIncludeSemesterDTO;
 import graduationProject.graduation_judge.DTO.Lecture.InfoLectureDTO;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public interface InfoLectureService {
     //위에서 (강의명), (교과과정), (교과영역구분), (학점), (학수번호)PK 추가
 
     //InfoLecture table에 추가
-    void inputInfoLecture(InfoLectureDTO infoLectureDTO);
+    void inputInfoLecture(GetLectureInfoIncludeSemesterDTO getLectureDTO);
 
     //InfoLecture 학수번호에 해당하는 tuple table에서 제거
     void deleteInfoLectureTuple(String classNumber);
