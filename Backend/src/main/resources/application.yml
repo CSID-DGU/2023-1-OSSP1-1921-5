@@ -1,6 +1,6 @@
 spring:
   config:
-    import: dbsettings.properties,emailsettings.properties
+    import: dbsettings.properties, emailsettings.properties
   mail:
     host: smtp.gmail.com
     port: 587
