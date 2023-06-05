@@ -29,18 +29,40 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
-//스프링 빌드 시 특정 디렉토리 or 파일 제외 예시
-/*sourceSets {
+sourceSets {
 	main {
 		java {
-			exclude 'graduationProject/graduation_judge/domain/Stats/**'
-			exclude 'graduationProject/graduation_judge/domain/Grade/**'
-			exclude 'graduationProject/graduation_judge/domain/Lecutre/**'
-//			exclude 'graduationProject/graduation_judge/domain/Member/**'
-//			exclude 'graduationProject/graduation_judge/domain/DAO/SecurityCodeOfUserMail.java'
+			//domain
+			exclude 'graduationProject/graduation_judge/domain/Grade/'
+			exclude 'graduationProject/graduation_judge/domain/Lecture/'
+			exclude 'graduationProject/graduation_judge/domain/Member/'
+			exclude 'graduationProject/graduation_judge/domain/Stats/'
+			//DAO
+//            exclude 'graduationProject/graduation_judge/DAO/DesignLecture.java'
+//            exclude 'graduationProject/graduation_judge/DAO/EnglishLecture.java'
+//            exclude 'graduationProject/graduation_judge/DAO/EntireLecture.java'
+//            exclude 'graduationProject/graduation_judge/DAO/InfoLecture.java'
+//            exclude 'graduationProject/graduation_judge/DAO/ScoreStat.java'
+//            exclude 'graduationProject/graduation_judge/DAO/SecurityCodeOfUserMail.java'
+//            exclude 'graduationProject/graduation_judge/DAO/UserInfo.java'
+//            exclude 'graduationProject/graduation_judge/DAO/UserSelectList.java'
+			//DTO
+			exclude 'graduationProject/graduation_judge/DTO/Lecture/'
+			exclude 'graduationProject/graduation_judge/DTO/GradeDTO.java'
+			exclude 'graduationProject/graduation_judge/DTO/MailDTO.java'
+			exclude 'graduationProject/graduation_judge/DTO/ScoreStatDTO.java'
+			exclude 'graduationProject/graduation_judge/DTO/SemesterInfoList.java'
+			exclude 'graduationProject/graduation_judge/DTO/UserGradeList.java'
+			exclude 'graduationProject/graduation_judge/DTO/UserInfoDTO.java'
+			exclude 'graduationProject/graduation_judge/DTO/UserTermList.java'
+			exclude 'graduationProject/graduation_judge/domain/Graduation/**'
+
+
+//            exclude 'graduationProject/graduation_judge/domain/Member/'
+//            exclude 'graduationProject/graduation_judge/domain/DAO/SecurityCodeOfUserMail.class'
 		}
 	}
-}*/
+}
 
 tasks.named('test') {
 	useJUnitPlatform()
