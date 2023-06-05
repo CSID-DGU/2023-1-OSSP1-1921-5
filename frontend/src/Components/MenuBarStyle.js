@@ -5,7 +5,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent : "left"
   },
   drawer : {
-    paddingTop : "20px",
+    marginTop : "72px",
+    marginLeft : "20px",
     width: "250px",
   },
   item: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 0,
   },
   button: {
-    color: "white",
+    color: "black",
     padding: '10px 8px',
     justifyContent: 'flex-start',
     textTransform: 'none',
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft : "50px !important",
   },
   sidebarBackground: {
-    backgroundColor: "#EA5514"
+    backgroundColor: "rgb(255, 111, 209);"
   }
 }));
 
