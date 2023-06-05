@@ -24,7 +24,7 @@ public class EnglishLectureServiceImpl implements EnglishLectureService{
         //IsEnglish == 1 이면 (학기), (학수번호)넣기
         String termNumber = getLectureDTO.getYear()+"_"+ getLectureDTO.getSemester();
         for (GetLectureInfoListDTO lectureData : lectureInfoList) {
-            if (lectureData.getIsEnglish() == "1"){ //영어강의면 추가
+            if (Integer.parseInt(lectureData.getIsEnglish()) == 1){ //영어강의면 추가
                 EnglishLectureDTO englishLectureDTO = new EnglishLectureDTO(
                         termNumber,
                         lectureData.getClassNumber()
