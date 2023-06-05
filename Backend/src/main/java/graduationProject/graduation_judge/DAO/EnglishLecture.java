@@ -14,12 +14,10 @@ public class EnglishLecture {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "english_term_number", length = 200, nullable = false)
     private String termNum;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "english_class_number", length = 200, nullable = false)
     private String classNum;
 
