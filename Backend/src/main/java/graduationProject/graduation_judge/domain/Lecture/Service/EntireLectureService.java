@@ -2,6 +2,7 @@ package graduationProject.graduation_judge.domain.Lecture.Service;
 
 import graduationProject.graduation_judge.DAO.EntireLecture;
 import graduationProject.graduation_judge.DTO.Lecture.EntireLectureDTO;
+import graduationProject.graduation_judge.DTO.Lecture.GetLectureInfo.GetLectureInfoIncludeSemesterDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,7 +11,7 @@ public interface EntireLectureService {
     //(학기), (학수번호), (교수님성함) 넣기
 
     //EntireLecture table에 추가
-    void inputEntireLecture(EntireLectureDTO entireLectureDTO);
+    void inputEntireLecture(GetLectureInfoIncludeSemesterDTO getLectureDTO);
 
     //EntireLecture (학기, 학수번호)에 해당하는 tuple table에서 제거
     void deleteEntireLectureTuple(String termNumber, String classNumber);

@@ -41,7 +41,8 @@ const Home = () => {
                         </div>
                         <span className="title">졸업할 수 있을까?</span>
                         <div className="link">
-                            <a href="https://github.com/CSID-DGU/2022-1-OSSP2-turning-7">github.com/🎓</a>
+                            <a href="https://github.com/CSID-DGU/2022-1-OSSP2-turning-7">기존 프로젝트🎓 / </a>
+                            <a href="https://github.com/CSID-DGU/2023-1-OPPS1-1921-5">1921⭐</a>
                         </div>
                     </div>
                     <Stack className="btn_area" spacing={1}>

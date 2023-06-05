@@ -11,4 +11,8 @@ public class GetLectureInfoIncludeSemesterDTO {
     private String year;
     private String semester;
     private List<GetLectureInfoListDTO> lectureDataList;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a845162b1cd79b1ff7d5af80a528cd74def4235f

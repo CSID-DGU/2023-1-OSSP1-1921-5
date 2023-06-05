@@ -2,10 +2,13 @@ import React from 'react';
 import MenuBar from '../Components/MenuBar';
 import { NavLink as RouterLink, Route, Routes } from 'react-router-dom';
 import CreateDataSet from "./CreateDataSet"
+import Header from '../Components/Header';
+import './css/Admin.css';
 
 const Admin = () => {
     return (
-        <div>
+        <div className="fade-in">
+            <Header signout />
             <MenuBar /> 
             <Routes>
                 <Route path="/admin" exact={true} />

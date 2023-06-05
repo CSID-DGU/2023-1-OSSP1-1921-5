@@ -21,4 +21,8 @@ public class LectureServiceImpl implements LectureService{
         englishLectureService.inputEnglishLecture(getLectureDTO);
         designLectureService.inputDesignLecture(getLectureDTO);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a845162b1cd79b1ff7d5af80a528cd74def4235f
