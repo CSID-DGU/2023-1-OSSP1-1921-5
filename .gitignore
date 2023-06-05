@@ -5,6 +5,10 @@ Backend/src/main/resources/dbsettings.properties
 Backend/.gradle/
 Backend/build
 Backend/bin
+Backend/out
+Backend/build.gradle
+Backend/personal_dev_env
+
 
 # Ignore .idea file
 .idea
