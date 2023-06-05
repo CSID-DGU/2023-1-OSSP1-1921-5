@@ -8,6 +8,7 @@ import Input from './pages/Input';
 import Result from './pages/Result';
 import Stats from './pages/Stats';
 import Admin from './pages/Admin';
+import GradReqChange from './pages/GradReqChange';
 import AddNewSemester from './pages/AddNewSemster';
 import CreateDataSet from './pages/CreateDataSet'
 import './App.css';
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/result" element={<Result />} />
           <Route path="/stats" element={<Stats />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/change" element={<GradReqChange />} />
           <Route path="/newsem" element={<AddNewSemester />} />
           <Route path="/dataset" element={<CreateDataSet />} />
         </Routes>
