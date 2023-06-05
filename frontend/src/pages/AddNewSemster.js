@@ -50,13 +50,13 @@ const AddNewSemester = () => {
           try {
             for (var i = 0; i < data.length; i++) {
                 const lectureData = {};
-                lectureData["ClassNumber"] = data[i]["학수번호"];
+                lectureData["ClassNumber"] = data[i]["학수강좌번호"];
                 lectureData["ProfessorName"] = data[i]["교원명"];
                 lectureData["LectureNick"] = data[i]["교과목명"];
                 lectureData["Curriculum"] = data[i]["교과과정"];
                 lectureData["ClassArea"] = data[i]["이수구분"];
                 lectureData["ClassCredit"] = data[i]["학점"];
-                lectureData["DesignCredit"] = data[i]["공학설계"];
+                lectureData["DesignCredit"] = data[i]["공학설계"] ? data[i]["공학설계"].trim() : "0.0";
 
                 if (data[i]["원어강의"] == "영어") {
                     lectureData["IsEnglish"] = 1
