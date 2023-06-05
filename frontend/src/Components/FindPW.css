@@ -118,5 +118,11 @@
     .send_btn {
         margin: 0;
         width: 100%;
+        background-color: transparent;
+        border: 1px solid #FE9654;
+        border-radius: 6px;
+        /* color: #FE9654; */
+        text-align: center;
+        padding: 7px;
     }    
 }

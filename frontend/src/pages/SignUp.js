@@ -118,7 +118,7 @@ const SignUp = () => {
 
 
         if (duplicatedEmail) {
-            alert('이메일 중복확인을 하세요.')
+            alert('ID 중복확인을 하세요.')
         }
         else {
             console.log(data)
@@ -188,7 +188,7 @@ const SignUp = () => {
                     </Stack>
                     <button disabled={!duplicatedEmail} onClick={onClickDuplication} className="check_btn" title="중복확인">
                         <Stack direction="row" alignItems="center" spacing={0.5}>
-                            <CheckIcon fontSize="small" /><span className="check_text">중복확인</span>
+                            <CheckIcon fontSize="small" /><span className="check_text">ID확인</span>
                         </Stack>
                     </button>
                 </Stack>

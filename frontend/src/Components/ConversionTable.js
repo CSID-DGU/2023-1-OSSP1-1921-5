@@ -1,5 +1,4 @@
 import { React, useState } from 'react'
-import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table';
@@ -9,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import './FindPW.css';
+import './ConversionTable.css';
 
 function createData(toeic, toeflCBT, toeflIBT, newTeps, toeicSpeaking, opic, esol, ielts, gtelp) {
     return { toeic, toeflCBT, toeflIBT, newTeps, toeicSpeaking, opic, esol, ielts, gtelp };
@@ -33,7 +32,7 @@ const ConversionTable = () => {
 
     return (
         <div>
-            <Button onClick={handleOpen} variant="outlined">환산표보기</Button>
+            <button onClick={handleOpen} variant="outlined" className="check_btn bt_ct">환산표보기</button>    
             <Modal
                 open={open}
                 onClose={handleClose}

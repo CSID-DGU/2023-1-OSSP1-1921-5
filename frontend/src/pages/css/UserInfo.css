@@ -98,17 +98,17 @@ input[type=password] {
 
 .check_btn {
     background-color: transparent;
-    border: 1px solid #1976d279;
+    border: 1px solid #FE9654;
     border-radius: 6px;
-    color: #1976D2;
+    color: #FE9654;
     text-align: center;
     padding: 7px;
     height: 35px;
 }
 
 .check_btn:hover {
-    background-color: #1976d208;
-    border: 1px solid #1976D2;
+    background-color: #d27c1908;
+    border: 1px solid #FB6870;
     cursor: pointer;
 }
 
