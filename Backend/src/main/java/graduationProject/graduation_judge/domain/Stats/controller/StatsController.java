@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.domain.Stats.controller;
 
+import graduationProject.graduation_judge.DTO.GraphInfo;
 import graduationProject.graduation_judge.DTO.ScoreStatDTO;
 import graduationProject.graduation_judge.DTO.SemesterInfoList;
 import graduationProject.graduation_judge.DTO.UserTermList;
@@ -48,11 +49,12 @@ public class StatsController {
             semester = memberService.getMemberById(email).getSemester();
             userTermList.setSemester(semester);
 
-            //TNumList;
+            //TNumList
             TNumList = gradeService.getTermList(email);
             userTermList.setTNumList(TNumList);
+
             //update scorestat
-            ScoreStatDTO scoreStatDTO = new ScoreStatDTO(email,semester,"전체", classScore, credit);
+            ScoreStatDTO scoreStatDTO = new ScoreStatDTO(email,0,"전체", classScore, credit);
             statsService.insertScoreStat(scoreStatDTO);
             return ResponseEntity.ok().body(userTermList);
 
@@ -84,9 +86,14 @@ public class StatsController {
                 curSem = TNumList.get(sem); // 현재 계산하는 학기
                 credit = gradeService.getClassCredit(email, curSem, null); // 특정 학기 총 이수학점
                 majorClassScore = gradeService.getClassScore(email, curSem, "전공"); // 특정 학기 전공 평점
-                classScore = gradeService.getClassScore(email, curSem, null);
-                majorCredit = gradeService.getClassCredit(email, curSem, "전공"); // 특정 학기 전공 평점
+                classScore = gradeService.getClassScore(email, curSem, null); // 특정 학기 전체 평점
+                majorCredit = gradeService.getClassCredit(email, curSem, "전공"); // 특정 학기 전공 이수학점
 
+                //update scorestat
+                statsService.insertScoreStat(new ScoreStatDTO(email,sem+1,"전체", classScore, credit));
+                statsService.insertScoreStat(new ScoreStatDTO(email,sem+1,"전공", majorClassScore, majorCredit));
+
+                // return 값 생성
                 SemesterInfoList.SemesterInfo semesterInfo = new SemesterInfoList.SemesterInfo(curSem, credit, majorCredit, classScore, majorClassScore);
                 semesterInfos.add(semesterInfo);
             }
@@ -96,18 +103,14 @@ public class StatsController {
         }
     }
 
-    // '/updatestat'
-    // user의 학기마다 전체 scorestat와 전공 scorestat 업데이트
-    @PostMapping("/updatestat")
-    public ResponseEntity<?> updateEntireStat(@RequestBody SemesterInfoList semesterInfoList){
-        return null;
-    }
-
     // '/getstats'
-    // 업데이트된 scorestat 값을 가지고 그래프 data 만들기. 학기마다 모든 user의 전체 평점, 전공평점, 이수학점   -> 프론트:
+    // 업데이트된 scorestat 값을 가지고 그래프 data 만들기. 학기마다 모든 user의 전체 평점, 전공평점, 이수학점
     @PostMapping("/getstats")
     public ResponseEntity<?> getStatGraph(@RequestBody Map<String, String> request){
+        GraphInfo graphInfo; // return 값
         String email = request.get("email");
+        statsService.getMemberScoreStats(email); //내 정보 가져오기
+
         return null;
     }
 

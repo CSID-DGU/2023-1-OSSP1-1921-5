@@ -5,9 +5,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface StatsService {
-    // ScoreStat 삭제 (member 단위)
-    void deleteStatByMemberId(String memberId);
 
     // 입력
     void insertScoreStat(ScoreStatDTO scoreStatDTO);
+
+    // member 별로 조회
+    void getMemberScoreStats(String memberId);
+
+    // semester 별로 조회
+    void getSemScoreStats(int semester);
 }

@@ -101,12 +101,6 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public float getEntireMajorScore() {
-        //전체 member의 전공 성적 평점 계산
-        return 0;
-    }
-
-    @Override
     public int getClassCredit(String memberId, String termNum, String option) {
         //특정 member의 총 이수학점을 계산
         List<UserSelectList> userSelectLists;

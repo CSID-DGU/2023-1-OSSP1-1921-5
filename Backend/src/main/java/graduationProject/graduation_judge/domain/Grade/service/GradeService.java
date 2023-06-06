@@ -25,9 +25,6 @@ public interface GradeService {
     //특정 member의 성적 평점 계산
     float getClassScore(String memberId, String termNum, String option);
 
-    //전체 member의 전공 성적 평점 계산
-    float getEntireMajorScore();
-
     //특정 member의 이수학점을 계산 (전체 or 학기마다)
     int getClassCredit(String memberId, String termNum, String option);
 
