@@ -20,7 +20,7 @@ public class LectureController {
     @Autowired
     private LectureService lectureService;
 
-    @PostMapping("/newsem")
+    @PostMapping("/uploadNewSemester")
     public ResponseEntity<?> uploadNewSemester(@RequestBody GetLectureInfoIncludeSemesterDTO getLectureDTO){
 
         try{
