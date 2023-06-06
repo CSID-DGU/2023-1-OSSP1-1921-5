@@ -39,11 +39,11 @@ class MyPage extends Component {
             .then((res) => res.json())
             .then((json) => {
                 this.setState({
-                    year: json.StudentNumber,
-                    register: json.Semester,
-                    course: json.Course,
-                    english: json.EnglishGrade,
-                    score: json.Score
+                    year: json.studentNumber,
+                    register: json.semester,
+                    course: json.course,
+                    english: json.englishGrade,
+                    score: json.score
                 })
             })
 
