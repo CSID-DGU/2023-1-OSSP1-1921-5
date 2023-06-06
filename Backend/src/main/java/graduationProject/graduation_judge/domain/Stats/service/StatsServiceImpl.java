@@ -22,18 +22,6 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public List<ScoreStatDTO> getMemberScoreStats(String memberId) {
-        // member 별로 조회
-        List<ScoreStat> scoreStatList = scoreStatRepository.findAllByMemberId(memberId);
-        List<ScoreStatDTO> scoreStatDTOList = new ArrayList<>();
-        for (ScoreStat scoreStat : scoreStatList) {
-            scoreStatDTOList.add(new ScoreStatDTO(scoreStat.getMemberId(), scoreStat.getSemester(), scoreStat.getTypeId(), scoreStat.getGrade(), scoreStat.getCredit()));
-
-        }
-        return scoreStatDTOList;
-    }
-
-    @Override
     public GraphInfo.GraphData getGradeGraphInfo(int semester, String memberId, String typeId) {
         // semester 별 전공 or 전체 GraphInfo 구하기
         float myData = 0;
