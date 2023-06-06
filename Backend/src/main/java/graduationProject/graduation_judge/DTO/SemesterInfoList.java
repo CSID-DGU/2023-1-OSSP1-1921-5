@@ -17,8 +17,6 @@ public class SemesterInfoList {
     @AllArgsConstructor
     public static class SemesterInfo{
         private String semester;
-        private int Count;
-        private int MajorCount;
         private int Credit;
         private int MajorCredit;
         private float ClassScore;

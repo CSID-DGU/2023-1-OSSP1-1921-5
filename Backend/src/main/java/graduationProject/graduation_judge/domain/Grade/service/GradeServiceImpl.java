@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GradeServiceImpl implements GradeService{
@@ -48,33 +49,26 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public float getAllScoreByMember(String memberId) {
-        //특정 member의 전체 성적 평점 계산
-//        float sum = gradeDao.getSumOfAllScore(memberId);
-//        int num = gradeDao.getCredit(memberId);
-//        return sum/num;
-        return 0;
-    }
-
-    @Override
-    public float getMajorScoreByMember(String memberId) {
-        //특정 member의 전공 성적 평점 계산
-//        float sum = gradeDao.getSumOfMajorScore(memberId);
-//        int num = gradeDao.getCredit(memberId);
-//        return sum/num;
-        return 0;
-    }
-
-    @Override
-    public float getEntireAllScore(String memberId) {
-        //특정 member의 전체 성적 평점 계산
-        List<UserSelectList> userSelectLists = gradeRepository.findAllByMemberId(memberId);
+    public float getClassScore(String memberId, String termNum, String option) {
+        // 성적 평점 계산
+        List<UserSelectList> userSelectLists;
+        if (termNum == null){ // 전체 이수 학기 기준
+            userSelectLists = gradeRepository.findAllByMemberId(memberId);
+        }
+        else{ // 특정 이수 학기 기준
+            userSelectLists = gradeRepository.findAllByMemberIdAndTermNum(memberId, termNum);
+        }
 
         float totalScore = 0;
         int totalCredit = 0;
         int credit;
         String grade;
         for (UserSelectList userSelectList : userSelectLists){
+            if(option != null){ //"전공" 성적 평점 계산
+                if(!option.equals(userSelectList.getEntireLecture().getInfoLecture().getCurriculum())){
+                    continue;
+                }
+            }
             grade = userSelectList.getScore();
             credit = userSelectList.getEntireLecture().getInfoLecture().getClassCredit();
             totalCredit+=credit;
@@ -113,7 +107,7 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public int getTotalClassCredit(String memberId, String termNum) {
+    public int getClassCredit(String memberId, String termNum, String option) {
         //특정 member의 총 이수학점을 계산
         List<UserSelectList> userSelectLists;
         int totalClassCredit = 0;
@@ -126,7 +120,11 @@ public class GradeServiceImpl implements GradeService{
         }
 
         for(UserSelectList selectList: userSelectLists){
-            System.out.println("selectList.getEntireLecture() = " + selectList.getEntireLecture());
+            if(option != null){ //"전공" 이수학점 계산
+                if(!option.equals(selectList.getEntireLecture().getInfoLecture().getCurriculum())){
+                    continue;
+                }
+            }
             InfoLecture infoLecture = selectList.getEntireLecture().getInfoLecture();
             totalClassCredit += infoLecture.getClassCredit();
         }

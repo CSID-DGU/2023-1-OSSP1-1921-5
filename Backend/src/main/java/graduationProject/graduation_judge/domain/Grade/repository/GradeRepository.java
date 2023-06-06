@@ -12,10 +12,8 @@ import java.util.List;
 public interface GradeRepository extends JpaRepository<UserSelectList, UserSelectListPK> {
     boolean existsByMemberId(String memberId);
     void deleteAllByMemberId(String memberId);
-    int countAllByMemberId(String memberId);
     
-    List<UserSelectList> findAllByMemberId(String memberId); //queryDSL로 고치기
+    List<UserSelectList> findAllByMemberId(String memberId);
 
-    @EntityGraph(attributePaths = { "entireLecture.infoLecture" })
     List<UserSelectList> findAllByMemberIdAndTermNum(String memberId, String termNum);
 }

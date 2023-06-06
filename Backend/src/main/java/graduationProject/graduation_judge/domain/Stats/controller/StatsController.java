@@ -42,9 +42,9 @@ public class StatsController {
 
 
         try{
-            credit = gradeService.getTotalClassCredit(email, null);
+            credit = gradeService.getClassCredit(email, null, null);
             //count = gradeService.getCompletedCourseCount(email);
-            classScore = gradeService.getEntireAllScore(email);
+            classScore = gradeService.getClassScore(email, null,null);
             semester = memberService.getMemberById(email).getSemester();
             userTermList.setSemester(semester);
 
@@ -64,7 +64,7 @@ public class StatsController {
     // '/stats'
     // user의 학기마다 이수학점, 이수과목 수, 전체 평점, 전공이수학점, 전공 이수과목 수, 전공 평점 json 반환
     @PostMapping("/stats")
-    public ResponseEntity<?> getUserStatBySemester(@RequestBody UserTermList userTermList){ // 리스트로 받을지 고민
+    public ResponseEntity<?> getUserStatBySemester(@RequestBody UserTermList userTermList){
         try{
             String email = userTermList.getEmail();
             List<String> TNumList= userTermList.getTNumList();
@@ -73,24 +73,24 @@ public class StatsController {
             List<SemesterInfoList.SemesterInfo> semesterInfos = new ArrayList<>();
 
             String curSem;
-            int count = 0;
-            int majorCount = 0;
-            int credit = 0;
-            int majorCredit = 0;
-            float classScore = 0.f;
-            float majorClassScore = 0.f;
+            //int count = 0; // 특정 학기 이수과목 수
+            //int majorCount = 0; // 특정 학기 전공 이수과목 수
+            int credit = 0; // 특정 학기 총 이수학점
+            int majorCredit = 0; // 특정 학기 전공 이수 학점
+            float classScore = 0.f; // 특정 학기 전체 평점
+            float majorClassScore = 0.f; // 특정 학기 전공 평점
 
             for(int sem=0; sem<semester; sem++){
                 curSem = TNumList.get(sem); // 현재 계산하는 학기
-                gradeService.getTotalClassCredit(email, curSem); // 특정 학기 총 이수학점
+                credit = gradeService.getClassCredit(email, curSem, null); // 특정 학기 총 이수학점
+                majorClassScore = gradeService.getClassScore(email, curSem, "전공"); // 특정 학기 전공 평점
+                classScore = gradeService.getClassScore(email, curSem, null);
+                majorCredit = gradeService.getClassCredit(email, curSem, "전공"); // 특정 학기 전공 평점
 
-                SemesterInfoList.SemesterInfo semesterInfo = new SemesterInfoList.SemesterInfo(curSem, count, majorCount, credit, majorCredit, classScore, majorClassScore);
-
+                SemesterInfoList.SemesterInfo semesterInfo = new SemesterInfoList.SemesterInfo(curSem, credit, majorCredit, classScore, majorClassScore);
+                semesterInfos.add(semesterInfo);
             }
-
-            //SemesterInfo semesterInfo = new SemesterInfo(email, semester, count, majorCount, credit, majorCredit, classScore,majorClassScore); // 반환 data
-
-            return null;
+            return ResponseEntity.ok().body(new SemesterInfoList(email, semesterInfos));
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

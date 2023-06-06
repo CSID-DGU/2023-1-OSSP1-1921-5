@@ -1,12 +1,9 @@
 package graduationProject.graduation_judge.domain.Grade.service;
 
-import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.GradeDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface GradeService {
@@ -25,20 +22,14 @@ public interface GradeService {
     //성적 삭제 (member 단위)
     void deleteGradeByMember(String memberId);
 
-    //특정 member의 전체 성적 평점 계산
-    float getAllScoreByMember(String memberID);
-
-    //특정 member의 전공 성적 평점 계산
-    float getMajorScoreByMember(String memberId);
-
-    //특정 member의 전체 성적 평점 계산
-    float getEntireAllScore(String memberId);
+    //특정 member의 성적 평점 계산
+    float getClassScore(String memberId, String termNum, String option);
 
     //전체 member의 전공 성적 평점 계산
     float getEntireMajorScore();
 
-    //특정 member의 총 이수학점을 계산 (전체 or 학기마다)
-    int getTotalClassCredit(String memberId, String termNum);
+    //특정 member의 이수학점을 계산 (전체 or 학기마다)
+    int getClassCredit(String memberId, String termNum, String option);
 
     //특정 member의 학기 리스트 반환
     List<String> getTermList(String memberId);
