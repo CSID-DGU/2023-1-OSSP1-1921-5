@@ -1,7 +1,14 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
 import graduationProject.graduation_judge.DAO.UserInfo;
+import graduationProject.graduation_judge.DTO.Member.EmailCheck.GetEmailDTO;
 import graduationProject.graduation_judge.DTO.Member.MailDTO;
+import graduationProject.graduation_judge.DTO.Member.MyPage.SendMyPageInfoDTO;
+import graduationProject.graduation_judge.DTO.Member.SendEmail.SendEmailCodeDTO;
+import graduationProject.graduation_judge.DTO.Member.SignIn.GetSignInDTO;
+import graduationProject.graduation_judge.DTO.Member.SignIn.SendSignInCheckDTO;
+import graduationProject.graduation_judge.DTO.Member.SignUp.GetSignUpDTO;
+import graduationProject.graduation_judge.DTO.Member.Update.GetUpdateInfoDTO;
 import graduationProject.graduation_judge.DTO.Member.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
 import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
@@ -45,32 +52,44 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void register(UserInfoDTO userInfoDTO) {
+    public void register(GetSignUpDTO getSignUpDTO) {
         // 회원 가입 로직 구현
+        UserInfoDTO userInfoDTO = new UserInfoDTO(
+                getSignUpDTO.getEmail(),
+                getSignUpDTO.getPw(),
+                Integer.parseInt(getSignUpDTO.getSemester()),
+                Integer.parseInt(getSignUpDTO.getYear()),
+                Major_curriculum.valueOf(getSignUpDTO.getCourse()),
+                Integer.parseInt(getSignUpDTO.getScore()),
+                English_level.valueOf(getSignUpDTO.getEnglish())
+        );
         memberRepository.save(userInfoDTO.toEntity());
     }
 
     @Override
-    public String login(String id, String pincode){
-        UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
-
+    public SendSignInCheckDTO login(GetSignInDTO getSignInDTO){
+        UserInfo userInfo = memberRepository.findUserInfoByUserid(getSignInDTO.getEmail());
+        SendSignInCheckDTO sendSignInCheckDTO = new SendSignInCheckDTO("dd");
         if (userInfo == null){
-            return "undefined";
+            sendSignInCheckDTO.setId("undefined");
+            return sendSignInCheckDTO;
         }
-        else if (userInfo.getPincode().equals(pincode)){
-            if(userInfo.getUserid().equals(id)){
-                return id;
+        else if (userInfo.getPincode().equals(getSignInDTO.getPw())){
+            if(userInfo.getUserid().equals(getSignInDTO.getEmail())){
+                sendSignInCheckDTO.setId(getSignInDTO.getEmail());
+                return sendSignInCheckDTO;//원래 아이디 담아서 보내기
             }
         }
         else{
-            return null;
+            sendSignInCheckDTO.setId(null);
+            return sendSignInCheckDTO;
         }
-        return "dd";
+        return sendSignInCheckDTO;
     }
 
     @Override
     public UserInfoDTO getMemberById(String id) {
-        // 회원 조회 로직 구현
+        // 회원 조회 로직 구현 - UserInfoDTO반환
         UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
         if(userInfo == null){
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
@@ -83,21 +102,36 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void updateMember(String id, int semester, int studentNumber,
-                             Major_curriculum course, int toeicScore,
-                             English_level englishGrade) {
+    public SendMyPageInfoDTO getMyPageInfoById(GetEmailDTO getEmailDTO) {
+        UserInfo userInfo = memberRepository.findUserInfoByUserid(getEmailDTO.getEmail());
+        if(userInfo == null){
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+        SendMyPageInfoDTO sendMyPageInfoDTO = new SendMyPageInfoDTO(
+                String.valueOf(userInfo.getStudent_number()),
+                String.valueOf(userInfo.getSemester()),
+                String.valueOf(userInfo.getCourse()),
+                String.valueOf(userInfo.getEnglishGrade()),
+                String.valueOf(userInfo.getToeicScore())
+        );
+        return sendMyPageInfoDTO;
+    }
+
+
+    @Override
+    public void updateMember(GetUpdateInfoDTO getUpdateInfoDTO) {
         //회원 수정 (id, pincode빼고 수정)
-        UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
+        UserInfo userInfo = memberRepository.findUserInfoByUserid(getUpdateInfoDTO.getEmail());
         UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUserid(),
                 userInfo.getPincode(), userInfo.getSemester(),
                 userInfo.getStudent_number(), userInfo.getCourse(),
                 userInfo.getToeicScore(),userInfo.getEnglishGrade());
 
-        userInfoDTO.setSemester(semester);
-        userInfoDTO.setStudent_number(studentNumber);
-        userInfoDTO.setCourse(course);
-        userInfoDTO.setToeicScore(toeicScore);
-        userInfoDTO.setEnglishGrade(englishGrade);
+        userInfoDTO.setSemester(Integer.parseInt(getUpdateInfoDTO.getRegister()));
+        userInfoDTO.setStudent_number(Integer.parseInt(getUpdateInfoDTO.getYear()));
+        userInfoDTO.setCourse(Major_curriculum.valueOf(getUpdateInfoDTO.getCourse()));
+        userInfoDTO.setToeicScore(Integer.parseInt(getUpdateInfoDTO.getScore()));
+        userInfoDTO.setEnglishGrade(English_level.valueOf(getUpdateInfoDTO.getEnglish()));
         memberRepository.save(userInfoDTO.toEntity());
     }
 
@@ -111,27 +145,12 @@ public class MemberServiceImpl implements MemberService {
         scoreStatRepository.deleteAllByMemberId(id);//ScoreStat 삭제
     }
 
-    /*@Override
-    public void findPassword(String id, String inputSecurityCode, String newPassword) {
-        //보안코드 확인 후 비밀번호 변경
-        UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
-        UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUserid(), userInfo.getPincode(), userInfo.getSemester(),
-                userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(),userInfo.getEnglishGrade());
-        MailDTO mailDTO = mailRepository.findById(id);
-        if (userInfoDTO != null && inputSecurityCode.equals(mailDTO.getMessage())) {
-            userInfoDTO.setPincode(newPassword);
-            memberRepository.save(userInfoDTO.toEntity());
-        } else {
-            throw new RuntimeException("올바르지 않은 보안 코드입니다.");
-        }
-    }*/
-
     @Override
-    public void changePassword(String id, String pincode){
-        UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
+    public void changePassword(GetSignInDTO getSignInDTO){
+        UserInfo userInfo = memberRepository.findUserInfoByUserid(getSignInDTO.getEmail());
         UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUserid(), userInfo.getPincode(), userInfo.getSemester(),
                 userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(), userInfo.getEnglishGrade());
-        userInfoDTO.setPincode(pincode);
+        userInfoDTO.setPincode(getSignInDTO.getPw());
         memberRepository.save(userInfoDTO.toEntity());
     }
 
@@ -144,7 +163,7 @@ public class MemberServiceImpl implements MemberService {
 
     //보안 코드를 이메일로 전송하는 메서드
     @Override
-    public String sendSecurityCodeToEmail(String id){
+    public SendEmailCodeDTO sendSecurityCodeToEmail(String id){
         UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
         UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUserid(), userInfo.getPincode(), userInfo.getSemester(),
                 userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(),userInfo.getEnglishGrade());
@@ -157,7 +176,9 @@ public class MemberServiceImpl implements MemberService {
 
             String text = "보안 코드: " + securityCode;
             emailService.sendEmail(id, text);
-            return securityCode;
+
+            SendEmailCodeDTO sendEmailCodeDTO = new SendEmailCodeDTO(securityCode);
+            return sendEmailCodeDTO;
         }else{
             throw new RuntimeException("존재하지 않는 회원입니다.");
         }

@@ -1,5 +1,13 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
+import graduationProject.graduation_judge.DTO.Member.EmailCheck.GetEmailDTO;
+import graduationProject.graduation_judge.DTO.Member.EmailCheck.SendEmailCheckDTO;
+import graduationProject.graduation_judge.DTO.Member.MyPage.SendMyPageInfoDTO;
+import graduationProject.graduation_judge.DTO.Member.SendEmail.SendEmailCodeDTO;
+import graduationProject.graduation_judge.DTO.Member.SignIn.GetSignInDTO;
+import graduationProject.graduation_judge.DTO.Member.SignIn.SendSignInCheckDTO;
+import graduationProject.graduation_judge.DTO.Member.SignUp.GetSignUpDTO;
+import graduationProject.graduation_judge.DTO.Member.Update.GetUpdateInfoDTO;
 import graduationProject.graduation_judge.DTO.Member.UserInfoDTO;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
@@ -8,20 +16,20 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MemberService {
     int emailCheck(String id); //이메일확인
-    void register(UserInfoDTO userInfoDTO);  // 회원 가입
-    String login(String id, String pincode);    //로그인
+    void register(GetSignUpDTO getSignUpDTO);  // 회원 가입
+    SendSignInCheckDTO login(GetSignInDTO getSignInDTO);    //로그인
 
     UserInfoDTO getMemberById(String id);  // 회원 조회
 
-    void updateMember(String id, int semester, int studentNumber,
-                      Major_curriculum course, int toeicScore,
-                      English_level englishGrade); // 회원 수정
+    SendMyPageInfoDTO getMyPageInfoById(GetEmailDTO getEmailDTO);
+
+    void updateMember(GetUpdateInfoDTO getUpdateInfoDTO); // 회원 수정
 
     /*void findPassword(String id, String inputSecurityCode, String newPassword); //비밀번호 찾기*/
-    void changePassword(String id, String pincode);//비밀번호 변경
+    void changePassword(GetSignInDTO getSignInDTO);//비밀번호 변경
     void deleteMember(String id); // 회원 탈퇴(삭제)
 
     //보안 코드를 이메일로 전송하는 메서드
-    String sendSecurityCodeToEmail(String id);
+    SendEmailCodeDTO sendSecurityCodeToEmail(String id);
 
 }
