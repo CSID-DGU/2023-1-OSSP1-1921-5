@@ -45,7 +45,8 @@ const GradReqChange = () => {
     return (
         <div className="fade-in">
             <Header signout />
-            <SideBar />
+            {/*<SideBar />*/}
+            <h4>심화 과정</h4>
             <TableContainer className="tableContainer" style={{ flex: 1 }}>
                 <Table>
                     <TableHead>
@@ -101,6 +102,7 @@ const GradReqChange = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <h4>일반 과정</h4>
         </div>
     );
 };
