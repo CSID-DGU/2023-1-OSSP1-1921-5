@@ -30,8 +30,7 @@ public class StatsController {
     private StatsService statsService;
 
     // user의 전체 총 이수학점, 총 이수과목 수, 전체 평점, 이수학기 수
-    // -> 프론트: 이수학기 수마다 data(email, TNumber, semester) 생성해 '/stats' ,'/updatestat'에 순서대로 요청
-    @PostMapping("/semester")
+    @PostMapping("/entire")
     public ResponseEntity<?> getUserStat(@RequestBody Map<String, String> request){
         String email = request.get("email");
         int credit = 0; // 사용자 총 이수학점
@@ -66,7 +65,7 @@ public class StatsController {
 
     // '/stats'
     // user의 학기마다 이수학점, 이수과목 수, 전체 평점, 전공이수학점, 전공 이수과목 수, 전공 평점 json 반환
-    @PostMapping("/stats")
+    @PostMapping("/semester")
     public ResponseEntity<?> getUserStatBySemester(@RequestBody UserTermList userTermList){
         try{
             String email = userTermList.getEmail();

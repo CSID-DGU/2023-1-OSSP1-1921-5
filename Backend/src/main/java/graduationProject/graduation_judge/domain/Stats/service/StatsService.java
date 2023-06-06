@@ -12,9 +12,6 @@ public interface StatsService {
     // 입력
     void insertScoreStat(ScoreStatDTO scoreStatDTO);
 
-    // member 별로 조회
-    List<ScoreStatDTO> getMemberScoreStats(String memberId);
-
     // semester 별 평점 GraphInfo 구하기(전체, 전공)
     GraphInfo.GraphData getGradeGraphInfo(int semester, String memberId, String typeId);
     

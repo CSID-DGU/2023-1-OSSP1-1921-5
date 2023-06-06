@@ -18,7 +18,7 @@ const Stats = () => {
             email: sessionStorage.getItem('userId')
         }
 
-        fetch("/semester", {
+        fetch("/stats/entire", {
             method: 'post',
             headers: {
                 "content-type": "application/json",
@@ -34,7 +34,7 @@ const Stats = () => {
                         TNumber: TNum,
                         semester: index
                     };
-                    return fetch("/stats", {
+                    return fetch("/stats/semester", {
                         method: 'post',
                         headers: {
                             "content-type": "application/json",
@@ -49,7 +49,7 @@ const Stats = () => {
                 return Promise.all(promises);
             })
             .then(() => {
-                return fetch("/getstats", {
+                return fetch("/stats/getstats", {
                     method: 'post',
                     headers: {
                         "content-type": "application/json",
