@@ -17,4 +17,16 @@
 https://github.com/CSID-DGU/2022-2-OSSP1-MooMinn-4/blob/main/README.md
 
 
-🎓 Overview
+### 🎓 Overview
+
+### ⚙️ Setup
+```
+1. 프로젝트 clone
+$ git clone 
+3. 프로젝트 폴더로 이동
+$ cd 
+4. 패키지 설치
+$ npm install
+5. 앱 실행
+$ npm start
+```
