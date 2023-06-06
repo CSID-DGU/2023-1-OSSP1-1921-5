@@ -31,11 +31,11 @@ const LChart = ({ title, data }) => {
             <Legend align="right" />
             <Line
               type="monotone"
-              dataKey="mydata"
+              dataKey="myData"
               stroke="#007FFF"
               activeDot={{ r: 8 }}
             />
-            <Line type="monotone" dataKey="avgdata" stroke="darkgray" />
+            <Line type="monotone" dataKey="avgData" stroke="darkgray" />
           </LineChart>
         </ResponsiveContainer>
       </div>

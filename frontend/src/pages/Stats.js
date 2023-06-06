@@ -52,10 +52,10 @@ const Stats = () => {
             .then((res) => res.json())
             .then((json) => {
                 console.log(json)
-                setAllScoreData(json[0])
-                setMajorScoreData(json[1])
-                setCreditData(json[2])
-                console.log("AllScoreData", AllScoreData, "MajorScoreData", MajorScoreData, "CreditData", CreditData)
+                setAllScoreData(json["entireData"])
+                setMajorScoreData(json["majorData"])
+                setCreditData(json["creditData"])
+                console.log("AllScoreData", json["entireData"], "MajorScoreData", json["majorData"], "CreditData", json["creditData"])
                 setLoading(false)
                 console.log("로딩종료")
             });
