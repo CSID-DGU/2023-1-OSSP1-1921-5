@@ -9,5 +9,7 @@ import java.util.List;
 public interface ScoreStatRepository extends JpaRepository<ScoreStat, ScoreStatPK> {
     List<ScoreStat> findAllByMemberId(String memberId);
     void deleteAllByMemberId(String memberId);
-    List<ScoreStat> findAllBySemester(int semester);
+    ScoreStat findBySemesterAndMemberIdAndTypeId(int semester, String memberId, String typeId);
+
+    List<ScoreStat> findAllBySemesterAndTypeId(int semester, String typeId);
 }

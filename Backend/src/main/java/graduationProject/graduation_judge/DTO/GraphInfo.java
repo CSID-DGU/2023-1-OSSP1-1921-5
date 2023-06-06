@@ -15,7 +15,7 @@ public class GraphInfo {
     @AllArgsConstructor
     @Data
     public static class GraphData{
-        private String semester;
+        private int semester;
         private float myData;
         private float avgData;
     }

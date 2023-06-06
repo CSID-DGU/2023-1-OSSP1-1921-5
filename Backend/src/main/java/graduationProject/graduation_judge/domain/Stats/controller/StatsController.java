@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.domain.Stats.controller;
 
+import graduationProject.graduation_judge.DAO.ScoreStat;
 import graduationProject.graduation_judge.DTO.GraphInfo;
 import graduationProject.graduation_judge.DTO.ScoreStatDTO;
 import graduationProject.graduation_judge.DTO.SemesterInfoList;
@@ -107,11 +108,21 @@ public class StatsController {
     // 업데이트된 scorestat 값을 가지고 그래프 data 만들기. 학기마다 모든 user의 전체 평점, 전공평점, 이수학점
     @PostMapping("/getstats")
     public ResponseEntity<?> getStatGraph(@RequestBody Map<String, String> request){
-        GraphInfo graphInfo; // return 값
-        String email = request.get("email");
-        statsService.getMemberScoreStats(email); //내 정보 가져오기
-
-        return null;
+        List<GraphInfo.GraphData> entireData = new ArrayList<>();
+        List<GraphInfo.GraphData> majorData = new ArrayList<>();
+        List<GraphInfo.GraphData> creditData = new ArrayList<>();
+        try{
+            String email = request.get("email");
+            for(int sem=1; sem<=8; sem++){
+                entireData.add(statsService.getGradeGraphInfo(sem, email, "전체"));
+                majorData.add(statsService.getGradeGraphInfo(sem, email, "전공"));
+                creditData.add(statsService.getCreditGraphInfo(sem, email, creditData));
+            }
+            GraphInfo graphInfo = new GraphInfo(entireData, majorData, creditData);
+            return ResponseEntity.ok().body(new GraphInfo(entireData, majorData, creditData));
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }
