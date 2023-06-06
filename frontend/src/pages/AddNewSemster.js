@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import * as XLSX from "xlsx";
 import './css/Input.css';
+import SideBar from '../Components/SideBar';
 
 
 const AddNewSemester = () => {
@@ -111,7 +112,8 @@ const AddNewSemester = () => {
       
     return (
         <div>
-            <MenuBar />
+            {/* <MenuBar /> */}
+            <SideBar />
             <Stack className="input_area" flexDirection={"row"}>
                 <TextField 
                     className="textfield"
