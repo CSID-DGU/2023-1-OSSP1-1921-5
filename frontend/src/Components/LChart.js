@@ -27,14 +27,21 @@ const LChart = ({ title, data }) => {
             />
             <YAxis tickCount={10} padding={{ top: 10 }} />
             <Tooltip />
-            <Legend align="right" />
+            <Legend
+                align="right"
+                payload={[
+                    { value: '나', type: 'line', color: '#007FFF' },
+                  { value: '평균', type: 'line', color: 'darkgray' }
+                ]}
+            />
             <Line
               type="monotone"
               dataKey="myData"
               stroke="#007FFF"
               activeDot={{ r: 8 }}
+              name="나"
             />
-            <Line type="monotone" dataKey="avgData" stroke="darkgray" />
+            <Line type="monotone" dataKey="avgData" stroke="darkgray" name="평균"/>
           </LineChart>
         </ResponsiveContainer>
       </div>
