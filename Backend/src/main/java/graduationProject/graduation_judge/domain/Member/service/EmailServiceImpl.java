@@ -1,8 +1,7 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
 import graduationProject.graduation_judge.DAO.SecurityCodeOfUserMail;
-import graduationProject.graduation_judge.DTO.MailDTO;
-import graduationProject.graduation_judge.DTO.UserInfoDTO;
+import graduationProject.graduation_judge.DTO.Member.MailDTO;
 import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
