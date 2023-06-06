@@ -11,10 +11,10 @@
 | 팀원 | [하유경](https://github.com/eeheueklf)    |컴퓨터공학과| FrontEnd |
 | 팀원 | [허준상](https://github.com/junnyange)  |컴퓨터공학과| FrontEnd |
 
-## 1. 프로젝트 주제
+
 # 졸업할 수 있을까?
 > 동국대학교 **컴퓨터공학과** 졸업 가능 여부 판정 웹 서비스 (23/03/15 ~ 22/06/17)
-https://github.com/CSID-DGU/2022-2-OSSP1-MooMinn-4/blob/main/README.md
+[기존 프로젝트](https://github.com/CSID-DGU/2022-2-OSSP1-MooMinn-4/blob/main/README.md)
 
 
 ### 🎓 Overview
