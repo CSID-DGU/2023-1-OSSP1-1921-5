@@ -43,8 +43,8 @@ const GradReqChange = () => {
 
     return (
         <div style={{ display: 'flex' }}>
-            {/* <MenuBar /> */}
-            <SideBar />
+            {/* <SideBar /> <SideBar />*/}
+            <h4>심화 과정</h4>
             <TableContainer className="tableContainer" style={{ flex: 1 }}>
                 <Table>
                     <TableHead>
@@ -100,6 +100,7 @@ const GradReqChange = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <h4>일반 과정</h4>
         </div>
     );
 };
