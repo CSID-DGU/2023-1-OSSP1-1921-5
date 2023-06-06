@@ -23,7 +23,7 @@ const LChart = ({ title, data }) => {
             <CartesianGrid stroke="silver" strokeDasharray="2 2" />{" "}
             {/* 배경에 그리드 선 */}
             <XAxis
-              dataKey="name"
+              dataKey="semester"
               label={{ value: "학기", offset: 10, position: "right" }}
             />
             <YAxis tickCount={10} padding={{ top: 10 }} />
@@ -31,11 +31,11 @@ const LChart = ({ title, data }) => {
             <Legend align="right" />
             <Line
               type="monotone"
-              dataKey="나"
+              dataKey="mydata"
               stroke="#007FFF"
               activeDot={{ r: 8 }}
             />
-            <Line type="monotone" dataKey="평균" stroke="darkgray" />
+            <Line type="monotone" dataKey="avgdata" stroke="darkgray" />
           </LineChart>
         </ResponsiveContainer>
       </div>
