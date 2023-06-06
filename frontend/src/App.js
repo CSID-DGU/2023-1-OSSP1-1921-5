@@ -6,7 +6,7 @@ import SignUp from './pages/SignUp';
 import MyPage from './pages/MyPage';
 import Input from './pages/Input';
 import Result from './pages/Result';
-import Stats from './pages/Stats';
+import Stats from './pages/Stats'
 import Admin from './pages/Admin';
 import GradReqChange from './pages/GradReqChange';
 import AddNewSemester from './pages/AddNewSemster';

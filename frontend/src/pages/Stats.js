@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import LChart from '../Components/LChart';
+import LChart from '../Components/LChart'
 import Header from '../Components/Header';
 import './css/Stats.css';
 import LoadingSpinner from '../Components/LoadingSpinner';

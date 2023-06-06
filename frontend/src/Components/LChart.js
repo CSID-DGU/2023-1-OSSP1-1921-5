@@ -17,7 +17,6 @@ const LChart = ({ title, data }) => {
       <h4 className="LChartTitle">{title}</h4>
       <div style={{ padding: "20px" }}>
         <ResponsiveContainer aspect={11 / 6}>
-          {" "}
           {/* 가로 세로 비율 조정 */}
           <LineChart data={data} margin={{ left: -30, right: 35, bottom: -15 }}>
             <CartesianGrid stroke="silver" strokeDasharray="2 2" />{" "}
