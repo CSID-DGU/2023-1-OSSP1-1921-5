@@ -44,17 +44,6 @@ const Stats = () => {
                         .then((res) => res.json())
                         .then((json) => {
                             console.log(json)
-                            return fetch("/updatestat", {
-                                method: 'post',
-                                headers: {
-                                    "content-type": "application/json",
-                                },
-                                body: JSON.stringify(json)
-                            })
-                                .then((res) => res.json())
-                                .then((json) => {
-                                    console.log('updatestat')
-                                });
                         });
                 });
                 return Promise.all(promises);
