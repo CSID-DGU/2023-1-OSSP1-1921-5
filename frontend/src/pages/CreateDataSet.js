@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import './css/CreateDataSet.css';
 import SideBar from '../Components/SideBar';
+import Header from '../Components/Header';
 
 const CreateDataSet = () => {
   const [dataNum, setDataNum] = useState('');
@@ -76,7 +77,8 @@ const CreateDataSet = () => {
 
 
   return (
-    <div>
+    <div className="fade-in">
+      <Header signout />
       {/* <MenuBar /> */}
       <SideBar />
       <div className="container">

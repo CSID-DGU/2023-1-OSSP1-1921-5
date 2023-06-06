@@ -7,6 +7,7 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import * as XLSX from "xlsx";
 import './css/Input.css';
 import SideBar from '../Components/SideBar';
+import Header from '../Components/Header';
 
 
 const AddNewSemester = () => {
@@ -111,7 +112,8 @@ const AddNewSemester = () => {
     }
       
     return (
-        <div>
+        <div className="fade-in">
+            <Header signout />
             {/* <MenuBar /> */}
             <SideBar />
             <Stack className="input_area" flexDirection={"row"}>

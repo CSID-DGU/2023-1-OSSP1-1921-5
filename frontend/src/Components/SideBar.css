@@ -1,31 +1,27 @@
+@font-face {
+  font-family: 'KBO-Dia-Gothic_bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
 .sidebar {
     position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
+    top: 50px;
+    left: 300px;
     width: 320px;
-    background-color: #fff;
   }
   .sidebar__logo {
-    display: grid;
-    place-items: center;
     height: 120px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    font-family: "Mochiy Pop P one", sans-serif;
   }
-  .sidebar__menu {
-    position: relative;
-  }
+
   .sidebar__menu__item {
     display: flex;
     align-items: center;
     place-content: flex-start;
     padding: 1rem 3rem;
-    font-size: 1.25rem;
-    font-weight: 500;
     color: #555555;
-    transition: color 0.3s ease-in-out;
+    font-family: KBO-Dia-Gothic_bold, sans-serif;
   }
   .sidebar__menu__item.active {
     color: #fff;

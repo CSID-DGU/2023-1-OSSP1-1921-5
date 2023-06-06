@@ -30,13 +30,13 @@ const Sidebar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [stepHeight, setStepHeight] = useState(0);
   const sidebarRef = useRef();
-  const indicatorRef = useRef();
+  const colorRef = useRef();
   const location = useLocation();
 
   useEffect(() => {
     setTimeout(() => {
       const sidebarItem = sidebarRef.current.querySelector('.sidebar__menu__item');
-      indicatorRef.current.style.height = `${sidebarItem.clientHeight}px`;
+      colorRef.current.style.color = `red`;
       setStepHeight(sidebarItem.clientHeight);
     }, 50);
   }, []);
@@ -50,16 +50,8 @@ const Sidebar = () => {
   return (
     <div className='sidebar'>
       <div className="sidebar__logo">
-        Animate
       </div>
       <div ref={sidebarRef} className="sidebar__menu">
-        <div
-          ref={indicatorRef}
-          className="sidebar__menu__indicator"
-          style={{
-            transform: `translateX(-50%) translateY(${activeIndex * stepHeight}px)`
-          }}
-        ></div>
         {sidebarNavItems.map((item, index) => (
           <NavLink
             to={item.to}
@@ -70,7 +62,7 @@ const Sidebar = () => {
               <div className="sidebar__menu__item__icon">
                 {item.icon}
               </div>
-              <div className="sidebar__menu__item__text">
+              <div className="sidebar__menu__item__text" ref={colorRef}>
                 {item.display}
               </div>
             </div>

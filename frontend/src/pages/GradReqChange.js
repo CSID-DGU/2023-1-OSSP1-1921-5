@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import MenuBar from '../Components/MenuBar';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Button,} from '@mui/material';
 import SideBar from '../Components/SideBar';
+import Header from '../Components/Header';
 
 /*
 학수번호 변경 ex) CSE2016→CSE2028
@@ -42,8 +43,8 @@ const GradReqChange = () => {
     };
 
     return (
-        <div style={{ display: 'flex' }}>
-            {/* <MenuBar /> */}
+        <div className="fade-in">
+            <Header signout />
             <SideBar />
             <TableContainer className="tableContainer" style={{ flex: 1 }}>
                 <Table>
