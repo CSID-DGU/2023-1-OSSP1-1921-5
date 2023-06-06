@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import MenuBar from '../Components/MenuBar';
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import * as XLSX from "xlsx";
-import './css/Input.css';
+import './css/Admin.css';
 import SideBar from '../Components/SideBar';
 import Header from '../Components/Header';
 
@@ -113,9 +112,11 @@ const AddNewSemester = () => {
       
     return (
         <div className="fade-in">
-            <Header signout />
-            {/* <MenuBar /> */}
-            <SideBar />
+        <Header signout />
+        {/* <MenuBar /> */}
+        <SideBar />
+        <div className="container">
+            <div className="contents">
             <Stack className="input_area" flexDirection={"row"}>
                 <TextField 
                     className="textfield"
@@ -164,7 +165,9 @@ const AddNewSemester = () => {
                 <button className="btn" onClick={onClickInput}>
                     Update
                 </button>
-            </Box>       
+            </Box>     
+            </div>  
+        </div>
         </div>
     );
 };

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import MenuBar from '../Components/MenuBar';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Button,} from '@mui/material';
 import SideBar from '../Components/SideBar';
 import Header from '../Components/Header';
@@ -44,8 +43,10 @@ const GradReqChange = () => {
 
     return (
         <div className="fade-in">
-            <Header signout />
-            {/*<SideBar />*/}
+        <Header signout />
+        {/* <MenuBar /> */}
+        <SideBar />
+        <div className="container">
             <h4>심화 과정</h4>
             <TableContainer className="tableContainer" style={{ flex: 1 }}>
                 <Table>
@@ -103,6 +104,7 @@ const GradReqChange = () => {
                 </Table>
             </TableContainer>
             <h4>일반 과정</h4>
+        </div>
         </div>
     );
 };

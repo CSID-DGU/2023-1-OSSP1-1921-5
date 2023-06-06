@@ -10,6 +10,7 @@
     top: 50px;
     left: 300px;
     width: 320px;
+    z-index: 1;
   }
   .sidebar__logo {
     height: 120px;
