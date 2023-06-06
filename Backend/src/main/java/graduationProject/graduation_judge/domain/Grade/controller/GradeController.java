@@ -2,10 +2,9 @@ package graduationProject.graduation_judge.domain.Grade.controller;
 
 import graduationProject.graduation_judge.DTO.GradeDTO;
 import graduationProject.graduation_judge.DTO.UserGradeList;
-import graduationProject.graduation_judge.DTO.UserInfoDTO;
+import graduationProject.graduation_judge.DTO.Member.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

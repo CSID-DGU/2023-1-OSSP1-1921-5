@@ -1,4 +1,4 @@
-package graduationProject.graduation_judge.DTO;
+package graduationProject.graduation_judge.DTO.Member;
 
 import graduationProject.graduation_judge.DAO.ScoreStat;
 import graduationProject.graduation_judge.DAO.UserInfo;

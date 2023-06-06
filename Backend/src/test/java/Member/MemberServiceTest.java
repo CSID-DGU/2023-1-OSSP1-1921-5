@@ -1,7 +1,7 @@
 /*
 package Member;
 
-import graduationProject.graduation_judge.DTO.UserInfoDTO;
+import graduationProject.graduation_judge.DTO.Member.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
 import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
 import graduationProject.graduation_judge.domain.Member.service.EmailService;

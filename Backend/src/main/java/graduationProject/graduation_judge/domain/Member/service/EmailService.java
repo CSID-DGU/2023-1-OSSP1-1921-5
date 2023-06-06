@@ -1,9 +1,6 @@
 package graduationProject.graduation_judge.domain.Member.service;
 
-import graduationProject.graduation_judge.DAO.SecurityCodeOfUserMail;
-import graduationProject.graduation_judge.DAO.UserInfo;
-import graduationProject.graduation_judge.DTO.MailDTO;
-import graduationProject.graduation_judge.DTO.UserInfoDTO;
+import graduationProject.graduation_judge.DTO.Member.MailDTO;
 
 public interface EmailService {
     public void sendEmail(String to, String text);

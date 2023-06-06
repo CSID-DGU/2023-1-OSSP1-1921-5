@@ -1,12 +1,11 @@
 package graduationProject.graduation_judge.domain.Member.controller;
 
-import graduationProject.graduation_judge.DTO.UserInfoDTO;
+import graduationProject.graduation_judge.DTO.Member.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    //회원가입 시 중복아이디 확인000
+    //회원가입 시 중복아이디 확인
     @PostMapping("/emailcheck")
     public HashMap<String, Integer> emailCheck(@RequestBody Map<String ,String > request){
         String email = request.get("email");
@@ -29,7 +28,7 @@ public class MemberController {
         return map;
     }
 
-    //회원 가입000
+    //회원 가입
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody  Map<String, String > request) {
         try {
@@ -48,7 +47,7 @@ public class MemberController {
         }
     }
 
-    //로그인000
+    //로그인
     @PostMapping("/signin")
     public HashMap<String, Object> signin(@RequestBody Map<String, String > request) {
         try {
@@ -66,7 +65,7 @@ public class MemberController {
         }
     }
 
-    //회원 정보 조회000
+    //회원 정보 조회
     @PostMapping("/mypage")
     public HashMap<String,Object> getUserById(@RequestBody Map<String,String> request) {
         try {
@@ -87,7 +86,7 @@ public class MemberController {
         }
     }
 
-    //회원 정보 수정000
+    //회원 정보 수정
     @PostMapping("/updateuserinfo")
     public ResponseEntity<?> updateUser(@RequestBody Map<String, String > request) {
         String id = request.get("email");
@@ -107,7 +106,7 @@ public class MemberController {
     }
 
 
-    //회원 정보 삭제000
+    //회원 정보 삭제
     @PostMapping("/deletepf")
     public ResponseEntity<?> deleteUser(@RequestBody HashMap<String,String> request) {
         String id = request.get("email");
@@ -120,7 +119,7 @@ public class MemberController {
     }
 
 
-    //비밀번호 변경000
+    //비밀번호 변경
     @PostMapping("/changepw")
     public ResponseEntity<String> changePassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
@@ -133,7 +132,7 @@ public class MemberController {
         }
     }
 
-    //비밀번호 변경시 이메일 확인000
+    //비밀번호 변경시 이메일 확인
     @PostMapping("/isthereemail")
     public HashMap<String, Integer> isThereEmail(@RequestBody HashMap<String, String> request) {
         String email = request.get("email");
@@ -158,30 +157,4 @@ public class MemberController {
         }
     }
 
-    /**
-     * -
-     *     - 회원가입 (등록)
-     *     - 비밀번호 찾기 (수정) (수정 )
-     *     - 회원 정보 조회(마이페이지 조회) (조회)
-     *     - 회원 정보 수정 (수정)
-     *
-     *     - 로그인
-     *     - ~~(회원 탈퇴)~~
-     */
-    /*@PostMapping("/test")
-    public String test(){
-        UserInfoDTO userInfoDTO = new UserInfoDTO("user20171@gmail.com","user201712",
-                1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
-        this.memberService.register(userInfoDTO);
-        return "input test";
-    }
-
-    @PostMapping("/emailTest")
-    public String emailTest() {
-        UserInfoDTO userInfoDTO = new UserInfoDTO("dabin6469@gmail.com","user201712",
-                1,2017, Major_curriculum.ADVANCED, 115, English_level.S3);
-        memberService.register(userInfoDTO);
-        memberService.sendSecurityCodeToEmail(userInfoDTO.getId());
-        return "email test";
-    }*/
 }
