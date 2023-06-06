@@ -16,6 +16,12 @@
 > 동국대학교 **컴퓨터공학과** 졸업 가능 여부 판정 웹 서비스 (23/03/15 ~ 22/06/17)
 [기존 프로젝트](https://github.com/CSID-DGU/2022-2-OSSP1-MooMinn-4/blob/main/README.md)
 
+### 프로젝트 목표
+```
+변화하는 졸업요건에 따라 졸업 가능 여부를 확인
+관리자 페이지 기능을 추가하여 test dataset생성, 강의정보 insert 등의 기능 제공
+기존에 정상적으로 작동하지 않던 통계 페이지 구현
+```
 
 ### 🎓 Overview
 ![13](https://user-images.githubusercontent.com/92643238/243708349-ae5823cc-e700-465f-adbc-d585595427a3.png)
@@ -41,5 +47,6 @@ $ npm start
 <span><img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/></span>
 <span><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/></span>
 <span><img src="https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=Jenkins&logoColor=white"/></span>
+<span><img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white"/></span>
 
 <!-- <span><img src="https://img.shields.io/badge/AWS-FF9900?style=flat-square&logo=AmazonAWS&logoColor=232F3E"/></span> -->
