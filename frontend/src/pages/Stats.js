@@ -28,25 +28,17 @@ const Stats = () => {
             .then((res) => res.json())
             .then((json) => {
                 console.log(json)
-                const promises = json.TNumList.map((TNum, index) => {
-                    const semesterData = {
-                        email: json.email,
-                        TNumber: TNum,
-                        semester: index
-                    };
-                    return fetch("/stats/semester", {
-                        method: 'post',
-                        headers: {
-                            "content-type": "application/json",
-                        },
-                        body: JSON.stringify(semesterData)
-                    })
-                        .then((res) => res.json())
-                        .then((json) => {
-                            console.log(json)
-                        });
-                });
-                return Promise.all(promises);
+                return fetch("/stats/semester", {
+                    method: 'post',
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(json)
+                })
+                    .then((res) => res.json())
+                    .then((json) => {
+                        console.log(json)
+                    });
             })
             .then(() => {
                 return fetch("/stats/getstats", {
