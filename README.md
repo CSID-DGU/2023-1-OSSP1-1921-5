@@ -14,8 +14,11 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"  width="16.66%"><a href="[https://kentcdodds.com](https://github.com/dabeann)"><img src="https://avatars.githubusercontent.com/u/127164905?v=4" width="100px;" alt="최다빈"/><br /><sub><b>최다빈</b></sub></a><br />팀장, BackEnd</td>
+      <td align="center"  width="16.66%"><a href="[https://kentcdodds.com](https://github.com/dabeann)"><img src="[https://kentcdodds.com](https://github.com/dabeann)" width="100px;" alt="최다빈"/><br /><sub><b>최다빈</b></sub></a><br />팀장, BackEnd</td>
+      <td align="center"  width="16.66%"><a href="[https://kentcdodds.com](https://github.com/pletain)"><img src="https://avatars.githubusercontent.com/u/45763117?v=4" width="100px;" alt="김태형"/><br /><sub><b>김태형</b></sub></a><br />BackEnd</td>
     </tr>
+  </tbody>
+</table>
 
 # 졸업할 수 있을까?
 > 동국대학교 **컴퓨터공학과** 졸업 가능 여부 판정 웹 서비스 (23/03/15 ~ 22/06/17)
