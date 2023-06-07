@@ -3,13 +3,6 @@ import { Button,} from '@mui/material';
 import SideBar from '../Components/SideBar';
 import Header from '../Components/Header';
 
-/*
-학수번호 변경 ex) CSE2016→CSE2028
-교과명 변경 ex) 창의적공학설계→어드벤처디자인
-
-학수번호 변경 같은 걸 하는 form을 따로 만들어야하나? --> 학수번호 변경, 교과명 변경
-*/
-
 const GradReqChange = () => {
     const [formData, setFormData] = useState({
         liberalCredit: '', // 공통교양 이수학점
@@ -26,10 +19,17 @@ const GradReqChange = () => {
         english: '', // 영어강의 이수 개수 
     });
 
-    const handleDownload = () => {
+    const handleReqDownload = () => {
         const link = document.createElement('a');
-        link.download = 'Graduation-Requirement-File';
+        link.download = '컴퓨터공학과_졸업요건_양식';
         link.href = 'img/GraduationRequirements.xlsx';
+        link.click();
+    }
+
+    const handleCourseDownload = () => {
+        const link = document.createElement('a');
+        link.download = '학수강좌번호_변경';
+        link.href = 'img/CourseNumChange.xlsx';
         link.click();
     }
 
@@ -38,8 +38,13 @@ const GradReqChange = () => {
         <Header signout />
         {/* <SideBar />*/}
         <div className="container">
-            <Button onClick={handleDownload} variant="contained">
-                Download file
+        {/* <img alt="컴공졸업요건입력예시" src="img/GradReqExample.png"></img> */}
+        {/* <img alt="학수번호변경예시" src="img/CourseNumChangeExample.png"></img> */}
+            <Button onClick={handleReqDownload} variant="contained">
+                컴퓨터공학과 졸업요건 양식
+            </Button>
+            <Button onClick={handleCourseDownload} variant="contained">
+                학수강좌번호 변경
             </Button>
         </div>
         </div>
