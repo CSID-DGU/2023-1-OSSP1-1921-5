@@ -3,6 +3,7 @@ package graduationProject.graduation_judge.domain.Stats.service;
 import graduationProject.graduation_judge.DAO.ScoreStat;
 import graduationProject.graduation_judge.DTO.GraphInfo;
 import graduationProject.graduation_judge.DTO.ScoreStatDTO;
+import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
 import graduationProject.graduation_judge.domain.Stats.repository.ScoreStatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,6 @@ public class StatsServiceImpl implements StatsService {
     @Autowired
     private ScoreStatRepository scoreStatRepository;
 
-
     @Override
     public void insertScoreStat(ScoreStatDTO scoreStatDTO) {
         scoreStatRepository.save(scoreStatDTO.toEntity());
@@ -27,6 +27,7 @@ public class StatsServiceImpl implements StatsService {
         float myData = 0;
         float avgData = 0;
         float allGradeSum = 0;
+        int numMember; // 총 멤버 수
 
         if (typeId == "전체" || typeId == "전공") {
             // 먼저 member의 평점
@@ -36,12 +37,12 @@ public class StatsServiceImpl implements StatsService {
 
             // 모든 member의 평점
             List<ScoreStat> allScoreStat = scoreStatRepository.findAllBySemesterAndTypeId(semester, typeId);
-            if (allScoreStat != null) {
+            numMember = allScoreStat.size();
+            if (numMember != 0) {
                 for (ScoreStat scoreStat : allScoreStat) {
                     allGradeSum += scoreStat.getGrade();
                 }
-                if (allScoreStat.size() != 0)
-                    avgData = allGradeSum / allScoreStat.size();
+                avgData = allGradeSum / numMember;
             }
 
             return new GraphInfo.GraphData(semester, myData, avgData);
@@ -51,12 +52,12 @@ public class StatsServiceImpl implements StatsService {
     }
 
     @Override
-    public GraphInfo.GraphData getCreditGraphInfo(int semester, String memberId, List<GraphInfo.GraphData> creditData) {
+    public GraphInfo.GraphData getCreditGraphInfo(int semester, String memberId) {
         // semester 별 이수학점 GraphInfo 구하기
         int myCredit = 0;
         int avgCredit = 0;
         int sumOfAllCredit = 0;
-        int numMember = 0;
+        int numMember; // 총 멤버 수
 
         for (int sem = 1; sem <= semester; sem++) {
             // member의 누적 이수학점 구하기
@@ -64,12 +65,16 @@ public class StatsServiceImpl implements StatsService {
             if (myScoreStat != null) {
                 myCredit += myScoreStat.getCredit();
             }
+            else{ // member가 semester만큼 학기를 이수하지 않음
+                myCredit = 0;
+                break;
+            }
         }
 
         // 모든 member의 누적 이수학점 구하기
         List<ScoreStat> allScoreStat = scoreStatRepository.findAllBySemesterAndTypeId(semester, "전체");
-
-        if (allScoreStat != null) {
+        numMember = allScoreStat.size();
+        if (numMember != 0) {
             for (ScoreStat scoreStat : allScoreStat) {
                 for (int sem = 1; sem <= semester; sem++) {
                     // semester학기까지 이수한 member들의 누적 이수학점 구하기
@@ -79,8 +84,7 @@ public class StatsServiceImpl implements StatsService {
                     }
                 }
             }
-            if (allScoreStat.size() != 0)
-                avgCredit = sumOfAllCredit / allScoreStat.size();
+            avgCredit = sumOfAllCredit / numMember;
         }
         return new GraphInfo.GraphData(semester, myCredit, avgCredit);
     }

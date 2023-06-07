@@ -115,7 +115,7 @@ public class StatsController {
             for(int sem=1; sem<=8; sem++){
                 entireData.add(statsService.getGradeGraphInfo(sem, email, "전체"));
                 majorData.add(statsService.getGradeGraphInfo(sem, email, "전공"));
-                creditData.add(statsService.getCreditGraphInfo(sem, email, creditData));
+                creditData.add(statsService.getCreditGraphInfo(sem, email));
             }
             GraphInfo graphInfo = new GraphInfo(entireData, majorData, creditData);
             return ResponseEntity.ok().body(new GraphInfo(entireData, majorData, creditData));

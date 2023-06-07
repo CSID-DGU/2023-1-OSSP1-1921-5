@@ -16,7 +16,7 @@ public class GraphInfo {
     @Data
     public static class GraphData{
         private int semester;
-        private float myData;
-        private float avgData;
+        private Number myData; //float or int 가능
+        private Number avgData; //float or int 가능
     }
 }
