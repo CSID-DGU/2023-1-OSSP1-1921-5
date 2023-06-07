@@ -167,7 +167,7 @@ def user_subject(dataset, solver):
     s.check()
     for k, row in dataset.iterrows():
         if row['등급'] != 'F':
-            if row['교과목명'][0:4] == '개별연구':
+            if row['교과목명'][0:4] == '개별연구' or row['교과목명'][0:4] == 'CS개별':
                 a = Bool(row['학수강좌번호'][0:3])
                 print(a)
             else:
