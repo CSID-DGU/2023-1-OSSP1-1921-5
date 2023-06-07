@@ -1,4 +1,5 @@
-//젠킨스 - 소나큐브 파이프라인
+//젠킨스 - 소나큐브 파이프라인 Using SonarScanner
+//젠킨스에서 빌드한 파일을 자동으로 소나스캐너로 스캔하여 소나큐브로 넘겨줌
 node {
   stage('SCM') {
     checkout scm
