@@ -1,7 +1,7 @@
 # 2023-1-OPPS1-1921-5
 2023년 1학기 공개SW프로젝트01 5조입니다.
 
-## TEAM MEMBER
+## TEAM MEMBER ✨
 |    | 이름                                   |학과| 역할       |
 |----|--------------------------------------|----|----------|
 | 팀장 | [최다빈](https://github.com/dabeann)    |컴퓨터공학과| BackEnd  |
@@ -11,6 +11,11 @@
 | 팀원 | [하유경](https://github.com/eeheueklf)    |컴퓨터공학과| FrontEnd |
 | 팀원 | [허준상](https://github.com/junnyange)  |컴퓨터공학과| FrontEnd |
 
+<table>
+  <tbody>
+    <tr>
+      <td align="center"  width="16.66%"><a href="[https://kentcdodds.com](https://github.com/dabeann)"><img src="https://avatars.githubusercontent.com/u/127164905?v=4" width="100px;" alt="최다빈"/><br /><sub><b>최다빈</b></sub></a><br />팀장, BackEnd</td>
+    </tr>
 
 # 졸업할 수 있을까?
 > 동국대학교 **컴퓨터공학과** 졸업 가능 여부 판정 웹 서비스 (23/03/15 ~ 22/06/17)
