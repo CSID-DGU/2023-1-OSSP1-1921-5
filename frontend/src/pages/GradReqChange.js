@@ -16,9 +16,18 @@ import Header from '../Components/Header';
 
 const GradReqChange = () => {
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: '',
+        liberalcredit: '', // 공통교양 이수학점
+        liberal: '', // 공통교양 필수
+        bsmcredit: '', // bsm(수학 + 과학) 이수학점
+        bsm: '', // bsm 필수
+        majorcredit: '', // 전공 이수학점
+        major: '', // 전공 필수
+        designcredit: '', // 설계 이수학점
+        design: '', // 설계
+        totalcredit: '', // 총이수학점
+        totalscore: '', // 평점평균
+        toeic: '', // 외국어시험
+        english: '', // 영어강의 이수 개수 
     });
 
     const handleChange = (e) => {
@@ -44,65 +53,10 @@ const GradReqChange = () => {
     return (
         <div className="fade-in">
         <Header signout />
-        {/* <MenuBar /> */}
-        <SideBar />
+        {/* <MenuBar /> <SideBar />*/}
         <div className="container">
             <h4>심화 과정</h4>
-            <TableContainer className="tableContainer" style={{ flex: 1 }}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>구분</TableCell>
-                            <TableCell>2023학년도</TableCell>
-                            <TableCell>비고</TableCell>
-                        </TableRow>
-                        <TableRow></TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>교양</TableCell>
-                            <TableCell></TableCell>
-                            <TableCell>
-                                <TextField
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Email</TableCell>
-                            <TableCell>
-                                <TextField
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Message</TableCell>
-                            <TableCell>
-                                <TextField
-                                    name="message"
-                                    value={formData.message}
-                                    onChange={handleChange}
-                                    multiline
-                                    rows={4}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell></TableCell>
-                            <TableCell>
-                                <Button variant="contained" onClick={handleSubmit}>
-                                    Submit
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <TextField></TextField>
             <h4>일반 과정</h4>
         </div>
         </div>
