@@ -36,7 +36,7 @@ const Sidebar = () => {
   useEffect(() => {
     setTimeout(() => {
       const sidebarItem = sidebarRef.current.querySelector('.sidebar__menu__item');
-      colorRef.current.style.color = `red`;
+      colorRef.current.style.color = `$red`;
       setStepHeight(sidebarItem.clientHeight);
     }, 50);
   }, []);
