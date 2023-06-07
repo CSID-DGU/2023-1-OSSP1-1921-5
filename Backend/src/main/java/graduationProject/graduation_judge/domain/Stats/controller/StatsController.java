@@ -9,6 +9,7 @@ import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 import graduationProject.graduation_judge.domain.Stats.service.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,8 +42,12 @@ public class StatsController {
         UserTermList userTermList = new UserTermList(); //반환 data
         userTermList.setEmail(email);
 
-
         try{
+            // userSelectList가 비어있을 경우, 통계를 낼 수 없는 예외 처리
+            if(gradeService.isEmptyUserSeletList()){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("통계를 낼 데이터가 없습니다.");
+            }
+            
             credit = gradeService.getClassCredit(email, null, null);
             //count = gradeService.getCompletedCourseCount(email);
             classScore = gradeService.getClassScore(email, null,null);

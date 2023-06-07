@@ -139,6 +139,12 @@ public class GradeServiceImpl implements GradeService{
         return uniqueTermNumList;
     }
 
+    @Override
+    public Boolean isEmptyUserSeletList() {
+        boolean exists = gradeRepository.existsAnyUserSelectList();
+        return !exists;
+    }
+
 //    @Override
 //    public int getCompletedCourseCount(String memberId) {
 //        //특정 member의 총 이수과목 수를 계산
