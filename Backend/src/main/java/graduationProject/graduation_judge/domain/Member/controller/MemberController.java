@@ -4,6 +4,8 @@ import graduationProject.graduation_judge.DTO.Member.EmailCheck.GetEmailDTO;
 import graduationProject.graduation_judge.DTO.Member.EmailCheck.SendEmailCheckDTO;
 import graduationProject.graduation_judge.DTO.Member.MyPage.SendMyPageInfoDTO;
 import graduationProject.graduation_judge.DTO.Member.SendEmail.SendEmailCodeDTO;
+import graduationProject.graduation_judge.DTO.Member.ShowUserInfo.SendUserInfoDTO;
+import graduationProject.graduation_judge.DTO.Member.ShowUserInfo.SendUserInfoListDTO;
 import graduationProject.graduation_judge.DTO.Member.SignIn.GetSignInDTO;
 import graduationProject.graduation_judge.DTO.Member.SignIn.SendSignInCheckDTO;
 import graduationProject.graduation_judge.DTO.Member.SignUp.GetSignUpDTO;
@@ -113,6 +115,26 @@ public class MemberController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/showUserInfoById") //관리자 페이지 -> 회원 목록에서 검색했을 경우
+    public ResponseEntity<?> showUserInfo(@RequestBody GetEmailDTO getEmailDTO){
+        try{
+            SendUserInfoDTO sendUserInfoDTO = memberService.getUserInfoDTOById(getEmailDTO);
+            return ResponseEntity.ok().body(sendUserInfoDTO);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/showUserInfoList")
+    public ResponseEntity<?> showUserInfoList(){
+        try {
+            SendUserInfoListDTO sendUserInfoListDTO = memberService.showAllUser();
+            return ResponseEntity.ok().body(sendUserInfoListDTO);
+        }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

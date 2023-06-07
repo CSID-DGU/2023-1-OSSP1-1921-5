@@ -5,6 +5,8 @@ import graduationProject.graduation_judge.DTO.Member.EmailCheck.GetEmailDTO;
 import graduationProject.graduation_judge.DTO.Member.MailDTO;
 import graduationProject.graduation_judge.DTO.Member.MyPage.SendMyPageInfoDTO;
 import graduationProject.graduation_judge.DTO.Member.SendEmail.SendEmailCodeDTO;
+import graduationProject.graduation_judge.DTO.Member.ShowUserInfo.SendUserInfoDTO;
+import graduationProject.graduation_judge.DTO.Member.ShowUserInfo.SendUserInfoListDTO;
 import graduationProject.graduation_judge.DTO.Member.SignIn.GetSignInDTO;
 import graduationProject.graduation_judge.DTO.Member.SignIn.SendSignInCheckDTO;
 import graduationProject.graduation_judge.DTO.Member.SignUp.GetSignUpDTO;
@@ -20,6 +22,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -117,6 +121,21 @@ public class MemberServiceImpl implements MemberService {
         return sendMyPageInfoDTO;
     }
 
+    @Override
+    public SendUserInfoDTO getUserInfoDTOById(GetEmailDTO getEmailDTO) {
+        UserInfo userInfo = memberRepository.findUserInfoByUserid(getEmailDTO.getEmail());
+        if(userInfo == null){
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+        SendUserInfoDTO sendUserInfoDTO = new SendUserInfoDTO(
+                userInfo.getUserid(),
+                userInfo.getPincode(),
+                String.valueOf(userInfo.getStudent_number()),
+                String.valueOf(userInfo.getSemester())
+        );
+        return sendUserInfoDTO;
+    }
+
 
     @Override
     public void updateMember(GetUpdateInfoDTO getUpdateInfoDTO) {
@@ -182,6 +201,23 @@ public class MemberServiceImpl implements MemberService {
         }else{
             throw new RuntimeException("존재하지 않는 회원입니다.");
         }
+    }
+
+    @Override
+    public SendUserInfoListDTO showAllUser() {
+        List<UserInfo> userInfos = memberRepository.findAll();
+        List<SendUserInfoDTO> userInfoDTOS = new ArrayList<>(); //빈 리스트 생성
+        for (UserInfo userInfo : userInfos){
+            SendUserInfoDTO sendUserInfoDTO = new SendUserInfoDTO(
+                    userInfo.getUserid(),
+                    userInfo.getPincode(),
+                    String.valueOf(userInfo.getStudent_number()),
+                    String.valueOf(userInfo.getSemester())
+            );//id, pw, studentNumber, semester저장
+            userInfoDTOS.add(sendUserInfoDTO);
+        }
+        SendUserInfoListDTO sendUserInfoListDTO = new SendUserInfoListDTO(userInfoDTOS);
+        return sendUserInfoListDTO;
     }
 
 }
