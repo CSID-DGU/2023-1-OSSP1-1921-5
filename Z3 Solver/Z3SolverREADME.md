@@ -1,15 +1,16 @@
 # Z3 Solver
 
 <h1> 1단계 : </h1>
-  1. 학생정보파일에서 F학점 제외한 과목들 받아옴특특수경우  : 개별연구는 학수강좌번호가 모두 달라서 교과목에서 '개별연구'일시 앞의 세글자만 받아옴(DES/ DAI)
-  ![image](https://github.com/CSID-DGU/2023-1-OPPS1-1921-5/assets/92643238/be7f52e7-6d28-4986-b02f-93fb6c81cb55)
+  1. 학생정보파일에서 F학점 제외한 과목들 받아옴
+!!!특특수경우  : 개별연구는 학수강좌번호가 모두 달라서 교과목에서 '개별연구'일시 앞의 세글자만 받아옴(DES/ DAI)
+![image](https://github.com/CSID-DGU/2023-1-OPPS1-1921-5/assets/92643238/a840532a-1b16-46e4-aab1-3c61f9b83485)
 
  <h1> 2단계 : 필수과목확인</h1>
  1. grad_dict : 필수과목 
 select_dict : 선택 필수 과목(ㅇ택ㅇ)
 졸업요건이 필수이면 이수구분(전필, 공교 등등)에 따라 grad_dict의 이수구분 리스트에 과목 추가
 졸업요건이 선택필수이면 이수구분에 따라 select_dict의 이수구분 리스트에 과목 추가(몇개를 택해야하는지 정보 추가(5택3과 같은))
-![image](https://github.com/CSID-DGU/2023-1-OPPS1-1921-5/assets/92643238/d7b1cff6-fea0-4f3b-a9ca-fd44f7b27328)
+![image](https://github.com/CSID-DGU/2023-1-OPPS1-1921-5/assets/92643238/2f65e607-b893-4978-a7f2-5ed072af2399)
 
 2.grad_dict_keys는 grad_dict의 key들. (전공필수, 공통교양 등이 들어있다)
 select_dict_keys는 select_dict의 key들. (세미나, 기본소양, 과학실험 등이 들어있다)
