@@ -228,13 +228,6 @@ for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 
     dataset.drop_duplicates(subset='학수강좌번호', keep='last', inplace=True)
     dataset.iloc[-1, dataset.columns.get_loc('재수강구분')] = 'NEW재수강'
 
-    dataset.to_excel('./data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx', float_format={'분반': '00', '학점': '0.0'}) # 만들어진 dataset xlsx로 내보내기
+    dataset.to_excel('./data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx') # 만들어진 dataset xlsx로 내보내기
 
-    # 이 부분이 이제 solver
-    #df_add = check(dataset, comlist, baselist, foundlist, req_com, req_base, req_found, req_major)
-    #df = pd.concat([df, df_add])
-    
-    
-#df = df.reset_index(drop=True)
-#df.to_excel('./data/data확인.xlsx') # 들은 학점들이랑 f 받은 전공 정보 정리. 
 print("data 생성 완료")
