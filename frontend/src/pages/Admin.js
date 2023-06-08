@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink as RouterLink, Route, Routes } from 'react-router-dom';
 import CreateDataSet from "./CreateDataSet"
 import Header from '../Components/Header';
 import './css/Admin.css';
@@ -30,12 +29,6 @@ const Admin = () => {
             {/* <MenuBar /> */}
             <SideBar />
             <div className="container">
-                <Routes>
-                    <Route path="/admin" exact={true} />
-                    <Route path="/change" element={<CreateDataSet />} />
-                    <Route path="/newsem" element={<CreateDataSet />} />
-                    <Route path="/dataset" element={<CreateDataSet />} />
-                </Routes>
                 <h1>회원 목록</h1>
                 <ul>
                     {members.map((member) => (
