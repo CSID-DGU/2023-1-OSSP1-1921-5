@@ -13,9 +13,6 @@ public interface GradeService {
     //member 성적 존재하는지 여부
     boolean isExistGrade(String memberId);
 
-    //특정 과목 성적 조회
-    String getGradeByLec(String cNum);
-
     //성적 삭제 (member 단위)
     void deleteGradeByMember(String memberId);
 
@@ -31,6 +28,4 @@ public interface GradeService {
     // UseSelectList가 비어 있는 지 반환
     Boolean isEmptyUserSeletList();
 
-    //특정 member의 총 이수과목 수를 계산
-    //int getCompletedCourseCount(String memberId);
 }

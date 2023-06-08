@@ -35,7 +35,6 @@ public class StatsController {
     public ResponseEntity<?> getUserStat(@RequestBody Map<String, String> request){
         String email = request.get("email");
         int credit = 0; // 사용자 총 이수학점
-        //int count = 0; // 사용자 총 이수과목 수
         float classScore = 0; // 사용자 전체 평점
         int semester = 0; // 사용자 이수학기 수
         List<String> TNumList = new ArrayList<>(); //사용자가 이수한 학기 리스트
@@ -80,8 +79,6 @@ public class StatsController {
             List<SemesterInfoList.SemesterInfo> semesterInfos = new ArrayList<>();
 
             String curSem;
-            //int count = 0; // 특정 학기 이수과목 수
-            //int majorCount = 0; // 특정 학기 전공 이수과목 수
             int credit = 0; // 특정 학기 총 이수학점
             int majorCredit = 0; // 특정 학기 전공 이수 학점
             float classScore = 0.f; // 특정 학기 전체 평점
