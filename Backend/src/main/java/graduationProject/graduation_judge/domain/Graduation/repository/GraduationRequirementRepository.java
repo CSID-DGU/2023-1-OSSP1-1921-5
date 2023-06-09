@@ -3,9 +3,6 @@ package graduationProject.graduation_judge.domain.Graduation.repository;
 import graduationProject.graduation_judge.DAO.GraduationRequirement;
 import graduationProject.graduation_judge.DAO.identifier.GraduationRequirementPK;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.lang.Nullable;
-
 import java.util.List;
 import java.util.Optional;
 
