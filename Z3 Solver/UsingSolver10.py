@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[121]:
+# In[126]:
 
 
 #!/usr/bin/env python
@@ -207,6 +207,38 @@ for key in select_dict_keys:
    print("'", key, "' is", s.model()[check_vars[len(grad_dict_keys)+select_dict_keys.index(key)]])
 for key in grad_credit_keys:
    print("'", key, "학점' is", s.model()[check_credits[grad_credit_keys.index(key)]])
+
+results = []
+for key in grad_dict_keys:
+   result = {
+       '졸업요건': key,
+       '만족여부': s.model()[check_vars[grad_dict_keys.index(key)]]
+   }
+   results.append(result)
+   
+for key in select_dict_keys:
+   result = {
+       '졸업요건': key,
+       '만족여부': s.model()[check_vars[len(grad_dict_keys) + select_dict_keys.index(key)]]
+   }
+   results.append(result)
+   
+for key in grad_credit_keys:
+   result = {
+       '졸업요건': str(key) + '학점',
+       '만족여부': s.model()[check_credits[grad_credit_keys.index(key)]]
+   }
+   results.append(result)
+
+# Create a DataFrame from the results
+df = pd.DataFrame(results)
+
+# Save the DataFrame to an Excel file
+df.to_excel('results.xlsx', index=False)
+
+
+# In[ ]:
+
 
 
 
