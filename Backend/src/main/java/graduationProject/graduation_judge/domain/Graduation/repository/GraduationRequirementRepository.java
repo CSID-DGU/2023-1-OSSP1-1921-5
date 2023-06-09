@@ -7,8 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GraduationRequirementRepository extends JpaRepository<GraduationRequirement, GraduationRequirementPK> {
-    @Query("select g from GraduationRequirement g where g.gpa >= ?1 order by g.gpa")
-    List<GraduationRequirement> findByGpaGreaterThanEqualOrderByGpaAsc(@Nullable Float gpa);
+    //특정 학번의 졸업 요건 조회
+    @Override
+    Optional<GraduationRequirement> findById(GraduationRequirementPK graduationRequirementPK);
+
+
 }

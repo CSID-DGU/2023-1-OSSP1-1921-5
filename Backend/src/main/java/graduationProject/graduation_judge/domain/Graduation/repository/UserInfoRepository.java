@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
-    @Query("select u from UserInfo u where u.pincode = ?1")
-    Optional<UserInfo> findByPincode(String pincode);
+    Optional<UserInfo> findByUserid(String userid);
+
 }
