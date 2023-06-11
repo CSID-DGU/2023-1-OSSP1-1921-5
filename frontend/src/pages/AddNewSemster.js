@@ -103,6 +103,7 @@ const AddNewSemester = () => {
         .then((response) => {
             if(response.ok) {
                 alert("새로운 학기 강좌가 입력되었습니다.");
+                window.location.href = "/newsem";
             } else {
                 alert("강좌 입력 실패");
                 window.location.href = "/newsem";
@@ -113,7 +114,6 @@ const AddNewSemester = () => {
     return (
         <div className="fade-in">
         <Header signout />
-        {/* <MenuBar /> */}
         <SideBar />
         <div className="container">
             <div className="contents">
