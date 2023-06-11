@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 import random
-import warnings
-warnings.filterwarnings('ignore')
+import requests
 
 def input_rule(course):
     # course : 졸업요건 이름 ex) 전공, 개별연구, msc ...
@@ -110,6 +109,16 @@ def all_constraints(df, keywords1, keywords2, num_rows, ind):
     all_result = contain(not_included, keywords1, num_rows, ind)
         
     return all_result
+
+def notify():
+    url = '/testset_complete'
+    response = requests.post(url)
+    
+    if response.status_code == 200:
+        print('테스트셋 생성 완료 알림 잘 보냄')
+    else:
+        print('알림 실패')
+
 
 pf = ['RGC1001', 'RGC1074', 'RGC0017', 'RGC0018', 'RGC1050', 'RGC1051', 'RGC1051', 'RGC1052', 'RGC1030']
 
@@ -230,4 +239,4 @@ for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 
 
     dataset.to_excel('./data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx') # 만들어진 dataset xlsx로 내보내기
 
-print("data 생성 완료")
+notify()
