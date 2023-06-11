@@ -35,13 +35,6 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public String getGradeByLec(String cNum) {
-        //특정 과목 성적 조회
-        //return gradeRepository.getGrade(cNum);
-        return null;
-    }
-
-    @Override
     @Transactional
     public void deleteGradeByMember(String memberId) {
         //성적 삭제 (member 단위)
