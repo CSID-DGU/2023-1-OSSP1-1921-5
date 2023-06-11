@@ -28,17 +28,24 @@ const Stats = () => {
             .then((res) => res.json())
             .then((json) => {
                 console.log(json)
-                return fetch("/stats/semester", {
-                    method: 'post',
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(json)
-                })
-                    .then((res) => res.json())
-                    .then((json) => {
-                        console.log(json)
-                    });
+                if (res.status === 400) {
+                    alert("정보가 없습니다.");
+                    window.location.replace("/");
+                } 
+                else {
+                    return fetch("/stats/semester", {
+                        method: 'post',
+                        headers: {
+                            "content-type": "application/json",
+                        },
+                        body: JSON.stringify(json)
+                    })
+                        .then((res) => res.json())
+                        .then((json) => {
+                            console.log(json)
+                        });
+                }
+                
             })
             .then(() => {
                 return fetch("/stats/getstats", {
