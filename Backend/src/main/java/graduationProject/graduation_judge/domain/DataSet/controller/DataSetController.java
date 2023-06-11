@@ -65,26 +65,16 @@ public class DataSetController {
         }
     }
 
-    @PostMapping("/getFile")
-    public ResponseEntity<?> getDataSetFile(@RequestParam("file") MultipartFile file) throws IOException {
-        try{
-            // 생성된 파일 받기
-            // z3 실행
-            String path ="/Z3 Solver/UsingSolver9.py";
-            return null;
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
     @GetMapping("/download")
     public void downloadFiles(HttpServletResponse response) throws IOException{
         // 테스트셋 다운로드 + z3 결과 다운로드
-        String FilePath = "../../../../../../../../testDataSet/data";
-        File directory = new File(FilePath);
-        File[] files = directory.listFiles();
+        String testFilePath = "../../../../../../../../testDataSet/data";
+        String resultFilePath;
+        
+        File testFiledirectory = new File(testFilePath);
+        File[] files = testFiledirectory.listFiles();
         if (files != null) {
-            for (File file : files) {
+            for (File file : files) { // 해당 경로의 모든 엑셀파일을 다운로드
                 if (file.isFile() && file.getName().endsWith(".xlsx")) {
                     downloadFile(response, file);
                 }
@@ -114,10 +104,4 @@ public class DataSetController {
         os.flush();
         os.close();
     }
-
-//    @PostMapping("/result"){
-//        public ResponseEntity<?> getDataSetResult(@RequestParam null){
-//          // z3 결과 받기
-//        }
-//    }
 }
