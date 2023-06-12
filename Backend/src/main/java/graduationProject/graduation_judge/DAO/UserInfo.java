@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+//@Table(name = "user_info", indexes = @Index(name = "idx_user_id", columnList = "user_id", unique = true)) //테이블, 인덱스 테이블 지정
 @Table(name = "user_info")
 public class UserInfo {
 
@@ -33,7 +34,7 @@ public class UserInfo {
     @Column(name = "toeic_score", nullable = false)
     private int toeicScore;
 
-    @Column(name = "english_grade", length = 200, nullable = false, columnDefinition = "tinyint")
+    @Column(name = "english_grade", length = 200, nullable = false) //columnDefinition = "tinyint"
     @Enumerated(EnumType.STRING)
     private English_level englishGrade;
 

@@ -64,7 +64,14 @@ public class MemberController {
     @PostMapping("/mypage")
     public ResponseEntity<?> getUserById(@RequestBody GetEmailDTO getEmailDTO) {
         try {
+            long startTime = System.nanoTime(); //실행시간 계산 스타트
+
             SendMyPageInfoDTO sendMyPageInfoDTO = memberService.getMyPageInfoById(getEmailDTO);
+
+            long endTime = System.nanoTime();
+            long executionTime = endTime - startTime; //실행시간 계산
+            double executionTimeInSeconds = (double) executionTime / 1_000_000_000.0;
+            System.out.println("mypage executionTimeInSeconds = " + executionTimeInSeconds+ " seconds"); //실행시간 출력
             return ResponseEntity.ok().body(sendMyPageInfoDTO);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -75,7 +82,15 @@ public class MemberController {
     @PostMapping("/updateuserinfo")
     public ResponseEntity<?> updateUser(@RequestBody GetUpdateInfoDTO getUpdateInfoDTO) {
         try {
+            long startTime = System.nanoTime(); //실행시간 계산 스타트
+
             memberService.updateMember(getUpdateInfoDTO); //id, pincode빼고 수정
+
+            long endTime = System.nanoTime();
+            long executionTime = endTime - startTime; //실행시간 계산
+            double executionTimeInSeconds = (double) executionTime / 1_000_000_000.0;
+            System.out.println("update executionTimeInSeconds = " + executionTimeInSeconds+ " seconds"); //실행시간 출력
+
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -87,7 +102,15 @@ public class MemberController {
     @PostMapping("/deletepf")
     public ResponseEntity<?> deleteUser(@RequestBody GetEmailDTO getEmailDTO) {
         try {
+            long startTime = System.nanoTime(); //실행시간 계산 스타트
+
             memberService.deleteMember(getEmailDTO.getEmail());
+
+            long endTime = System.nanoTime();
+            long executionTime = endTime - startTime; //실행시간 계산
+            double executionTimeInSeconds = (double) executionTime / 1_000_000_000.0;
+            System.out.println("delete pf executionTimeInSeconds = " + executionTimeInSeconds+ " seconds"); //실행시간 출력
+
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -99,7 +122,15 @@ public class MemberController {
     @PostMapping("/changepw")
     public ResponseEntity<String> changePassword(@RequestBody GetSignInDTO getSignInDTO) {
         try {
+            long startTime = System.nanoTime(); //실행시간 계산 스타트
+
             memberService.changePassword(getSignInDTO);
+
+            long endTime = System.nanoTime();
+            long executionTime = endTime - startTime; //실행시간 계산
+            double executionTimeInSeconds = (double) executionTime / 1_000_000_000.0;
+            System.out.println("change pw executionTimeInSeconds = " + executionTimeInSeconds+ " seconds"); //실행시간 출력
+
             return ResponseEntity.ok("비밀번호 변경 완료");
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -122,7 +153,15 @@ public class MemberController {
     @PostMapping("/showUserInfoById") //관리자 페이지 -> 회원 목록에서 검색했을 경우
     public ResponseEntity<?> showUserInfo(@RequestBody GetEmailDTO getEmailDTO){
         try{
+            long startTime = System.nanoTime(); //실행시간 계산 스타트
+
             SendUserInfoDTO sendUserInfoDTO = memberService.getUserInfoDTOById(getEmailDTO);
+
+            long endTime = System.nanoTime();
+            long executionTime = endTime - startTime; //실행시간 계산
+            double executionTimeInSeconds = (double) executionTime / 1_000_000_000.0;
+            System.out.println("show userinfo by id executionTimeInSeconds = " + executionTimeInSeconds+ " seconds"); //실행시간 출력
+
             return ResponseEntity.ok().body(sendUserInfoDTO);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -132,7 +171,15 @@ public class MemberController {
     @PostMapping("/showUserInfoList")
     public ResponseEntity<?> showUserInfoList(){
         try {
+            long startTime = System.nanoTime(); //실행시간 계산 스타트
+
             SendUserInfoListDTO sendUserInfoListDTO = memberService.showAllUser();
+
+            long endTime = System.nanoTime();
+            long executionTime = endTime - startTime; //실행시간 계산
+            double executionTimeInSeconds = (double) executionTime / 1_000_000_000.0;
+            System.out.println("show userinfo list executionTimeInSeconds = " + executionTimeInSeconds+ " seconds"); //실행시간 출력
+
             return ResponseEntity.ok().body(sendUserInfoListDTO);
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
