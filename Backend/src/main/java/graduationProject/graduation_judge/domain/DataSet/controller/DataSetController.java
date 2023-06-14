@@ -28,10 +28,10 @@ public class DataSetController {
         try{
             // testDataset python 으로 명령어 보내기
             String createDataPython = "/testDataSet/createData.py"; // 실행할 파이썬 스크립트의 경로
-            String functionName = ""; // 실행할 함수의 이름
+            String createDataFunction = ""; // 실행할 함수의 이름
 
             // 실행할 명령어 (수정 필요~)
-            String command = String.format("python %s %s %s %s", createDataPython, functionName, dataNum, admissionYear);
+            String command = String.format("python %s %s %s %s", createDataPython, createDataFunction, dataNum, admissionYear);
 
             // 명령어 실행
             ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
@@ -40,7 +40,7 @@ public class DataSetController {
             // python 처리완료될 때 까지 기다리기
             try {
                 int exitCode = process.waitFor();
-                System.out.println("Python script execution completed with exit code: " + exitCode);
+                System.out.println("TestSet Python script execution completed with exit code: " + exitCode);
             } catch (InterruptedException e) {
                 return ResponseEntity.badRequest().body(e.getMessage());
             }
@@ -49,15 +49,39 @@ public class DataSetController {
             // python으로부터 결과 받기 (test set의 저장 경로)
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
+            String testFilePath = "";
             while ((line = reader.readLine()) != null) {
                 // 결과 읽기
+                testFilePath += line;
             }
-            // test set 저장 경로를 z3에게 보내기
             
+            // test set 저장 경로를 z3에게 보내기
+            String z3SolverPython = ""; // z3 python 경로
+            String z3Function = ""; // z3 실행할 함수 이름
+            command = String.format("python %s %s %s", z3SolverPython, z3Function, testFilePath);
+
+            // 명령어 실행
+            processBuilder = new ProcessBuilder(command.split(" "));
+            process = processBuilder.start();
+
+            // python 처리완료될 때 까지 기다리기
+            try {
+                int exitCode = process.waitFor();
+                System.out.println("Z3 Python script execution completed with exit code: " + exitCode);
+            } catch (InterruptedException e) {
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+
             // z3로부터 결과 엑셀 파일 저장경로 받기
+            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            line = "";
+            String resultFilePath = "";
+            while ((line = reader.readLine()) != null) {
+                // 결과 읽기
+                resultFilePath += line;
+            }
 
             // 생성 완료됐다고 ok 결과 프론트로 보내기
-
             return ResponseEntity.ok().body("데이터셋 생성 완료");
 
         }catch (Exception e) {
