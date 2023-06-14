@@ -1,4 +1,4 @@
-package graduationProject.graduation_judge.DTO;
+package graduationProject.graduation_judge.DTO.Grade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

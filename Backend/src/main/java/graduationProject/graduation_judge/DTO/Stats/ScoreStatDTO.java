@@ -1,4 +1,4 @@
-package graduationProject.graduation_judge.DTO;
+package graduationProject.graduation_judge.DTO.Stats;
 
 import graduationProject.graduation_judge.DAO.ScoreStat;
 import lombok.AllArgsConstructor;
