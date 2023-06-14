@@ -7,14 +7,14 @@ import { TextField, Button, List, ListItem } from '@material-ui/core';
 const Admin = () => {
 
     const [members, setMembers] = useState([]);
-    const [memberInfo, setMemberInfo] = useState('');
-    const [searchMember, setSearchMember] = useState(null);
+    const [memberInfo, setMemberInfo] = useState(''); // 검색
+    const [searchResult, setSearchResult] = useState(null); // 검색 결과
 
     useEffect(() => {
         const fetchMembers = async (e) => {
             try {
                 const response = await fetch('/showUserInfoList', {
-                    method: 'POST',  // POST 요청으로 변경
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -35,7 +35,8 @@ const Admin = () => {
         const searchInfo = {
             email : memberInfo
         }
-
+        console.log(searchInfo);
+        console.log(memberInfo);
         try {
             const res = await fetch('/showUserInfoById', {
                 method: 'POST',
@@ -47,12 +48,13 @@ const Admin = () => {
 
             if (res.ok) {
                 const member = await res.json();
-                setSearchMember(member);
+                setSearchResult(member);
             }
             else {
                 alert("존재하지 않는 회원입니다.")
-                window.location.href = "/admin"
-                console.error('Error : ', res.status);
+                //window.location.href = "/admin"
+                console.error('Error1 : ', res.status);
+                console.error(res);
             }
         } catch (error) {
             console.error('Error : ', error);
@@ -76,12 +78,12 @@ const Admin = () => {
                     />
                     <Button type="submit" variant="contained">조회</Button>
                 </form>
-                {searchMember && (
+                {searchResult && (
                 <List>
-                    <ListItem>Email: {searchMember.email}</ListItem>
-                    <ListItem>Password: {searchMember.pw}</ListItem>
-                    <ListItem>Student Number: {searchMember.studentNumber}</ListItem>
-                    <ListItem>Semester: {searchMember.semester}</ListItem>
+                    <ListItem>Email: {searchResult.email}</ListItem>
+                    <ListItem>Password: {searchResult.pw}</ListItem>
+                    <ListItem>Student Number: {searchResult.studentNumber}</ListItem>
+                    <ListItem>Semester: {searchResult.semester}</ListItem>
                 </List>
                 )}
                 <ul>

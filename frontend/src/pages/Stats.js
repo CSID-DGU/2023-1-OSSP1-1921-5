@@ -30,9 +30,8 @@ const Stats = () => {
                 console.log(json)
                 if (json.status === 400) {
                     alert("정보가 없습니다.");
-                    window.location.replace("/");
-                } 
-                else {
+                    window.location.href = "/";
+                } else {
                     return fetch("/stats/semester", {
                         method: 'post',
                         headers: {
@@ -45,7 +44,6 @@ const Stats = () => {
                             console.log(json)
                         });
                 }
-                
             })
             .then(() => {
                 return fetch("/stats/getstats", {

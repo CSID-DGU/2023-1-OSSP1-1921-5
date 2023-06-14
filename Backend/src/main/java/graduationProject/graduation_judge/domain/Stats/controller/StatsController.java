@@ -43,7 +43,7 @@ public class StatsController {
         try{
             // userSelectList가 비어있을 경우, 통계를 낼 수 없는 예외 처리
             if(gradeService.isEmptyUserSeletList()){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("통계를 낼 데이터가 없습니다.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"status\": 400, \"message\": \"통계를 낼 데이터가 없습니다.\"}");
             }
             
             credit = gradeService.getClassCredit(email, null, null);
