@@ -28,7 +28,7 @@ const Stats = () => {
             .then((res) => res.json())
             .then((json) => {
                 console.log(json)
-                if (res.status === 400) {
+                if (json.status === 400) {
                     alert("정보가 없습니다.");
                     window.location.replace("/");
                 } 

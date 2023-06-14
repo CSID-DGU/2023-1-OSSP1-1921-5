@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Components/Header';
 import './css/Admin.css';
 import SideBar from '../Components/SideBar';
-import { TextField } from '@material-ui/core';
+import { TextField, Button, List, ListItem } from '@material-ui/core';
 
 const Admin = () => {
 
@@ -11,18 +11,23 @@ const Admin = () => {
     const [searchMember, setSearchMember] = useState(null);
 
     useEffect(() => {
+        const fetchMembers = async (e) => {
+            try {
+                const response = await fetch('/showUserInfoList', {
+                    method: 'POST',  // POST 요청으로 변경
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                setMembers(data.userInfoDTOS);
+            } catch (error) {
+                console.error('Error', error);
+            }
+        }
         fetchMembers();
     }, []);
 
-    const fetchMembers = async (e) => {
-        try {
-            const response = await fetch('/showUserInfoList');
-            const data = await response.json();
-            setMembers(data.userInfoDTOS);
-        } catch (error) {
-            console.error('Error', error);
-        }
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,6 +50,8 @@ const Admin = () => {
                 setSearchMember(member);
             }
             else {
+                alert("존재하지 않는 회원입니다.")
+                window.location.href = "/admin"
                 console.error('Error : ', res.status);
             }
         } catch (error) {
@@ -69,17 +76,17 @@ const Admin = () => {
                     />
                     <Button type="submit" variant="contained">조회</Button>
                 </form>
-                {memberInfo && (
+                {searchMember && (
                 <List>
-                    <ListItem className={classes.listItem}>Email: {searchMember.email}</ListItem>
-                    <ListItem className={classes.listItem}>Password: {searchMember.pw}</ListItem>
-                    <ListItem className={classes.listItem}>Student Number: {searchMember.studentNumber}</ListItem>
-                    <ListItem className={classes.listItem}>Semester: {searchMember.semester}</ListItem>
+                    <ListItem>Email: {searchMember.email}</ListItem>
+                    <ListItem>Password: {searchMember.pw}</ListItem>
+                    <ListItem>Student Number: {searchMember.studentNumber}</ListItem>
+                    <ListItem>Semester: {searchMember.semester}</ListItem>
                 </List>
                 )}
                 <ul>
                     {members.map((member) => (
-                        <li key={member.email}>{member.emial}, {member.pw}, {member.studentNumber}, {member.semester}</li> 
+                        <li key={member.email}>{member.email}, {member.pw}, {member.studentNumber}, {member.semester}</li>
                     ))}
                 </ul>
             </div>

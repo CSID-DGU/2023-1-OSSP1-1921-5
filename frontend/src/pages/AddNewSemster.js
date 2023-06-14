@@ -59,7 +59,7 @@ const AddNewSemester = () => {
                 lectureData["ClassCredit"] = data[i]["학점"];
                 lectureData["DesignCredit"] = data[i]["공학설계"] ? data[i]["공학설계"].trim() : "0.0";
 
-                if (data[i]["원어강의"] == "영어") {
+                if (data[i]["원어강의"] === "영어") {
                     lectureData["IsEnglish"] = 1
                 } else {
                     lectureData["IsEnglish"] = 0
