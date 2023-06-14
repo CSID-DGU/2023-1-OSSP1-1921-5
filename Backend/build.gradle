@@ -42,6 +42,8 @@ sourceSets {
 			exclude 'graduationProject/graduation_judge/domain/Graduation/**'
 			//DAO
 			exclude 'graduationProject/graduation_judge/DAO/GraduationRequirement.java'
+			exclude 'graduationProject/graduation_judge/DAO/CoreLectureRequirement.java'
+			exclude 'graduationProject/graduation_judge/DAO/identifier/CoreLectureRequirementPK.java'
 //			exclude 'graduationProject/graduation_judge/DAO/DesignLecture.java'
 //			exclude 'graduationProject/graduation_judge/DAO/EnglishLecture.java'
 //			exclude 'graduationProject/graduation_judge/DAO/EntireLecture.java'

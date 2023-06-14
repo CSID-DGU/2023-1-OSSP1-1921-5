@@ -1,10 +1,8 @@
 package graduationProject.graduation_judge.domain.Stats.service;
 
-import graduationProject.graduation_judge.DTO.GraphInfo;
-import graduationProject.graduation_judge.DTO.ScoreStatDTO;
+import graduationProject.graduation_judge.DTO.Stats.GraphInfo;
+import graduationProject.graduation_judge.DTO.Stats.ScoreStatDTO;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public interface StatsService {

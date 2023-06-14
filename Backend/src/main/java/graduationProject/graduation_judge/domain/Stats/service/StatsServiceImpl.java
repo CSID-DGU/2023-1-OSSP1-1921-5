@@ -1,14 +1,12 @@
 package graduationProject.graduation_judge.domain.Stats.service;
 
 import graduationProject.graduation_judge.DAO.ScoreStat;
-import graduationProject.graduation_judge.DTO.GraphInfo;
-import graduationProject.graduation_judge.DTO.ScoreStatDTO;
-import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
+import graduationProject.graduation_judge.DTO.Stats.GraphInfo;
+import graduationProject.graduation_judge.DTO.Stats.ScoreStatDTO;
 import graduationProject.graduation_judge.domain.Stats.repository.ScoreStatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

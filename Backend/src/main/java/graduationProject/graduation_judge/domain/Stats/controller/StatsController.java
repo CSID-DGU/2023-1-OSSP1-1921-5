@@ -1,10 +1,9 @@
 package graduationProject.graduation_judge.domain.Stats.controller;
 
-import graduationProject.graduation_judge.DAO.ScoreStat;
-import graduationProject.graduation_judge.DTO.GraphInfo;
-import graduationProject.graduation_judge.DTO.ScoreStatDTO;
-import graduationProject.graduation_judge.DTO.SemesterInfoList;
-import graduationProject.graduation_judge.DTO.UserTermList;
+import graduationProject.graduation_judge.DTO.Stats.GraphInfo;
+import graduationProject.graduation_judge.DTO.Stats.ScoreStatDTO;
+import graduationProject.graduation_judge.DTO.Stats.SemesterInfoList;
+import graduationProject.graduation_judge.DTO.Stats.UserTermList;
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;
 import graduationProject.graduation_judge.domain.Stats.service.StatsService;

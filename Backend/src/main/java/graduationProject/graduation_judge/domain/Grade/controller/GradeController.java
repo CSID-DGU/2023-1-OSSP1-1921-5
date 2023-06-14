@@ -1,7 +1,7 @@
 package graduationProject.graduation_judge.domain.Grade.controller;
 
-import graduationProject.graduation_judge.DTO.GradeDTO;
-import graduationProject.graduation_judge.DTO.UserGradeList;
+import graduationProject.graduation_judge.DTO.Grade.GradeDTO;
+import graduationProject.graduation_judge.DTO.Grade.UserGradeList;
 import graduationProject.graduation_judge.DTO.Member.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Grade.service.GradeService;
 import graduationProject.graduation_judge.domain.Member.service.MemberService;

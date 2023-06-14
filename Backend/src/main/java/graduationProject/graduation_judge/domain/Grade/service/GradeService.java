@@ -1,6 +1,6 @@
 package graduationProject.graduation_judge.domain.Grade.service;
 
-import graduationProject.graduation_judge.DTO.GradeDTO;
+import graduationProject.graduation_judge.DTO.Grade.GradeDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
