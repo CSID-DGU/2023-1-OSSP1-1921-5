@@ -43,7 +43,7 @@ const Admin = () => {
                 headers: {
                     'content-type' : 'application/json',
                 },
-                body: JSON.stringify({ searchInfo }),
+                body: JSON.stringify( searchInfo ),
             });
 
             if (res.ok) {
