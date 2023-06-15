@@ -3,34 +3,6 @@ import numpy as np
 import random
 import requests
 
-def input_rule(course):
-    # course : 졸업요건 이름 ex) 전공, 개별연구, msc ...
-    constraints = 0 
-    constraints2 = 0 
-    
-    user_input = input(course + " : ") # rule 입력 받음. x, a, c, n
-    if user_input.lower()=="x":
-        pass
-    else:
-        while True:
-            if user_input.lower()=="a":
-                input1 = input("포함하고 싶은 강의의 학수번호를 입력하세요 : ")
-                input1_1 = input("제외하고 싶은 강의의 학수번호를 입력하세요 : ")
-                constraints2 = input1_1.split(',')
-                break
-            elif user_input.lower()=="c":
-                input1 = input("포함하고 싶은 강의의 학수번호를 입력하세요 : ")
-                break
-            elif user_input.lower()=="n":
-                input1 = input("제외하고 싶은 강의의 학수번호를 입력하세요 : ")
-                break
-            else:
-                print("입력한 값이 유효하지 않습니다. 다시 입력해주세요.")
-                break
-        constraints = input1.split(',')
-    
-    return user_input, constraints, constraints2
-
 
 def conn(user, df, constraints, constraints_, cnt, ind):
     if user.lower() == "x": # 제약사항 없음
@@ -147,47 +119,35 @@ sem231 = pd.read_excel("./base/2023_1.xlsx")
 sem_list = [sem171, sem172, sem181, sem182, sem191, sem192, 
             sem201, sem202, sem211, sem212, sem221, sem222, sem231]
 
-datacnt = int(input("만들 data 개수 입력 : "))
-while True:
-    start_year = int(input("입학년도(2017 ~ 2023) 입력 : "))
-    if start_year in [2017, 2018, 2019, 2020, 2021, 2022, 2023]:
-        break
-    else:
-        print("입력한 입학년도가 유효하지 않습니다. 다시 입력해주세요.")
-        break
+def create(information):
+    data_num = information['dataNum']
+    admission_year = information['admissionYear']
+    complete_sem = information['completeSem']
+    subjects = information['subjects']
 
-while True:
-    num_semester = int(input("이수학기(1 ~ 10) 입력 : "))
-    if num_semester in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
-        break
-    else:
-        print("입력한 이수학기가 유효하지 않습니다. 다시 입력해주세요.")
-        break
+    return data_num, admission_year, complete_sem, subjects
+
+datacnt, start_year, num_semester, subjects = create()
 
 if num_semester > 4:
     ind = True
-        
 
-# 21년도에 입학을 하고 5학기 이수 -> sem211부터 5개
 sIndex = (start_year - 2017) * 2
 eIndex = sIndex + num_semester
 select_sem = sem_list[sIndex:eIndex]
 
-print("---------------------------------------------------------------------")
-print("제약사항이 없으면 X, 포함 제약사항만 있으면 C, 제외 제약사항만 있으면 N")
-print("포함, 제외 제약사항 모두 있으면 A를 입력하세요.")
-print("(입력형식 : ,가 구분자, 띄어쓰기x. ex) CSE2028,CSE4066,CSE4067,...)")
-print("---------------------------------------------------------------------")
-
-for i in range(1, num_semester + 1): 
-    cnt_lec = int(input(f"입학 {start_year}년, {i}학기 이수 강의 수 : "))
-    cnt_leclist.append(cnt_lec)
-    userinput, constraints, constraints_1 = input_rule(f"{i}학기 제약사항 (X, C, N, A)")
-    
-    inputlist.append(userinput)
-    conslist1.append(constraints)
-    conslist2.append(constraints_1)
-    print("---------------------------------------------------------------------")  
+for subject_key, subject_data in subjects.items():
+    rule = subject_data[0]
+    if rule != "a":
+        inputlist.append([rule])
+        conslist1.append(subject_data[1:])
+        conslist2.append([])
+    else:
+        inputlist.append([rule])
+        separator = subject_data.index("/")
+        conslist1.append(subject_data[1:index])
+        conslist2.append(subject_data[separator+1:])
+   
 
 for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 개수만큼 반복.
     result_list = []
