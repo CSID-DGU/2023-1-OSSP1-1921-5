@@ -119,6 +119,11 @@ sem231 = pd.read_excel("./base/2023_1.xlsx")
 sem_list = [sem171, sem172, sem181, sem182, sem191, sem192, 
             sem201, sem202, sem211, sem212, sem221, sem222, sem231]
 
+info = {}
+
+def inputs(information):
+    info = information
+
 def create(information):
     data_num = information['dataNum']
     admission_year = information['admissionYear']
@@ -127,7 +132,7 @@ def create(information):
 
     return data_num, admission_year, complete_sem, subjects
 
-datacnt, start_year, num_semester, subjects = create()
+datacnt, start_year, num_semester, subjects = create(info)
 
 if num_semester > 4:
     ind = True
