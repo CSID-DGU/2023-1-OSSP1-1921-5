@@ -29,14 +29,14 @@ public class StatsController {
     @Autowired
     private StatsService statsService;
 
-    // user의 전체 총 이수학점, 총 이수과목 수, 전체 평점, 이수학기 수
+    // user의 전체 총 이수학점, 총 이수과목 수, 전체 평점, 이수학기 수 계산
     @PostMapping("/entire")
     public ResponseEntity<?> getUserStat(@RequestBody Map<String, String> request){
         String email = request.get("email");
         int credit = 0; // 사용자 총 이수학점
         float classScore = 0; // 사용자 전체 평점
         int semester = 0; // 사용자 이수학기 수
-        List<String> TNumList = new ArrayList<>(); //사용자가 이수한 학기 리스트
+        List<String> TNumList; //사용자가 이수한 학기 리스트
         UserTermList userTermList = new UserTermList(); //반환 data
         userTermList.setEmail(email);
 
@@ -47,7 +47,6 @@ public class StatsController {
             }
             
             credit = gradeService.getClassCredit(email, null, null);
-            //count = gradeService.getCompletedCourseCount(email);
             classScore = gradeService.getClassScore(email, null,null);
             semester = memberService.getMemberById(email).getSemester();
             userTermList.setSemester(semester);
@@ -66,8 +65,7 @@ public class StatsController {
         }
     }
 
-    // '/stats'
-    // user의 학기마다 이수학점, 이수과목 수, 전체 평점, 전공이수학점, 전공 이수과목 수, 전공 평점 json 반환
+    // user의 학기마다 이수학점, 이수과목 수, 전체 평점, 전공이수학점, 전공 이수과목 수, 전공 평점 계산
     @PostMapping("/semester")
     public ResponseEntity<?> getUserStatBySemester(@RequestBody UserTermList userTermList){
         try{
@@ -78,10 +76,10 @@ public class StatsController {
             List<SemesterInfoList.SemesterInfo> semesterInfos = new ArrayList<>();
 
             String curSem;
-            int credit = 0; // 특정 학기 총 이수학점
-            int majorCredit = 0; // 특정 학기 전공 이수 학점
-            float classScore = 0.f; // 특정 학기 전체 평점
-            float majorClassScore = 0.f; // 특정 학기 전공 평점
+            int credit; // 특정 학기 총 이수학점
+            int majorCredit; // 특정 학기 전공 이수 학점
+            float classScore; // 특정 학기 전체 평점
+            float majorClassScore; // 특정 학기 전공 평점
 
             for(int sem=0; sem<semester; sem++){
                 curSem = TNumList.get(sem); // 현재 계산하는 학기
@@ -104,8 +102,7 @@ public class StatsController {
         }
     }
 
-    // '/getstats'
-    // 업데이트된 scorestat 값을 가지고 그래프 data 만들기. 학기마다 모든 user의 전체 평점, 전공평점, 이수학점
+    // 업데이트된 scorestat 값을 가지고 그래프 data 만들기. 학기마다 모든 user의 전체 평점, 전공평점, 이수학점 계산
     @PostMapping("/getstats")
     public ResponseEntity<?> getStatGraph(@RequestBody Map<String, String> request){
         List<GraphInfo.GraphData> entireData = new ArrayList<>();
@@ -119,7 +116,7 @@ public class StatsController {
                 creditData.add(statsService.getCreditGraphInfo(sem, email));
             }
             GraphInfo graphInfo = new GraphInfo(entireData, majorData, creditData);
-            return ResponseEntity.ok().body(new GraphInfo(entireData, majorData, creditData));
+            return ResponseEntity.ok().body(graphInfo);
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
