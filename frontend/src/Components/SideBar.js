@@ -30,13 +30,11 @@ const Sidebar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [stepHeight, setStepHeight] = useState(0);
   const sidebarRef = useRef();
-  const colorRef = useRef();
   const location = useLocation();
 
   useEffect(() => {
     setTimeout(() => {
       const sidebarItem = sidebarRef.current.querySelector('.sidebar__menu__item');
-      colorRef.current.style.color = `$red`;
       setStepHeight(sidebarItem.clientHeight);
     }, 50);
   }, []);
@@ -49,20 +47,24 @@ const Sidebar = () => {
 
   return (
     <div className='sidebar'>
-      <div className="sidebar__logo">
-      </div>
+      <div className="sidebar__logo"></div>
       <div ref={sidebarRef} className="sidebar__menu">
         {sidebarNavItems.map((item, index) => (
           <NavLink
             to={item.to}
             key={index}
-            activeClassName="active" // Add 'active' class for the active item
+            className="inactive"
+            activeClassName="active"
+            activeStyle={{color: 'red'}}
+            style={{
+              textDecoration: "none",
+            }}
           >
             <div className={`sidebar__menu__item`}>
               <div className="sidebar__menu__item__icon">
                 {item.icon}
               </div>
-              <div className="sidebar__menu__item__text" ref={colorRef}>
+              <div className="sidebar__menu__item__text">
                 {item.display}
               </div>
             </div>

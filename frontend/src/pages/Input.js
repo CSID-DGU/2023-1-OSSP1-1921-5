@@ -32,7 +32,7 @@ const Input = () => {
 
     return (
         <>
-        
+        {loading ? <LoadingSpinner op={true} /> : (
             <div className="fade-in">
                 {hasInput && 
                     <AlertModal 
@@ -61,7 +61,7 @@ const Input = () => {
                 </Box>
                 <UploadFile />    
             </div>
-        
+        )}
         </>
     );
 };
