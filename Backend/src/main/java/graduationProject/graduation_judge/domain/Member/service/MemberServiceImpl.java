@@ -123,6 +123,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public SendUserInfoDTO getUserInfoDTOById(GetEmailDTO getEmailDTO) {
+        if(getEmailDTO.getEmail() == null){
+            System.out.println("id is null");
+            throw new IllegalArgumentException("아이디가 null");
+        }
         UserInfo userInfo = memberRepository.findUserInfoByUserid(getEmailDTO.getEmail());
         if(userInfo == null){
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
