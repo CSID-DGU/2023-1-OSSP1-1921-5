@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Components/Header';
-import './css/Admin.css';
 import SideBar from '../Components/SideBar';
-import { TextField, Button, List, ListItem } from '@material-ui/core';
+import { List, ListItem } from '@material-ui/core';
+import Box from "@mui/material/Box";
 
 const Admin = () => {
 
@@ -65,18 +65,21 @@ const Admin = () => {
         <div className="fade-in">
             <Header signout />
             <SideBar />
-            <div className="container">
-                <h1>회원 목록</h1>
+            <div className="mainBox">
+            <Box className="sub_title">회원 목록</Box>
+            <Box className="guide">
+            <div style={{fontSize:'20px',fontFamily:'SsangMun',marginBottom:'15px'}}>[ 회원 검색 ]</div>
                 <form onSubmit={handleSubmit}>
-                    <TextField
-                        className="input"
+                    <input
+                        className="textfield"
                         type="text"
                         value={memberInfo}
                         onChange={(e) => setMemberInfo(e.target.value)}
-                        label="회원 아이디 입력"
+                        placeholder="회원 아이디 입력"
                         variant="outlined"
                     />
-                    <Button type="submit" variant="contained">조회</Button>
+                    
+                    <button className="btn" type="submit" variant="contained">생성</button>
                 </form>
                 {searchResult && (
                 <List>
@@ -91,6 +94,7 @@ const Admin = () => {
                         <li key={member.email}>{member.email}, {member.pw}, {member.studentNumber}, {member.semester}</li>
                     ))}
                 </ul>
+                </Box>
             </div>
         </div>
     )

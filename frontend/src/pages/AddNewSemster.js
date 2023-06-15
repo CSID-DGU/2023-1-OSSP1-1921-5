@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import * as XLSX from "xlsx";
-import './css/Admin.css';
 import SideBar from '../Components/SideBar';
 import Header from '../Components/Header';
 
@@ -115,26 +114,29 @@ const AddNewSemester = () => {
         <div className="fade-in">
         <Header signout />
         <SideBar />
-        <div className="container">
-            <div className="contents">
+        <div className="mainBox">
+            <Box className="sub_title">회원 목록</Box>
+            <Box className="guide">
+            <div style={{fontSize:'20px',fontFamily:'SsangMun',marginBottom:'15px'}}>[ 강의 정보 등록 ]</div>
             <Stack className="input_area" flexDirection={"row"}>
-                <TextField 
+                <input 
                     className="textfield"
                     type="text"
                     value={year}
                     onChange={handleYearChange}
-                    label="년도"
+                    placeholder="년도"
                     variant="outlined"
                 />
-                <TextField 
+                <input 
                     className="textfield"
                     type="text"
                     value={semester}
                     onChange={handleSemesterChange}
-                    label="학기"
+                    placeholder="학기"
                     variant="outlined"
                 />
             </Stack>
+            </Box>
             <Stack className="input_area" flexDirection={"row"}>
                 <Stack
                     className="upload_btn"
@@ -165,8 +167,8 @@ const AddNewSemester = () => {
                 <button className="btn" onClick={onClickInput}>
                     Update
                 </button>
-            </Box>     
-            </div>  
+            </Box>  
+            
         </div>
         </div>
     );

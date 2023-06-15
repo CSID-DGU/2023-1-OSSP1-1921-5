@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import './css/CreateDataSet.css';
 import SideBar from '../Components/SideBar';
 import Header from '../Components/Header';
@@ -74,57 +72,56 @@ const CreateDataSet = () => {
       });
   };
 
-
+  
   return (
     <div className="fade-in">
       <Header signout />
-      {/* <MenuBar /> */}
       <SideBar />
-      <div className="container">
-        <div className="titleData">Test DataSet 생성</div>
-        <Box className="Box">
+      <div className="mainBox">
+      <Box className="sub_title">TEST Dataset 생성</Box>
+        <Box className="guide">
+        <div style={{fontSize:'20px',fontFamily:'SsangMun',marginBottom:'15px'}}>[ 생성 정보 입력 ]</div>
           <div>
-            <TextField
+            <input
                 className="textfield"
                 type="text"
                 value={dataNum}
                 onChange={handleDataNumChange}
-                label="생성 Data 개수"
-                variant="outlined"
+                placeholder="생성 Data 개수"
+                variant="standard"
             />
 
-            <TextField
+            <input
                 className="textfield"
                 type="text"
                 value={admissionYear}
                 onChange={handleAdmissionYearChange}
-                label="입학년도"
-                variant="outlined"
+                placeholder="입학년도"
+                variant="standard"
             />
 
-            <TextField
+            <input
                 className="textfield"
                 type="text"
                 value={completeSem}
                 onChange={handleCompleteSemChange}
-                label="이수 학기"
-                variant="outlined"
+                placeholder="이수 학기"
+                variant="standard"
             />
 
-            <TextField
+            <input
                 className="textfield"
                 value={subjects}
                 onChange={handleSubjectsChange}
-                label="이수 강의 정보"
-                variant="outlined"
+                placeholder="이수 강의 정보"
+                variant="standard"
                 multiline
             />
-
-            <Button onClick={handleParsingAndSubmit}>전송</Button>
+          <button className="btn" onClick={handleParsingAndSubmit}>생성</button>
           </div>
         </Box>
       </div>
-    </div>
+      </div>
   );
 };
 

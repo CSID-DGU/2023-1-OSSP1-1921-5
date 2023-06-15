@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import { Box, Button, Select, Stack, MenuItem, InputLabel, FormControl} from '@mui/material';
+import { Box, Select, Stack, MenuItem, InputLabel, FormControl} from '@mui/material';
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import * as XLSX from "xlsx";
 import SideBar from '../Components/SideBar';
 import Header from '../Components/Header';
+import './css/CreateDataSet.css';
 
 const GradReqChange = () => {
     const COURSE = [
@@ -79,16 +80,20 @@ const GradReqChange = () => {
     return (
         <div className="fade-in">
             <Header signout />
-            {/* <SideBar />*/}
-            <div className="container">
+            <SideBar />
+            <div className="mainBox">
+            <Box className="sub_title">졸업요건 업로드</Box>
+            <Box className="guide">
             {/* <img alt="컴공졸업요건입력예시" src="img/GradReqExample.png"></img> */}
             {/* <img alt="학수번호변경예시" src="img/CourseNumChangeExample.png"></img> */}
-                <Button onClick={handleReqDownload} variant="contained">
+                <div style={{fontSize:'20px',fontFamily:'SsangMun',marginBottom:'15px'}}>[ 양식 다운로드 ]</div>
+                <button class='uploadbtn' onClick={handleReqDownload} variant="contained">
                     컴퓨터공학과 졸업요건 양식
-                </Button>
-                <Button onClick={handleCourseDownload} variant="contained">
+                </button>
+                <button class ='uploadbtn' onClick={handleCourseDownload} variant="contained">
                     학수강좌번호 변경 양식
-                </Button>
+                </button>
+                <div class="subtitle">심화/일반 선택</div>
                 <FormControl sx={{ width: 100 }}>
                 <InputLabel>
                     심화/일반
@@ -110,7 +115,7 @@ const GradReqChange = () => {
                   })}
                 </Select>
                 </FormControl>
-
+                </Box> 
                 <Stack className="input_area" flexDirection={"row"}>
                     <Stack
                         className="upload_btn"
@@ -137,11 +142,12 @@ const GradReqChange = () => {
                         }}
                     />
                 </Stack>  
+                
                 <Box className="btn_area" style={{ marginBottom: 50 }}>
                     <button className="btn" onClick={onClickInput}>
                         Update
                     </button>
-                </Box>  
+                </Box> 
             </div>
         </div>
     );

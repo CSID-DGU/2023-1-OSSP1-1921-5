@@ -175,18 +175,9 @@ const Result = () => {
 
     return (
         <>
-        {loading ? <LoadingSpinner op={true} /> : (
+        
             <div className="fade-in">
-                {!hasResult && 
-                    <AlertModal 
-                        msg1="저장된 결과가 없습니다."
-                        msg2="성적 파일을 입력해주세요!"
-                        move1="/input"
-                        move2="/"
-                        op1="확인"
-                        op2="취소"
-                        />
-                }
+
                 <Header mypage signout />
                 {isGraduate ? 
                     <Stack className="result_stack" justifyContent="center" direction="row">
@@ -326,7 +317,7 @@ const Result = () => {
                     <EssLectures />
                 </Box>
             </div>
-        )}
+        
         </>
     );
 };
