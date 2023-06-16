@@ -22,12 +22,20 @@ public class InfoLectureRepositoryCustomImpl implements InfoLectureRepositoryCus
     }
 
     @Override
-    public List<String> getUserSelectLectureList(String user_id) {
+    public List<String> getUserSelectLectureInfoList(String user_id) {
         return queryFactory
                 .select(infoLecture.lectureNick)
                 .from(infoLecture)
                 .join(userSelectList)
                 .on(infoLecture.classNumber.eq(userSelectList.classNum))
                 .fetch();
+    }
+
+    @Override
+    public Long getUserSelectLectureAmount(String user_id) {
+        return queryFactory
+                .select(userSelectList.count())
+                .from(userSelectList)
+                .fetchFirst();
     }
 }
