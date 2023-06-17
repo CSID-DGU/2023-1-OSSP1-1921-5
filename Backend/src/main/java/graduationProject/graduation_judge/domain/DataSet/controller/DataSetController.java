@@ -18,23 +18,19 @@ import java.util.Map;
 public class DataSetController {
 
     @PostMapping("/create")
-    public ResponseEntity<?> createDataSet(@RequestBody Map<String, String> request)throws IOException{
-        // test data set 명령어 입력 받기 (파라미터로 넘길 인자들)
-        String dataNum = request.get("dataNum"); // 만들 data 수
-        String admissionYear = request.get("admissionYear"); // 입학년도
-        String completeSem = request.get("completeSem"); // 이수학기
-        String subjects = request.get("subjects"); // 제약사항 관련 (수정 필요~)
-
+    public ResponseEntity<?> createDataSet(@RequestBody Map<String, Object> request)throws IOException{
         try{
             // testDataset python 으로 명령어 보내기
-            String createDataPython = "/testDataSet/createData.py"; // 실행할 파이썬 스크립트의 경로
-            String createDataFunction = ""; // 실행할 함수의 이름
+            String createDataPython = "testDataSet/createUsingSolver.py"; // 실행할 파이썬 스크립트의 경로
+            String createDataFunction = "create"; // 실행할 함수의 이름
 
-            // 실행할 명령어 (수정 필요~)
-            String command = String.format("python %s %s %s %s", createDataPython, createDataFunction, dataNum, admissionYear);
+            // 실행할 명령어
+            String command = String.format("python %s %s %s", createDataPython, createDataFunction, request);
 
             // 명령어 실행
             ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
+            Map<String, String> env = processBuilder.environment();
+            env.put("PYTHONIOENCODING", "UTF-8");
             Process process = processBuilder.start();
 
             // python 처리완료될 때 까지 기다리기
@@ -42,9 +38,8 @@ public class DataSetController {
                 int exitCode = process.waitFor();
                 System.out.println("TestSet Python script execution completed with exit code: " + exitCode);
             } catch (InterruptedException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
+                return ResponseEntity.badRequest().body("wait error: "+ e.getMessage());
             }
-            // exitCode 값에 따른 처리 필요?
 
             // python으로부터 결과 받기 (test set의 저장 경로)
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -52,12 +47,14 @@ public class DataSetController {
             String testFilePath = "";
             while ((line = reader.readLine()) != null) {
                 // 결과 읽기
+                System.out.println("line = " + line);
                 testFilePath += line;
             }
-            
+            System.out.println("testFilePath = " + testFilePath);
+
             // test set 저장 경로를 z3에게 보내기
-            String z3SolverPython = ""; // z3 python 경로
-            String z3Function = ""; // z3 실행할 함수 이름
+            String z3SolverPython = "Z3 Solver/UsingSolver10.py"; // z3 python 경로
+            String z3Function = ""; // z3 실행할 함수 이름(수정~)
             command = String.format("python %s %s %s", z3SolverPython, z3Function, testFilePath);
 
             // 명령어 실행
@@ -73,26 +70,28 @@ public class DataSetController {
             }
 
             // z3로부터 결과 엑셀 파일 저장경로 받기
-            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            line = "";
-            String resultFilePath = "";
-            while ((line = reader.readLine()) != null) {
-                // 결과 읽기
-                resultFilePath += line;
-            }
+//            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//            line = "";
+//            String resultFilePath = "";
+//            while ((line = reader.readLine()) != null) {
+//                // 결과 읽기
+//                resultFilePath += line;
+//            }
 
             // 생성 완료됐다고 ok 결과 프론트로 보내기
             return ResponseEntity.ok().body("데이터셋 생성 완료");
 
         }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("error: " + e.getMessage());
         }
     }
+
+
 
     @GetMapping("/download")
     public void downloadFiles(HttpServletResponse response) throws IOException{
         // 테스트셋 다운로드 + z3 결과 다운로드
-        String testFilePath = "../../../../../../../../testDataSet/data";
+        String testFilePath = "testDataSet/data";
         String resultFilePath;
         
         File testFiledirectory = new File(testFilePath);
@@ -105,6 +104,22 @@ public class DataSetController {
             }
         }
 
+    }
+
+    @PostMapping("/createtest")
+    public ResponseEntity<?> testPath(@RequestBody Map<String, Object> request)throws IOException{
+
+            String createDataPython2 = "testDataSet/createUsingSolver.py"; // 실행할 파이썬 스크립트의 경로
+            // 파일이 존재하는지 확인
+            File file = new File(createDataPython2);
+            System.out.println("file.getPath() = " + file.getPath());
+            if (file.exists()) {
+                System.out.println("file yes");
+            } else {
+                System.out.println("file no");
+            }
+
+        return ResponseEntity.ok().body("파일 경로 확인 완료");
     }
 
     private void downloadFile(HttpServletResponse response, File file) throws IOException {

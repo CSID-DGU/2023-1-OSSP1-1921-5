@@ -29,7 +29,7 @@ public class StatsController {
     @Autowired
     private StatsService statsService;
 
-    // user의 전체 총 이수학점, 총 이수과목 수, 전체 평점, 이수학기 수 계산
+    // user의 전체 총 이수학점, 전체 평점, 이수학기 수, 이수한 학기 리스트 계산
     @PostMapping("/entire")
     public ResponseEntity<?> getUserStat(@RequestBody Map<String, String> request){
         String email = request.get("email");
@@ -65,14 +65,13 @@ public class StatsController {
         }
     }
 
-    // user의 학기마다 이수학점, 이수과목 수, 전체 평점, 전공이수학점, 전공 이수과목 수, 전공 평점 계산
+    // user의 학기마다 총 이수학점, 전공 이수학점, 전체 평점, 전공 평점 계산
     @PostMapping("/semester")
     public ResponseEntity<?> getUserStatBySemester(@RequestBody UserTermList userTermList){
         try{
             String email = userTermList.getEmail();
             List<String> TNumList= userTermList.getTNumList();
             int semester = userTermList.getSemester(); // 이수학기 수
-            SemesterInfoList semesterInfoList = new SemesterInfoList();
             List<SemesterInfoList.SemesterInfo> semesterInfos = new ArrayList<>();
 
             String curSem;
