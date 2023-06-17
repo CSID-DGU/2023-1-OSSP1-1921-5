@@ -80,32 +80,34 @@ const UploadFile = () => {
     userDataList: UserDatas.slice(1),
   };
 
-  const onClickInput = (e) => {
+  const onClickInput = async (e) => {
     e.preventDefault();
     if (!placeholder) {
       console.log("입력 파일이 없습니다.");
       alert("입력 파일이 없습니다.");
     } else {
-      console.log("1");
       console.log(JSON.stringify(jsonResult));
-      fetch("/input/gradeFile", {
-        method: "post",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(jsonResult),
-      })
-        .then((response) => {
-          if(response.ok) {
-            alert("성적이 입력되었습니다!");
-            window.location.replace("/result");
-          }else if (response.status === 400){
-            alert("회원 정보와 입력 파일의 이수학기 수가 일치하지 않습니다.");
-            window.location.href = "/input";
-          } else {
-            console.error("성적 입력 실패 : ", response.body);
-          }
+      try {
+        const response = await fetch("/input/gradeFile", {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(jsonResult),
         });
+        if(response.ok) {
+          alert("성적이 입력되었습니다!");
+          window.location.replace("/result");
+        } else if (response.status === 400) {
+          alert("회원 정보와 입력 파일의 이수학기 수가 일치하지 않습니다.");
+          window.location.href = "/input";
+        } else {
+          console.error("성적 입력 실패 : ", response.body);
+        }
+      } catch (error) {
+        console.error("성적 입력 실패 : ", error);
+      }
+
     }
   };
 
