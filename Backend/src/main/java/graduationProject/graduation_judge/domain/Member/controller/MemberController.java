@@ -99,7 +99,8 @@ public class MemberController {
 
 
     //회원 정보 삭제
-    @PostMapping("/deletepf")
+    //관리자페이지에서 회원 강제 탈퇴
+    @RequestMapping(value = {"/deletepf", "/forcedeletion"}, method = RequestMethod.POST)
     public ResponseEntity<?> deleteUser(@RequestBody GetEmailDTO getEmailDTO) {
         try {
             long startTime = System.nanoTime(); //실행시간 계산 스타트
