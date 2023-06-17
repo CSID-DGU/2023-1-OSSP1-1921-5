@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Box from "@mui/material/Box";
+import { TextField } from "@material-ui/core";
 import './css/CreateDataSet.css';
 import SideBar from '../Components/SideBar';
 import Header from '../Components/Header';
@@ -109,7 +110,7 @@ const CreateDataSet = () => {
                 variant="standard"
             />
 
-            <input
+            <TextField
                 className="textfield"
                 value={subjects}
                 onChange={handleSubjectsChange}
