@@ -15,8 +15,9 @@ const handleDeleteProfile = () => {
             body: JSON.stringify({ email }),
         })
         .then(() => {
-          localStorage.clear();
-          alert('탈퇴가 완료되었습니다.');
+            sessionStorage.clear()
+            alert('탈퇴가 완료되었습니다.');
+            window.location.replace('/');
         })
         
     } else {
