@@ -120,9 +120,9 @@ def create(information):
                 sem201, sem202, sem211, sem212, sem221, sem222, sem231]
 
 
-    datacnt = information['dataNum']
-    start_year = information['admissionYear']
-    num_semester = information['completeSem']
+    datacnt = int(information['dataNum'])
+    start_year = int(information['admissionYear'])
+    num_semester = int(information['completeSem'])
     subjects = information['subjects']
 
     if num_semester > 4:
@@ -133,17 +133,21 @@ def create(information):
     select_sem = sem_list[sIndex:eIndex]
 
     for subject_key, subject_data in subjects.items():
-        rule = subject_data[0]
+        cnt = int(subject_data[0])
+        rule = subject_data[1]
+        print("rule: ", rule)
+
         if rule != "a":
-            inputlist.append([rule])
+            inputlist.append(rule)
             conslist1.append(subject_data[1:])
-            conslist2.append([])
+            conslist2.append(0)
+            cnt_leclist.append(cnt)
         else:
-            inputlist.append([rule])
+            inputlist.append(rule)
             separator = subject_data.index("/")
-            conslist1.append(subject_data[1:index])
+            conslist1.append(subject_data[1:separator])
             conslist2.append(subject_data[separator+1:])
-    
+            cnt_leclist.append(cnt)
 
     for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 개수만큼 반복.
         result_list = []
