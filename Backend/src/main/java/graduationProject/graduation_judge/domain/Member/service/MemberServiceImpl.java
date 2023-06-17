@@ -79,16 +79,20 @@ public class MemberServiceImpl implements MemberService {
             return sendSignInCheckDTO;
         }
         else if (userInfo.getPincode().equals(getSignInDTO.getPw())){
-            if(userInfo.getUserid().equals(getSignInDTO.getEmail())){
-                sendSignInCheckDTO.setId(getSignInDTO.getEmail());
-                return sendSignInCheckDTO;//원래 아이디 담아서 보내기
+            if(userInfo.getUserid() == "admin@gmail.com"){
+                sendSignInCheckDTO.setId("admin");
+                //관리자 이메일이면 "admin"담아서 보내기
             }
+            else if(userInfo.getUserid().equals(getSignInDTO.getEmail())){
+                sendSignInCheckDTO.setId(getSignInDTO.getEmail());
+                //원래 아이디 담아서 보내기
+            }
+            return sendSignInCheckDTO;
         }
         else{
             sendSignInCheckDTO.setId(null);
             return sendSignInCheckDTO;
         }
-        return sendSignInCheckDTO;
     }
 
     @Override
