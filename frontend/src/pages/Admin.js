@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../Components/Header';
 import SideBar from '../Components/SideBar';
 import { List, ListItem } from '@material-ui/core';
 import Box from "@mui/material/Box";
+import {Link} from "react-router-dom";
+import Stack from "@mui/material/Stack";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 const Admin = () => {
 
     const [members, setMembers] = useState([]);
     const [memberInfo, setMemberInfo] = useState(''); // 검색
     const [searchResult, setSearchResult] = useState(null); // 검색 결과
+
+    const onClickLogout = () => {
+        sessionStorage.clear()
+        window.location.replace('/')
+    }
 
     useEffect(() => {
         const fetchMembers = async (e) => {
@@ -52,7 +59,7 @@ const Admin = () => {
             }
             else {
                 alert("존재하지 않는 회원입니다.")
-                //window.location.href = "/admin"
+                window.location.href = "/admin"
                 console.error('Error1 : ', res.status);
                 console.error(res);
             }
@@ -63,7 +70,13 @@ const Admin = () => {
 
     return (
         <div className="fade-in">
-            <Header signout />
+            <Box className="tool" title="로그아웃">
+                <Link to="/">
+                    <Stack direction="row" onClick={onClickLogout}>
+                        <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                    </Stack>
+                </Link>
+            </Box>
             <SideBar />
             <div className="mainBox">
             <Box className="sub_title">회원 목록</Box>
