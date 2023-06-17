@@ -91,117 +91,108 @@ def notify():
     else:
         print('알림 실패')
 
-
-pf = ['RGC1001', 'RGC1074', 'RGC0017', 'RGC0018', 'RGC1050', 'RGC1051', 'RGC1051', 'RGC1052', 'RGC1030']
-
-select_sem = []
-inputlist = []
-conslist1 = []
-conslist2 = []
-cnt_leclist = []
-result_list = []
-ind = False
-
-sem171 = pd.read_excel("./base/2017_1.xlsx") 
-sem172 = pd.read_excel("./base/2017_2.xlsx") 
-sem181 = pd.read_excel("./base/2018_1.xlsx") 
-sem182 = pd.read_excel("./base/2018_2.xlsx") 
-sem191 = pd.read_excel("./base/2019_1.xlsx") 
-sem192 = pd.read_excel("./base/2019_2.xlsx")  
-sem201 = pd.read_excel("./base/2020_1.xlsx") 
-sem202 = pd.read_excel("./base/2020_2.xlsx") 
-sem211 = pd.read_excel("./base/2021_1.xlsx") 
-sem212 = pd.read_excel("./base/2021_2.xlsx") 
-sem221 = pd.read_excel("./base/2022_1.xlsx") 
-sem222 = pd.read_excel("./base/2022_2.xlsx") 
-sem231 = pd.read_excel("./base/2023_1.xlsx") 
-
-sem_list = [sem171, sem172, sem181, sem182, sem191, sem192, 
-            sem201, sem202, sem211, sem212, sem221, sem222, sem231]
-
-info = {}
-
-def inputs(information):
-    info = information
-
 def create(information):
-    data_num = information['dataNum']
-    admission_year = information['admissionYear']
-    complete_sem = information['completeSem']
+    pf = ['RGC1001', 'RGC1074', 'RGC0017', 'RGC0018', 'RGC1050', 'RGC1051', 'RGC1051', 'RGC1052', 'RGC1030']
+
+    select_sem = []
+    inputlist = []
+    conslist1 = []
+    conslist2 = []
+    cnt_leclist = []
+    result_list = []
+    ind = False
+
+    sem171 = pd.read_excel("./base/2017_1.xlsx") 
+    sem172 = pd.read_excel("./base/2017_2.xlsx") 
+    sem181 = pd.read_excel("./base/2018_1.xlsx") 
+    sem182 = pd.read_excel("./base/2018_2.xlsx") 
+    sem191 = pd.read_excel("./base/2019_1.xlsx") 
+    sem192 = pd.read_excel("./base/2019_2.xlsx")  
+    sem201 = pd.read_excel("./base/2020_1.xlsx") 
+    sem202 = pd.read_excel("./base/2020_2.xlsx") 
+    sem211 = pd.read_excel("./base/2021_1.xlsx") 
+    sem212 = pd.read_excel("./base/2021_2.xlsx") 
+    sem221 = pd.read_excel("./base/2022_1.xlsx") 
+    sem222 = pd.read_excel("./base/2022_2.xlsx") 
+    sem231 = pd.read_excel("./base/2023_1.xlsx") 
+
+    sem_list = [sem171, sem172, sem181, sem182, sem191, sem192, 
+                sem201, sem202, sem211, sem212, sem221, sem222, sem231]
+
+
+    datacnt = information['dataNum']
+    start_year = information['admissionYear']
+    num_semester = information['completeSem']
     subjects = information['subjects']
 
-    return data_num, admission_year, complete_sem, subjects
+    if num_semester > 4:
+        ind = True
 
-datacnt, start_year, num_semester, subjects = create(info)
+    sIndex = (start_year - 2017) * 2
+    eIndex = sIndex + num_semester
+    select_sem = sem_list[sIndex:eIndex]
 
-if num_semester > 4:
-    ind = True
+    for subject_key, subject_data in subjects.items():
+        rule = subject_data[0]
+        if rule != "a":
+            inputlist.append([rule])
+            conslist1.append(subject_data[1:])
+            conslist2.append([])
+        else:
+            inputlist.append([rule])
+            separator = subject_data.index("/")
+            conslist1.append(subject_data[1:index])
+            conslist2.append(subject_data[separator+1:])
+    
 
-sIndex = (start_year - 2017) * 2
-eIndex = sIndex + num_semester
-select_sem = sem_list[sIndex:eIndex]
-
-for subject_key, subject_data in subjects.items():
-    rule = subject_data[0]
-    if rule != "a":
-        inputlist.append([rule])
-        conslist1.append(subject_data[1:])
-        conslist2.append([])
-    else:
-        inputlist.append([rule])
-        separator = subject_data.index("/")
-        conslist1.append(subject_data[1:index])
-        conslist2.append(subject_data[separator+1:])
-   
-
-for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 개수만큼 반복.
-    result_list = []
-    for j in range(0, num_semester):
-        result = conn(inputlist[j], select_sem[j], conslist1[j], conslist2[j], cnt_leclist[j], ind)
-        result_list.append(result)
+    for i in range(0, datacnt): # 제약사항 한 번 받아서, 입력받은 data 개수만큼 반복.
+        result_list = []
+        for j in range(0, num_semester):
+            result = conn(inputlist[j], select_sem[j], conslist1[j], conslist2[j], cnt_leclist[j], ind)
+            result_list.append(result)
+            
+        dataset = pd.concat(result_list, ignore_index=True) # 랜덤 추출한 거 합치기
         
-    dataset = pd.concat(result_list, ignore_index=True) # 랜덤 추출한 거 합치기
-    
-    
-    # 성적 랜덤 지정
-    total_lec = sum(cnt_leclist)
-    grade = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
-    choice = np.random.choice(grade, total_lec, p=[0.1, 0.2, 0.2, 0.15, 0.15, 0.05, 0.05, 0.05, 0.05]).tolist() # grade의 각 값이 나올 확률 지정
-    dataset['등급'] = choice
-    
-    #dataset['분반'] = "'" + dataset['분반'].astype(str)
+        
+        # 성적 랜덤 지정
+        total_lec = sum(cnt_leclist)
+        grade = ['A+', 'A0', 'B+', 'B0', 'C+', 'C0', 'D+', 'D0', 'F']
+        choice = np.random.choice(grade, total_lec, p=[0.1, 0.2, 0.2, 0.15, 0.15, 0.05, 0.05, 0.05, 0.05]).tolist() # grade의 각 값이 나올 확률 지정
+        dataset['등급'] = choice
+        
+        #dataset['분반'] = "'" + dataset['분반'].astype(str)
 
-    for index, row in dataset.iterrows(): 
-    # 등급 P/F 처리
-        if (row['학수강좌번호'] in pf) or ('DES' in row['학수강좌번호'] and row['년도'] != "2023") or ('DAI' in row['학수강좌번호']):
-            dataset.at[index, '등급'] = random.choice(['P', 'F'])
+        for index, row in dataset.iterrows(): 
+        # 등급 P/F 처리
+            if (row['학수강좌번호'] in pf) or ('DES' in row['학수강좌번호'] and row['년도'] != "2023") or ('DAI' in row['학수강좌번호']):
+                dataset.at[index, '등급'] = random.choice(['P', 'F'])
 
-    # 포함 강의는 F 안 받게
+        # 포함 강의는 F 안 받게
+            for sublist in conslist1:
+                if (sublist != 0) and (row['학수강좌번호'] in sublist) and (dataset.at[index, '등급'] == 'F'):
+                    if (row['학수강좌번호'] in pf) or ('DES' in row['학수강좌번호'] and row['년도'] != "2023") or ('DAI' in row['학수강좌번호']):
+                        new_grade = 'P'
+                    else:
+                        new_grade = np.random.choice(grade[:-1])
+                    dataset.at[index, '등급'] = new_grade
+                    break
+        
+        # 개별연구 4개 이상 들었으면 3개만 남겨~!!!!!!
+        # 포함 강의에 입력된 거 있으면 그거부터 남기도록
+        Ind_target = []
         for sublist in conslist1:
-            if (sublist != 0) and (row['학수강좌번호'] in sublist) and (dataset.at[index, '등급'] == 'F'):
-                if (row['학수강좌번호'] in pf) or ('DES' in row['학수강좌번호'] and row['년도'] != "2023") or ('DAI' in row['학수강좌번호']):
-                    new_grade = 'P'
-                else:
-                    new_grade = np.random.choice(grade[:-1])
-                dataset.at[index, '등급'] = new_grade
-                break
-    
-    # 개별연구 4개 이상 들었으면 3개만 남겨~!!!!!!
-    # 포함 강의에 입력된 거 있으면 그거부터 남기도록
-    Ind_target = []
-    for sublist in conslist1:
-        if sublist != 0:
-            sublist_targets = [item for item in sublist if 'DES' in item or 'DAI' in item]
-            Ind_target.extend(sublist_targets)
+            if sublist != 0:
+                sublist_targets = [item for item in sublist if 'DES' in item or 'DAI' in item]
+                Ind_target.extend(sublist_targets)
 
-    Ind = dataset['학수강좌번호'].str.contains('DES|DAI')
-    IndP = dataset['학수강좌번호'].isin(Ind_target)
-    dataset = pd.concat([dataset[~Ind], dataset[IndP]])
+        Ind = dataset['학수강좌번호'].str.contains('DES|DAI')
+        IndP = dataset['학수강좌번호'].isin(Ind_target)
+        dataset = pd.concat([dataset[~Ind], dataset[IndP]])
 
-    # 중복된 행 중 마지막 행을 제외한 모든 중복 행 제거
-    dataset.drop_duplicates(subset='학수강좌번호', keep='last', inplace=True)
-    dataset.iloc[-1, dataset.columns.get_loc('재수강구분')] = 'NEW재수강'
+        # 중복된 행 중 마지막 행을 제외한 모든 중복 행 제거
+        dataset.drop_duplicates(subset='학수강좌번호', keep='last', inplace=True)
+        dataset.iloc[-1, dataset.columns.get_loc('재수강구분')] = 'NEW재수강'
 
-    dataset.to_excel('./data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx') # 만들어진 dataset xlsx로 내보내기
+        dataset.to_excel('./data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx') # 만들어진 dataset xlsx로 내보내기
 
-notify()
+    notify()
