@@ -47,6 +47,13 @@ const GradReqChange = () => {
         link.click();
     }
 
+    const handleNewDownload = () => {
+        const link = document.createElement('a');
+        link.download = '신설과목_추가';
+        link.href = 'img/AddNewCourse.xlsx';
+        link.click();
+    }
+
     const readExcel = async (file) => {
         const fileReader = await new FileReader();
         fileReader.readAsArrayBuffer(file);
@@ -84,14 +91,18 @@ const GradReqChange = () => {
             <div className="mainBox">
             <Box className="sub_title">졸업요건 업로드</Box>
             <Box className="guide">
-            {/* <img alt="컴공졸업요건입력예시" src="img/GradReqExample.png"></img> */}
-            {/* <img alt="학수번호변경예시" src="img/CourseNumChangeExample.png"></img> */}
+                {/* <img alt="컴공졸업요건입력예시" src="img/GradReqExample.png"></img> */}
+                {/* <img alt="학수번호변경예시" src="img/CourseNumChangeExample.png"></img> */}
+                {/* <img alt="신설과목예시" src="img/newcourse.png"></img> */}
                 <div style={{fontSize:'20px',fontFamily:'SsangMun',marginBottom:'15px'}}>[ 양식 다운로드 ]</div>
                 <button class='uploadbtn' onClick={handleReqDownload} variant="contained">
                     컴퓨터공학과 졸업요건 양식
                 </button>
                 <button class ='uploadbtn' onClick={handleCourseDownload} variant="contained">
                     학수강좌번호 변경 양식
+                </button>
+                <button className='uploadbtn' onClick={handleNewDownload} variant="contained">
+                    신설과목 추가 양식
                 </button>
                 <div class="subtitle">심화/일반 선택</div>
                 <FormControl sx={{ width: 100 }}>

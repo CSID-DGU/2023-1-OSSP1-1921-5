@@ -13,12 +13,13 @@ import GradReqChange from "./pages/GradReqChange";
 import AddNewSemester from "./pages/AddNewSemster";
 import CreateDataSet from "./pages/CreateDataSet";
 import { createTheme, ThemeProvider } from "@mui/material";
+import './App.css';
 
 const theme = createTheme({
   typography: {
-    fontFamily: "'NanumSquare', 'SsangMun', sans-serif",
-  },
-});
+    fontFamily: "'NanumSquare', 'SsangMun', sans-serif"
+  }
+})
 
 const App = () => {
   return (
