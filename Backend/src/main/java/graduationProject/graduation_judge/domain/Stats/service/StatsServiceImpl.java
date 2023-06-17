@@ -27,26 +27,22 @@ public class StatsServiceImpl implements StatsService {
         float allGradeSum = 0;
         int numMember; // 총 멤버 수
 
-        if (typeId == "전체" || typeId == "전공") {
-            // 먼저 member의 평점
-            ScoreStat myScoreStat = scoreStatRepository.findBySemesterAndMemberIdAndTypeId(semester, memberId, typeId);
-            if (myScoreStat != null)
-                myData = myScoreStat.getGrade();
+        // 먼저 member의 평점
+        ScoreStat myScoreStat = scoreStatRepository.findBySemesterAndMemberIdAndTypeId(semester, memberId, typeId);
+        if (myScoreStat != null)
+            myData = myScoreStat.getGrade();
 
-            // 모든 member의 평점
-            List<ScoreStat> allScoreStat = scoreStatRepository.findAllBySemesterAndTypeId(semester, typeId);
-            numMember = allScoreStat.size();
-            if (numMember != 0) {
-                for (ScoreStat scoreStat : allScoreStat) {
-                    allGradeSum += scoreStat.getGrade();
-                }
-                avgData = allGradeSum / numMember;
+        // 모든 member의 평점
+        List<ScoreStat> allScoreStat = scoreStatRepository.findAllBySemesterAndTypeId(semester, typeId);
+        numMember = allScoreStat.size();
+        if (numMember != 0) {
+            for (ScoreStat scoreStat : allScoreStat) {
+                allGradeSum += scoreStat.getGrade();
             }
-
-            return new GraphInfo.GraphData(semester, myData, avgData);
-        } else {
-            return null;
+            avgData = allGradeSum / numMember;
         }
+
+        return new GraphInfo.GraphData(semester, myData, avgData);
     }
 
     @Override
