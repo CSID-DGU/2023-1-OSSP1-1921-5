@@ -78,8 +78,8 @@ const Admin = () => {
                 body: JSON.stringify( email ),
             })
             .then(() => {
-                localStorage.clear();
                 alert('탈퇴 완료');
+                window.location.replace('/admin');
             })
         } else {
             return;

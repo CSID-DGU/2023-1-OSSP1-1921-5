@@ -46,6 +46,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 const Result = () => {
     const [expanded, setExpanded] = useState('panel1');
     const [loading, setLoading] = useState(true);
+
     const [hasResult, setHasResult] = useState();
     const [course, setCourse] = useState();
     const [studentNumber, setStudentNumber] = useState();
@@ -75,103 +76,55 @@ const Result = () => {
 
     const [major_Credit, setmajor_Credit] = useState();
     const [total_Credit, settotal_Credit] = useState();
-    
+
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
 
     useEffect(() => {
-        const data = {
-            email: sessionStorage.getItem('userId')
-        }
-        fetch("/result", {
-            method: 'post',
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(data)
-        })
-        .then((res) => res.json())
-        .then((json) => {
-            console.log(json)
-            setHasResult(json.Result)
-            setCourse(json.Course)
-            setStudentNumber(json.StudentNumber)
-            setEngLevel(json.EngLevel)
-            setRegister(json.Register)
-            setEngScore(json.EngScore)
-            setTotalCredit(json.TotalCredit)
-            setCommonClassCredit(json.CommonClassCredit)
-            setGibonSoyangCredit(json.GibonsoyangCredit)
-            setBsmCredit(json.BSMCredit)
-            setBsmMathCredit(json.BSMMathCredit)
-            setBsmSciCredit(json.BSMSciCredit)
-            setMajorCredit(json.MajorCredit)
-            setSpecialMajorCredit(json.SpecialMajorCredit)
-            setEngClassCount(json.EngClassCount)
-            setTotalScore(json.TotalScore)
-        
-            if (register >= 8) setIsRegister(true)
-            else setIsRegister(false)
-            if (engScore >= 700) setIsEngScore(true)
-            else setIsEngScore(false)
-            if (course === '심화'){
-                if (totalCredit >= 140) {
-                    setIsTotalCredit(true)
-                    settotal_Credit(totalCredit)
-                }
-                else{
-                    setIsTotalCredit(false)
-                    settotal_Credit(140 - totalCredit)
-                } 
-            }
-            else {
-                if (totalCredit >= 130) {
-                    setIsTotalCredit(true)
-                    settotal_Credit(totalCredit)
-                }
-                else {
-                    setIsTotalCredit(false)
-                    settotal_Credit(130 - totalCredit)
-                }
-            }
+        const fetchData = async () => {
+            const data = {
+                email: sessionStorage.getItem('userId')
+            };
 
-            if (commonClassCredit >= 14) setIsCommonClassCredit(true)
-            else setIsCommonClassCredit(false)
-            if (bsmCredit >= 21) setIsBsmCredit(true)
-            else setIsBsmCredit(false)
-            if (course === '심화'){
-                if (majorCredit >= 84) {
-                    setIsMajorCredit(true)
-                    setmajor_Credit(84)
-                    
+            try {
+                const response = await fetch("/result", {
+                    method: 'post',
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const json = await response.json();
+                    console.log(json)
+                    setHasResult(json.Result)
+                    setCourse(json.Course) // 심화/일반
+                    setStudentNumber(json.StudentNumber) // 입학년도
+                    setEngLevel(json.EngLevel) // 영어 레벨
+                    setRegister(json.Register) // 이수 학기 수
+                    setEngScore(json.EngScore) // 토익 점수
+                    setTotalCredit(json.TotalCredit) // 총 이수 학점
+                    setCommonClassCredit(json.CommonClassCredit) // 공통교양 이수 학점
+                    setGibonSoyangCredit(json.GibonsoyangCredit) // 기본소양 이수 학점
+                    setBsmCredit(json.BSMCredit) // bsm 이수 학점
+                    setBsmMathCredit(json.BSMMathCredit) // bsm 중 수학 이수 학점
+                    setBsmSciCredit(json.BSMSciCredit) // bsm 중 과학 이수 학점
+                    setMajorCredit(json.MajorCredit) // 전공 이수 학점
+                    setSpecialMajorCredit(json.SpecialMajorCredit) // 필수 전공 이수 학점
+                    setEngClassCount(json.EngClassCount) // 영어 강의 이수 개수
+                    setTotalScore(json.TotalScore) // 평점
+                } else {
+                    console.error("Error: ", response.status);
                 }
-                else{
-                    setIsMajorCredit(false)
-                    setmajor_Credit(84)
-                } 
+            } catch(error) {
+                console.error("Error: ", error);
             }
-            else {
-                if (majorCredit >= 72) {
-                    setIsMajorCredit(true)
-                    setmajor_Credit(72)
-                }
-                else {
-                    setIsMajorCredit(false)
-                    setmajor_Credit(72)
-                }
-            }
-            if (totalScore >= 2.0) setIsTotalScore(true)
-            else setIsTotalScore(false)
-            if (engClassCount >= 4) setIsEngClassCount(true)
-            else setIsEngClassCount(false)
-            if (isRegister && isEngScore && isTotalCredit && isCommonClassCredit && isBsmCredit && isMajorCredit && isEngClassCount && isTotalScore) setIsGraduate(true)
-            else setIsGraduate(false)
-        })
-        setTimeout(()=> {
-            setLoading(false)
-            console.log("로딩종료") }, 5000)
-    })
+        };
+        fetchData();
+
+    }, []);
 
     return (
         <>
