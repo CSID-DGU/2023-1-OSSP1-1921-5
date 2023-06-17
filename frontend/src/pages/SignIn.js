@@ -44,7 +44,7 @@ const SignIn = () => {
                     // id는 있지만, pw 는 다른 경우 userId = null , msg = undefined
                     console.log('잘못된 비밀번호')
                     alert('잘못된 비밀번호입니다.')
-                } else if (json.id === "admin"){
+                } else if (json.id === "1921@dgu.ac.kr"){
                     console.log(json.id)
                     console.log(id)
                     sessionStorage.setItem('userId', id)

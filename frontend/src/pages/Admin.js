@@ -56,8 +56,7 @@ const Admin = () => {
             if (res.ok) {
                 const member = await res.json();
                 setSearchResult(member);
-            }
-            else {
+            } else {
                 alert("존재하지 않는 회원입니다.")
                 window.location.href = "/admin"
                 console.error('Error1 : ', res.status);
@@ -67,6 +66,25 @@ const Admin = () => {
             console.error('Error : ', error);
         }
     }
+
+    const handleDeleteProfile = (email) => {
+
+        if (window.confirm('회원을 탈퇴시키시겠습니까?')) {
+            fetch("/forcedeletion", {
+                method: 'post',
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify( email ),
+            })
+            .then(() => {
+                localStorage.clear();
+                alert('탈퇴 완료');
+            })
+        } else {
+            return;
+        }
+    };
 
     return (
         <div className="fade-in">
@@ -91,8 +109,8 @@ const Admin = () => {
                         placeholder="회원 아이디 입력"
                         variant="outlined"
                     />
-                    
-                    <button className="btn" type="submit" variant="contained">생성</button>
+
+                    <button className="btn" type="submit" variant="contained">검색</button>
                 </form>
                 {searchResult && (
                 <List>
@@ -100,12 +118,32 @@ const Admin = () => {
                     <ListItem>Password: {searchResult.pw}</ListItem>
                     <ListItem>Student Number: {searchResult.studentNumber}</ListItem>
                     <ListItem>Semester: {searchResult.semester}</ListItem>
+                    <ListItem>
+                        <button
+                            onClick={() => handleDeleteProfile(searchResult.email)}
+                            style={{ marginLeft: '10px' }}
+                        >탈퇴시키기</button>
+                    </ListItem>
                 </List>
                 )}
                 <ul>
-                    {members.map((member) => (
-                        <li key={member.email}>{member.email}, {member.pw}, {member.studentNumber}, {member.semester}</li>
-                    ))}
+                    {members.map((member) => {
+                        if (member.email === "1921@dgu.ac.kr") {
+                            return null;
+                        }
+
+                        return (
+                            <li key={member.email}>
+                                {member.email}, {member.pw}, {member.studentNumber}, {member.semester}
+                                <button
+                                    onClick={() => handleDeleteProfile(member.email)}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    탈퇴시키기
+                                </button>
+                            </li>
+                        );
+                    })}
                 </ul>
                 </Box>
             </div>

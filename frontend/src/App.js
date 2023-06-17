@@ -23,21 +23,23 @@ const theme = createTheme({
 const App = () => {
   return (
       <ThemeProvider theme={theme}>
-        <Routes>
-          <Route path="/" element={<Home />} exact />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/input" element={<Input />} />
-            <Route path="/result" element={<Result />} />
-            <Route path="/stats" element={<Stats />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/change" element={<GradReqChange />} />
-            <Route path="/newsem" element={<AddNewSemester />} />
-            <Route path="/dataset" element={<CreateDataSet />} />
-          </Route>
-        </Routes>
+        <div>
+          <Routes>
+            <Route path="/" element={<Home />} exact={true} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/input" element={<Input />} />
+              <Route path="/result" element={<Result />} />
+              <Route path="/stats" element={<Stats />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/change" element={<GradReqChange />} />
+              <Route path="/newsem" element={<AddNewSemester />} />
+              <Route path="/dataset" element={<CreateDataSet />} />
+            </Route>
+          </Routes>
+        </div>
       </ThemeProvider>
   );
 };
