@@ -202,7 +202,7 @@ def create():
             dataset.drop_duplicates(subset='학수강좌번호', keep='last', inplace=True)
             dataset.iloc[-1, dataset.columns.get_loc('재수강구분')] = 'NEW재수강'
 
-            dataset.to_excel('../frontend/src/data' + str(i) + '입학' + str(start_year) + '이수' + str(
+            dataset.to_excel('../frontend/src/data/data' + str(i) + '입학' + str(start_year) + '이수' + str(
                 num_semester) + '학기.xlsx')  # 만들어진 dataset xlsx로 내보내기
         print("good")
 
