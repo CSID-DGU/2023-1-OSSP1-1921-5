@@ -115,7 +115,7 @@ const Admin = () => {
                     <button className="btn" type="submit" variant="contained">검색</button>
                 </form>
                 {searchResult && (
-                <List classname='pflist'>
+                <List>
                     <ListItem>Email: {searchResult.email}</ListItem>
                     <ListItem>Password: {searchResult.pw}</ListItem>
                     <ListItem>Student Number: {searchResult.studentNumber}</ListItem>
@@ -128,7 +128,7 @@ const Admin = () => {
                     </ListItem>
                 </List>
                 )}
-                <ul>
+                <ul classname='pflist'>
                     {members.map((member) => {
                         if (member.email === "1921@dgu.ac.kr") {
                             return null;
@@ -137,7 +137,7 @@ const Admin = () => {
                         return (
                             <li key={member.email}>
                                 {member.email}, {member.pw}, {member.studentNumber}, {member.semester}
-                                <button
+                                <button className="deletebtn"
                                     onClick={() => handleDeleteProfile(member.email)}
                                     style={{ marginLeft: '10px' }}
                                 >
