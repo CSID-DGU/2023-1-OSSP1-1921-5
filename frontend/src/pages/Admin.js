@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import {Link} from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import './css/CreateDataSet.css';
 
 const Admin = () => {
 
@@ -100,6 +101,7 @@ const Admin = () => {
             <Box className="sub_title">회원 목록</Box>
             <Box className="guide">
             <div style={{fontSize:'20px',fontFamily:'SsangMun',marginBottom:'15px'}}>[ 회원 검색 ]</div>
+            <br></br>
                 <form onSubmit={handleSubmit}>
                     <input
                         className="textfield"
@@ -109,17 +111,17 @@ const Admin = () => {
                         placeholder="회원 아이디 입력"
                         variant="outlined"
                     />
-
+                    <br></br>
                     <button className="btn" type="submit" variant="contained">검색</button>
                 </form>
                 {searchResult && (
-                <List>
+                <List classname='pflist'>
                     <ListItem>Email: {searchResult.email}</ListItem>
                     <ListItem>Password: {searchResult.pw}</ListItem>
                     <ListItem>Student Number: {searchResult.studentNumber}</ListItem>
                     <ListItem>Semester: {searchResult.semester}</ListItem>
                     <ListItem>
-                        <button
+                        <button className="deletebtn"
                             onClick={() => handleDeleteProfile(searchResult.email)}
                             style={{ marginLeft: '10px' }}
                         >탈퇴시키기</button>

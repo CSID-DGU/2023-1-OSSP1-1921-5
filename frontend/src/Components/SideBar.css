@@ -10,12 +10,7 @@
   width: 90px;
   text-align: center;
 }
-.tool_title {
-  /* background-color: deepskyblue; */
-  font-size: 0.8em;
-  line-height: 25px;
-  padding-left: 3px;
-}
+
 
 .tool:hover {
   opacity: 0.7;

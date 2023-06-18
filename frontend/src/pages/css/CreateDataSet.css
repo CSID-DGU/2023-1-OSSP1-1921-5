@@ -96,3 +96,32 @@
 .uploadbtn:hover{
   background-color: #235be9;
 }
+
+
+.deletebtn{
+  cursor: pointer;
+  border: none;
+  color: white;
+  background-color: #2260ff;
+  padding: 8px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  margin-top: 5px;
+  margin : 10px;
+  width : 35px;
+  height : 20px;
+  box-shadow: 0 1px 1px rgba(0, 79, 255, 0.3);
+}
+
+.deletebtn:hover{
+  background-color: #235be9;
+}
+
+.pflist{
+  list-style-type: none !important;
+  line-height: 1.8;
+}
+
+.pflist #text{
+  width : 150px;
+}
