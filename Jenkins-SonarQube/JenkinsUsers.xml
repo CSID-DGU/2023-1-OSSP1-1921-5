@@ -1,0 +1,40 @@
+//'token' 은 개인 토큰
+
+<?xml version='1.1' encoding='UTF-8'?>
+<hudson.model.UserIdMapper>
+  <version>1</version>
+  <idToDirectoryNameMap class="concurrent-hash-map">
+    <entry>
+      <string>eeheueklf</string>
+      <string>eeheueklf_'token'</string>
+    </entry>
+    <entry>
+      <string>pletain</string>
+      <string>pletain_'token'</string>
+    </entry>
+    <entry>
+      <string>sjy140801</string>
+      <string>sjy140801_'token'</string>
+    </entry>
+    <entry>
+      <string>noreply</string>
+      <string>noreply_'token'</string>
+    </entry>
+    <entry>
+      <string>dabin4078</string>
+      <string>dabin4078_'token'</string>
+    </entry>
+    <entry>
+      <string>admin</string>
+      <string>admin_'token'</string>
+    </entry>
+    <entry>
+      <string>junsang13454</string>
+      <string>junsang13454_'token'</string>
+    </entry>
+    <entry>
+      <string>06.hjhj.12</string>
+      <string>06hjhj12_'token'</string>
+    </entry>
+  </idToDirectoryNameMap>
+</hudson.model.UserIdMapper>
