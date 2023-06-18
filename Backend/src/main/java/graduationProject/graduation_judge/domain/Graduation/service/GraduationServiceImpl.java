@@ -52,7 +52,7 @@ public class GraduationServiceImpl implements GraduationService{
     @Override
     public Optional<GraduationRequirementCond> getGraduationRequirementCond(int enrollmentYear, Major_curriculum course) {
         //조회 결과 해당하는 학번이 없으면 null 일수도 있기 때문
-        Optional<GraduationRequirementCond> requirementCond = null;
+        Optional<GraduationRequirementCond> requirementCond = Optional.empty();
 
         try {
             GraduationRequirementPK reqID = GraduationRequirementPK.builder()
@@ -61,7 +61,7 @@ public class GraduationServiceImpl implements GraduationService{
                     .build();
 
             //졸업 요건 조회
-            requirementCond = Optional.of(gradReqRepository.findById(reqID).get().toDTO());
+            requirementCond = Optional.ofNullable(gradReqRepository.findById(reqID).get().toDTO());
 
         } catch (Exception e) {
             //처리해야하는 예외 리스트
