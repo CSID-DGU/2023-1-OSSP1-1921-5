@@ -124,18 +124,18 @@ const Admin = () => {
                         <button className="deletebtn"
                             onClick={() => handleDeleteProfile(searchResult.email)}
                             style={{ marginLeft: '10px' }}
-                        >탈퇴시키기</button>
+                        >회원탈퇴</button>
                     </ListItem>
                 </List>
                 )}
-                <ul classname='pflist'>
+                <ul classname="pflist">
                     {members.map((member) => {
                         if (member.email === "1921@dgu.ac.kr") {
                             return null;
                         }
 
                         return (
-                            <li key={member.email}>
+                            <li key={member.email} className="member-item">
                                 {member.email}, {member.pw}, {member.studentNumber}, {member.semester}
                                 <button className="deletebtn"
                                     onClick={() => handleDeleteProfile(member.email)}

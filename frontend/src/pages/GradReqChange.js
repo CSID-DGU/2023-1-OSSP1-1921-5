@@ -2,16 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Box, Select, Stack, MenuItem, InputLabel, FormControl } from '@mui/material';
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import SideBar from '../Components/SideBar';
-import Header from '../Components/Header';
 import * as XLSX from "xlsx";
 import './css/CreateDataSet.css';
+import {Link} from "react-router-dom";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 const GradReqChange = () => {
     const COURSE = [
         "심화",
         "일반"
     ];
-
+    const onClickLogout = () => {
+        sessionStorage.clear()
+        window.location.replace('/')
+      }
     const input = React.useRef(null);
     const [placeholder, setPlaceholder] = useState("");
     const [course, setCourse] = useState("");
@@ -117,7 +121,13 @@ const GradReqChange = () => {
 
     return (
         <div className="fade-in">
-            <Header signout />
+        <Box className="tool" title="로그아웃">
+            <Link to="/">
+                <Stack direction="row" onClick={onClickLogout}>
+                    <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                </Stack>
+            </Link>
+        </Box>
             <SideBar />
             <div className="mainBox">
                 <Box className="sub_title">졸업요건 업로드</Box>
