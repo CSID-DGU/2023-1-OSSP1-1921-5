@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from "react";
 import { Box, Select, Stack, MenuItem, InputLabel, FormControl} from '@mui/material';
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import SideBar from '../Components/SideBar';
@@ -58,14 +58,21 @@ const GradReqChange = () => {
     const onClickInput = async (e) => {
         const formData = new FormData();
         const file = input.current.files[0];
-        formData.append('file', file)
-        
+        const info = filetype + course;
+        formData.append('file', file);
+        console.log(file);
+        console.log(info);
+        if (!course) {
+            alert("심화/일반 과정을 입력해주세요.");
+            return;
+        }
+
         try {
-            const response = await fetch("/", {
+            const response = await fetch("/change/file", {
                 method: "post",
                 body: formData,
                 headers: {
-                    "X-File-Type": filetype,
+                    "X-File-Type": info,
                 },
             });
 
