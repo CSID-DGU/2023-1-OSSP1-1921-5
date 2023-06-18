@@ -27,6 +27,13 @@ public class CoreLectureRequirementPK implements Serializable {
     @Column(name = "lecture_name", nullable = false, length = 200)
     private String lectureName;
 
+    public CoreLectureRequirementPK(Integer enrollment, Major_curriculum course, String lectureName) {
+    }
+
+    public CoreLectureRequirementPK() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

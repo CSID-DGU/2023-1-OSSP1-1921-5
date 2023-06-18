@@ -87,6 +87,7 @@ public class GraduationRequirement {
             Integer englishClass,
             Integer totalEarnedCredit,
             Float gpa,
+            Integer englishScore,
             Integer bsmCredit,
             Integer bsmMathCredit,
             Integer bsmSciCredit,
@@ -96,6 +97,7 @@ public class GraduationRequirement {
         this.id = id;
         this.registeredSemesters = registeredSemesters;
         this.englishClass = englishClass;
+        this.englishScore = englishScore;
         this.totalEarnedCredit = totalEarnedCredit;
         this.gpa = gpa;
         this.bsmCredit = bsmCredit;
@@ -110,7 +112,7 @@ public class GraduationRequirement {
     public GraduationRequirementCond toDTO() {
         return GraduationRequirementCond.builder()
                 .Registered_semesters(registeredSemesters)
-//                .Toeic_score(englishScore)
+                .Toeic_score(englishScore)
                 .Total_earned_credit(totalEarnedCredit)
                 .GPA(gpa)
                 .English_class(englishClass)

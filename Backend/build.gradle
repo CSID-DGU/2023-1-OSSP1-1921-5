@@ -44,6 +44,12 @@ dependencies {
 	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
 	implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
+	//엑셀 POI 라이브러리
+	implementation group: 'org.apache.poi', name: 'poi', version: '4.1.2'
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+	implementation group: 'org.apache.tika', name: 'tika-core', version: '2.3.0'
+
+
 }
 
 //스프링 빌드 시 특정 디렉토리 or 파일 제외 예시

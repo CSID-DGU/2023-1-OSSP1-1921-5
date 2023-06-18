@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface CoreLectureReqCustom {
     List<String> getLectureList(Integer enrollment, Major_curriculum course, String category);
+    public void insertCoreLecture(Integer enrollment,
+                                  Major_curriculum course,
+                                  String category,
+                                  String lectureName);
 }

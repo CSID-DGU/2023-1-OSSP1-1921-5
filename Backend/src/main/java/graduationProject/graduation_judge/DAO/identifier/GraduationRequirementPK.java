@@ -29,6 +29,11 @@ public class GraduationRequirementPK implements Serializable {
     @Column(name = "course", nullable = false, length = 200)
     private Major_curriculum course;
 
+    public GraduationRequirementPK(int enrollment, Major_curriculum curriculum) {
+        this.enrollmentYear = enrollment;
+        this.course = curriculum;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,7 +49,7 @@ public class GraduationRequirementPK implements Serializable {
     }
 
     @Builder
-    GraduationRequirementPK(Integer enrollmentYear, Major_curriculum course) {
+    public GraduationRequirementPK(Integer enrollmentYear, Major_curriculum course) {
         this.enrollmentYear = enrollmentYear;
         this.course = course;
     }

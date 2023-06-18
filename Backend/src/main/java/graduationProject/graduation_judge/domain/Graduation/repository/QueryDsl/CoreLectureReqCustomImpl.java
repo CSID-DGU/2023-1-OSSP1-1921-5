@@ -2,6 +2,7 @@ package graduationProject.graduation_judge.domain.Graduation.repository.QueryDsl
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import graduationProject.graduation_judge.DAO.QCoreLectureRequirement;
+import graduationProject.graduation_judge.DAO.identifier.CoreLectureRequirementPK;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,4 +36,18 @@ public class CoreLectureReqCustomImpl implements CoreLectureReqCustom{
                 )
                 .fetch();
     }
+
+    @Override
+    public void insertCoreLecture(Integer enrollment,
+                                  Major_curriculum course,
+                                  String category,
+                                    String lectureName) {
+        CoreLectureRequirementPK qid = new CoreLectureRequirementPK(enrollment, course, lectureName);
+        queryFactory.insert(coreLectureRequirement)
+                .set(coreLectureRequirement.category, category)
+                .set(coreLectureRequirement.id, qid)
+                .execute();
+    }
+
+
 }

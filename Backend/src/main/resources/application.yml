@@ -1,4 +1,8 @@
 spring:
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
   config:
     import: dbsettings.properties, emailsettings.properties
   mail:
