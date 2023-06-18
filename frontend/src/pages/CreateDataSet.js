@@ -3,8 +3,10 @@ import Box from "@mui/material/Box";
 import { TextField } from "@material-ui/core";
 import './css/CreateDataSet.css';
 import SideBar from '../Components/SideBar';
-import Header from '../Components/Header';
 import FileDownloader from '../Components/FileDownloader'
+import {Link} from "react-router-dom";
+import Stack from "@mui/material/Stack";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 const CreateDataSet = () => {
   const [dataNum, setDataNum] = useState('');
@@ -13,7 +15,11 @@ const CreateDataSet = () => {
   const [subjects, setSubjects] = useState('');
   const [showFileDownloader, setShowFileDownloader] = useState(false);
 
-
+  const onClickLogout = () => {
+    sessionStorage.clear()
+    window.location.replace('/')
+  }
+  
   const handleDataNumChange = (event) => {
     setDataNum(event.target.value);
   };
@@ -80,7 +86,13 @@ const CreateDataSet = () => {
   
   return (
     <div className="fade-in">
-      <Header signout />
+            <Box className="tool" title="로그아웃">
+                <Link to="/">
+                    <Stack direction="row" onClick={onClickLogout}>
+                        <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                    </Stack>
+                </Link>
+            </Box>
       <SideBar />
       <div className="mainBox">
       <Box className="sub_title">TEST Dataset 생성</Box>
@@ -115,13 +127,14 @@ const CreateDataSet = () => {
             />
 
             <TextField
-                className="textfield"
+                id="textfield"
+                type="text"
                 value={subjects}
                 onChange={handleSubjectsChange}
                 placeholder="이수 강의 정보"
                 variant="standard"
-                multiline
             />
+            <br></br><br></br><br></br>
           <button className="btn" onClick={handleParsingAndSubmit}>생성</button>
             {showFileDownloader && <FileDownloader />}
           </div>

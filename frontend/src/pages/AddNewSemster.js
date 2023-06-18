@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import * as XLSX from "xlsx";
 import SideBar from '../Components/SideBar';
-import Header from '../Components/Header';
-
+import {Link} from "react-router-dom";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 const AddNewSemester = () => {
     const input = React.useRef(null);
@@ -83,7 +82,10 @@ const AddNewSemester = () => {
         semester: semester,
         lectureDataList: lectureDatas
     };
-
+    const onClickLogout = () => {
+        sessionStorage.clear()
+        window.location.replace('/')
+    }
     const onClickInput = (e) => {
         if (!year || !semester) {
             alert("년도와 학기를 입력해주세요.");
@@ -112,7 +114,13 @@ const AddNewSemester = () => {
       
     return (
         <div className="fade-in">
-        <Header signout />
+            <Box className="tool" title="로그아웃">
+                <Link to="/">
+                    <Stack direction="row" onClick={onClickLogout}>
+                        <LogoutOutlinedIcon /><div className="tool_title">로그아웃</div>
+                    </Stack>
+                </Link>
+            </Box>
         <SideBar />
         <div className="mainBox">
             <Box className="sub_title">회원 목록</Box>

@@ -37,20 +37,34 @@
 }
 
 .guide .textfield {
-  width: 80%;
+  margin: 0 auto;
   padding: 10px;
-  display: block;
+  display: block !important;
   border-radius: 6px;
   border: none !important;
   font-size: 13px;
   margin-bottom: 5px;
   outline:none;
+  font-family: NanumSquare, sans-serif;
 }
-.textfield:hover {
+
+.guide #textfield {
+  width: 80%;
+  padding: 10px;
+  display: block !important;
+  border-radius: 6px;
+  border: none !important;
+  font-size: 13px;
+  margin-bottom: 5px;
+  outline:none;
+  color: black !important;
+  font-family: NanumSquare, sans-serif;
+}
+#textfield:hover, .textfield:hover {
 	border-color: rgba(0, 0, 0, .35);
 	box-shadow: 0 0 5px rgba(0, 0, 0, .2);
 }
-.textfield:click{
+#textfield:click, .textfield:click{
   border: none;
 }
 .subtitle{
