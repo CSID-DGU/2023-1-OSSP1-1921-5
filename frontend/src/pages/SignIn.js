@@ -44,15 +44,11 @@ const SignIn = () => {
                     // id는 있지만, pw 는 다른 경우 userId = null , msg = undefined
                     console.log('잘못된 비밀번호')
                     alert('잘못된 비밀번호입니다.')
-                } else if (json.id === "1921@dgu.ac.kr"){
-                    console.log(json.id)
-                    console.log(id)
+                } else if (json.id === "admin"){
                     sessionStorage.setItem('userId', id)
                     document.location.href = '/admin'
                 } else if (json.id === id) {
                     // id, pw 모두 일치 userId = userId1, msg = undefined
-                    console.log('로그인 성공')
-                    console.log(json.id)
                     sessionStorage.setItem('userId', id)
                     // 작업 완료 되면 페이지 이동(새로고침)
                     document.location.href = '/'
