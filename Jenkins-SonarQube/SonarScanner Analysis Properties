@@ -1,0 +1,37 @@
+//SonarScanner Analysis Properties
+//빌드된 파일이 SonarQube로 넘어갈때 스캔하는 과정의 속성
+
+//소나큐브로 분석할 파이썬의 버전
+sonar.python.version=3.8
+
+//js파일을 스캔하게 함
+sonar.javascript.file.suffixes=.js
+
+//js환경을 node로 설정
+sonar.javascript.environments=node
+
+//node 환경은 도커안의 /usr/bin/node임 - jenkins는 JDK 환경
+sonar.nodejs.executable=/usr/bin/node
+
+//SonarQube의 토큰을 넣어줌
+sonar.token=sqa_2d9d29266389d860a45ff71750d96eb87f72ef80
+
+//SonarQube의 프로젝트 명
+sonar.projectKey=OSSP1921
+sonar.projectName=OSSP1921
+
+//SonarQube Local Address
+sonar.host.url=http://172.17.0.2:9000/
+sonar.report.export.path=sonar-report.json
+detekt.sonar.kotlin.config.path=default-detekt-config.yml
+
+//도커에서의 코드 위치
+sonar.sources=/var/jenkins_home/workspace/OSSP1921
+  
+//java버전
+sonar.java.sourcesion=1.0
+  
+//인코딩 방식
+sonar.sourceEncoding=UTF-8
+  
+sonar.java.binaries=.
