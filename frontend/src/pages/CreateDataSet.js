@@ -51,7 +51,7 @@ const CreateDataSet = () => {
 
     console.log(parsedObject);
 
-    fetch("/createDataSet", {
+    fetch("/dataset/create", {
       method: "post",
       headers: {
         'Content-Type': 'application/json',

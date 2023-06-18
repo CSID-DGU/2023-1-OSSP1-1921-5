@@ -1,9 +1,11 @@
 package graduationProject.graduation_judge.domain.DataSet.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,77 +18,44 @@ import java.util.Map;
 @RestController
 @RequestMapping("/dataset")
 public class DataSetController {
-
     @PostMapping("/create")
-    public ResponseEntity<?> createDataSet(@RequestBody Map<String, Object> request)throws IOException{
-        try{
-            // testDataset python 으로 명령어 보내기
-            String createDataPython = "testDataSet/createUsingSolver.py"; // 실행할 파이썬 스크립트의 경로
-            String createDataFunction = "create"; // 실행할 함수의 이름
+    public ResponseEntity<?> createDataSet(@RequestBody Map<String, Object> request) throws IOException {
+        try {
+            // 파이썬 서버 URL
+            String pythonServerUrl = "http://127.0.0.1:5003";
 
-            // 실행할 명령어
-            String command = String.format("python %s %s %s", createDataPython, createDataFunction, request);
+            // RestTemplate 생성
+            RestTemplate restTemplate = new RestTemplate();
 
-            // 명령어 실행
-            ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
-            Map<String, String> env = processBuilder.environment();
-            env.put("PYTHONIOENCODING", "UTF-8");
-            Process process = processBuilder.start();
+            // HTTP 헤더 설정
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
-            // python 처리완료될 때 까지 기다리기
-            try {
-                int exitCode = process.waitFor();
-                System.out.println("TestSet Python script execution completed with exit code: " + exitCode);
-            } catch (InterruptedException e) {
-                return ResponseEntity.badRequest().body("wait error: "+ e.getMessage());
+            // HTTP 요청 바디 설정
+            HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(request, headers);
+
+            // POST 요청 보내기
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(pythonServerUrl, requestEntity, String.class);
+
+            // 응답 처리
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                String response = responseEntity.getBody();
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonResponse = objectMapper.readTree(response);
+                String message = jsonResponse.get("message").asText();
+
+                if (message.equals("complete")) {
+                    return ResponseEntity.ok().body("데이터셋 생성 완료");
+                } else {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("응답 처리 오류");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파이썬 서버 오류");
             }
-
-            // python으로부터 결과 받기 (test set의 저장 경로)
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            String testFilePath = "";
-            while ((line = reader.readLine()) != null) {
-                // 결과 읽기
-                System.out.println("line = " + line);
-                testFilePath += line;
-            }
-            System.out.println("testFilePath = " + testFilePath);
-
-            // test set 저장 경로를 z3에게 보내기
-            String z3SolverPython = "Z3 Solver/UsingSolver10.py"; // z3 python 경로
-            String z3Function = ""; // z3 실행할 함수 이름(수정~)
-            command = String.format("python %s %s %s", z3SolverPython, z3Function, testFilePath);
-
-            // 명령어 실행
-            processBuilder = new ProcessBuilder(command.split(" "));
-            process = processBuilder.start();
-
-            // python 처리완료될 때 까지 기다리기
-            try {
-                int exitCode = process.waitFor();
-                System.out.println("Z3 Python script execution completed with exit code: " + exitCode);
-            } catch (InterruptedException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
-            }
-
-            // z3로부터 결과 엑셀 파일 저장경로 받기
-//            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//            line = "";
-//            String resultFilePath = "";
-//            while ((line = reader.readLine()) != null) {
-//                // 결과 읽기
-//                resultFilePath += line;
-//            }
-
-            // 생성 완료됐다고 ok 결과 프론트로 보내기
-            return ResponseEntity.ok().body("데이터셋 생성 완료");
-
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body("error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("에러: " + e.getMessage());
         }
     }
-
-
 
     @GetMapping("/download")
     public void downloadFiles(HttpServletResponse response) throws IOException{
