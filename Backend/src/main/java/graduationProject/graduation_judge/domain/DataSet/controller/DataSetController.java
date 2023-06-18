@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.domain.DataSet.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpServletResponse;
@@ -74,38 +75,33 @@ public class DataSetController {
                 JsonNode jsonResponse = objectMapper.readTree(response);
                 String message = jsonResponse.get("message").asText();
 
-                if (message.equals("complete")) {
+                if (message.equals("complete")) { // test dataset 생성완료
                     return ResponseEntity.ok().body("데이터셋 생성 완료");
+//                    // z3 실행
+//                    String z3ServerUrl = "http://localhost:5000/z3"; // ?
+//
+//                    // POST 요청 보내기
+//                    ResponseEntity<String> z3responseEntity = restTemplate.postForEntity(z3ServerUrl, requestEntity, String.class);
+//
+//                    if (responseEntity.getStatusCode() == HttpStatus.OK){
+//
+//                        return ResponseEntity.ok().body("데이터셋 생성 완료");
+//                    }else {
+//                        System.out.println("server error");
+//                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("z3 파이썬 서버 오류");
+//                    }
                 } else {
                     System.out.println("response error");
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("응답 처리 오류");
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("testdata 응답 처리 오류");
                 }
             } else {
                 System.out.println("server error");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파이썬 서버 오류");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("testdata 파이썬 서버 오류");
             }
         } catch (Exception e) {
             System.out.println("e = " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("에러: " + e.getMessage());
         }
-    }
-
-    @GetMapping("/download")
-    public void downloadFiles(HttpServletResponse response) throws IOException{
-        // 테스트셋 다운로드 + z3 결과 다운로드
-        String testFilePath = "testDataSet/data";
-        String resultFilePath;
-        
-        File testFiledirectory = new File(testFilePath);
-        File[] files = testFiledirectory.listFiles();
-        if (files != null) {
-            for (File file : files) { // 해당 경로의 모든 엑셀파일을 다운로드
-                if (file.isFile() && file.getName().endsWith(".xlsx")) {
-                    downloadFile(response, file);
-                }
-            }
-        }
-
     }
 
     @PostMapping("/createtest")
@@ -124,25 +120,4 @@ public class DataSetController {
         return ResponseEntity.ok().body("파일 경로 확인 완료");
     }
 
-    private void downloadFile(HttpServletResponse response, File file) throws IOException {
-        // 파일 다운로드 설정
-        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-        response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-
-        // 파일 스트림 읽기
-        FileInputStream fis = new FileInputStream(file);
-        OutputStream os = response.getOutputStream();
-
-        // 파일 전송
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = fis.read(buffer)) != -1) {
-            os.write(buffer, 0, bytesRead);
-        }
-
-        // 스트림 닫기
-        fis.close();
-        os.flush();
-        os.close();
-    }
 }
