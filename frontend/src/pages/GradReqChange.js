@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { Box, Select, Stack, MenuItem, InputLabel, FormControl} from '@mui/material';
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import * as XLSX from "xlsx";
 import SideBar from '../Components/SideBar';
 import Header from '../Components/Header';
 import './css/CreateDataSet.css';
@@ -15,19 +14,7 @@ const GradReqChange = () => {
     const input = React.useRef(null);
     const [placeholder, setPlaceholder] = useState("");
     const [course, setCourse] = useState("");
-    const [formData, setFormData] = useState({
-        liberalCredit: '', // 공통교양 이수학점
-        liberalReq: [], // 공통교양 필수
-        bsmCredit: '', // bsm(수학 + 과학) 이수학점
-        bsmReq: [], // bsm 필수
-        majorCredit: '', // 전공 이수학점
-        majorReq: [], // 전공 필수
-        designCredit: '', // 설계 이수학점
-        totalCredit: '', // 총이수학점
-        totalScore: '', // 평점평균
-        toeic: '', // 외국어시험
-        english: '', // 영어강의 이수 개수 
-    });
+    const [filetype, setFiletype] = useState("");
 
     const onChangeCourse = (e) => {
         setCourse(e.target.value);
@@ -54,34 +41,45 @@ const GradReqChange = () => {
         link.click();
     }
 
-    const readExcel = async (file) => {
-        const fileReader = await new FileReader();
-        fileReader.readAsArrayBuffer(file);
-    
-        fileReader.onload = (e) => {
-          const bufferArray = e?.target.result;
-          const wb = XLSX.read(bufferArray, { type: "buffer" });
-          const wsname = wb.SheetNames[0];
-          const ws = wb.Sheets[wsname];
-    
-          const data = XLSX.utils.sheet_to_json(ws);
-          console.log(data);
-          
-          try {
-            for (var i = 0; i < data.length; i++) {
-                
-            }
-
-          } catch(error) {
-            alert("올바른 형식의 엑셀 파일을 업로드해주세요.");
+    const readExcel = (file) => {
+        if(file.name.includes('졸업요건')) {
+            setFiletype('grad');
+        } else if(file.name.includes('학수강좌번호')) {
+            setFiletype('courseNum')
+        } else if (file.name.includes('신설과목')) {
+            setFiletype('new')
+        } else {
+            alert("파일의 이름이 변경되었는지 확인해주세요.");
             setPlaceholder("");
             input.current.value = null;
-          }
-        };
+        }
     };
+    
+    const onClickInput = async (e) => {
+        const formData = new FormData();
+        const file = input.current.files[0];
+        formData.append('file', file)
+        
+        try {
+            const response = await fetch("/", {
+                method: "post",
+                body: formData,
+                headers: {
+                    "X-File-Type": filetype,
+                },
+            });
 
-    const onClickInput = (e) => {
- 
+            if(response.ok) {
+                alert("졸업요건변경을 완료하였습니다.");
+                window.location.href = '/newsem'
+            } else {
+                alert("졸업요건변경을 실패하였습니다.")
+                console.log("Error: ", response.body);
+            }   
+        } catch (error) {
+            alert("졸업요건변경을 실패하였습니다.")
+            console.error("Error: ", error);
+        }
     }
 
     return (
