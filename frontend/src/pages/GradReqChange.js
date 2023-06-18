@@ -81,6 +81,13 @@ const GradReqChange = () => {
                 setUrl("/change/file");
                 console.log("sucess")
             }
+            if(file.name.includes("학수강좌번호")) {
+                console.log("file_type = " + file.name.includes("학수강좌번호"))
+                setFiletype("학수강좌번호")
+                setUrl("/change/changefile");
+                console.log(file.name)
+                console.log("sucess")
+            }
             if(file.name.includes("신설과목")) {
                 console.log("file_type = " + file.name.includes("신설과목"))
                 setFiletype("신설과목")
