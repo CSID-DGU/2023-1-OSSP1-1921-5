@@ -123,9 +123,9 @@ const AddNewSemester = () => {
             </Box>
         <SideBar />
         <div className="mainBox">
-            <Box className="sub_title">회원 목록</Box>
+            <Box className="sub_title">강의 정보 등록</Box>
             <Box className="guide">
-            <div style={{fontSize:'20px',fontFamily:'SsangMun',marginBottom:'15px'}}>[ 강의 정보 등록 ]</div>
+            <div style={{fontSize:'20px',fontFamily:'SsangMun',marginBottom:'15px'}}>[ 등록 정보 입력 ]</div>
             <Stack className="input_area" flexDirection={"row"}>
                 <input 
                     className="textfield"

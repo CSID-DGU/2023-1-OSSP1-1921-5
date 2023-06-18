@@ -97,6 +97,8 @@ const CreateDataSet = () => {
       <div className="mainBox">
       <Box className="sub_title">TEST Dataset 생성</Box>
         <Box className="guide">
+        <img class="imgex_b" alt="testdataset생성예시" src="img/testdatasetEx.png"></img>
+                    <div class="subtitle">testdataset생성예시</div>
         <div style={{fontSize:'20px',fontFamily:'SsangMun',marginBottom:'15px'}}>[ 생성 정보 입력 ]</div>
           <div>
             <input
