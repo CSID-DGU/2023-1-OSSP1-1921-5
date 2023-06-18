@@ -1,12 +1,20 @@
+//querydsl 추가
+buildscript {
+	dependencies {
+		classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
+	}
+}
+
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.6'
-	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.springframework.boot' version '2.7.12'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'graduation_spring_test'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '11'
 
 configurations {
 	compileOnly {
@@ -19,15 +27,23 @@ repositories {
 }
 
 dependencies {
+
+//	implementation 'org.springframework.boot:spring-boot:3.1.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'com.querydsl:querydsl-jpa'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
+//	// QueryDSL 라이브러리
+	implementation 'com.querydsl:querydsl-jpa:5.0.0'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
+	implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
 }
 
 //스프링 빌드 시 특정 디렉토리 or 파일 제외 예시
@@ -39,11 +55,9 @@ sourceSets {
 //			exclude 'graduationProject/graduation_judge/domain/Lecture/**'
 //			exclude 'graduationProject/graduation_judge/domain/Member/**'
 //			exclude 'graduationProject/graduation_judge/domain/Stats/**'
-			exclude 'graduationProject/graduation_judge/domain/Graduation/**'
+//			exclude 'graduationProject/graduation_judge/domain/Graduation/**'
 			//DAO
-			exclude 'graduationProject/graduation_judge/DAO/GraduationRequirement.java'
-			exclude 'graduationProject/graduation_judge/DAO/CoreLectureRequirement.java'
-			exclude 'graduationProject/graduation_judge/DAO/identifier/CoreLectureRequirementPK.java'
+//			exclude 'graduationProject/graduation_judge/DAO/GraduationRequirement.java'
 //			exclude 'graduationProject/graduation_judge/DAO/DesignLecture.java'
 //			exclude 'graduationProject/graduation_judge/DAO/EnglishLecture.java'
 //			exclude 'graduationProject/graduation_judge/DAO/EntireLecture.java'
@@ -53,7 +67,7 @@ sourceSets {
 //			exclude 'graduationProject/graduation_judge/DAO/UserInfo.java'
 //			exclude 'graduationProject/graduation_judge/DAO/UserSelectList.java'
 			//DTO
-			exclude 'graduationProject/graduation_judge/DTO/Graduation/**'
+//			exclude 'graduationProject/graduation_judge/DTO/Graduation/**'
 //			exclude 'graduationProject/graduation_judge/DTO/Lecture/**'
 //			exclude 'graduationProject/graduation_judge/DTO/GradeDTO.java'
 //			exclude 'graduationProject/graduation_judge/DTO/MailDTO.java'
@@ -71,3 +85,37 @@ sourceSets {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
+// === QueryDsl 빌드 옵션 (선택) ===
+def querydslDir = "$buildDir/generated/querydsl"
+
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+//JPAAnnotionProcessor를 사용해 생성된 Q클래스를 개발환경에서 사용할 수 있도록 함
+sourceSets {
+	main.java.srcDirs += [querydslDir]
+}
+	configurations {
+		querydsl.extendsFrom compileClasspath
+	}
+
+//이 코드를 통해 위에서 선언한 querydslSrcDir 변수의 src/main/generated 에
+//annotation processors 가 만든 QClass를 저장해준다.
+	tasks.withType(JavaCompile) {
+		options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+	}
+
+//build clean 시에 생성되었던 QClass 를 모두 삭제
+//(querydslSrcDir = src/main/generated)
+	clean.doLast {
+		file(querydslDir).deleteDir()
+	}
+
+	compileQuerydsl {
+		options.annotationProcessorPath = configurations.querydsl
+	}
