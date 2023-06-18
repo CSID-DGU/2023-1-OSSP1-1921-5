@@ -46,7 +46,7 @@ const CreateDataSet = () => {
     subjectLines.forEach((line, index) => {
       const key = `subject${index + 1}`;
       const subjects = line.split(',').map((subject) => subject.trim());
-      parsedObject.subjects[key.trim()] = subjects;
+      parsedObject.subjects[key] = subjects;
     });
 
     console.log(parsedObject);
@@ -63,6 +63,7 @@ const CreateDataSet = () => {
           alert("DataSet 생성 요청 성공");
           console.log('요청이 성공적으로 전송되었습니다.', response);
         } else {
+          console.log(response.body)
           alert("요청 실패");
           console.error('요청이 실패하였습니다.', response);
           window.location.href = "/dataset";
