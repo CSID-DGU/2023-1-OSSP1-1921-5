@@ -67,9 +67,8 @@ public class GraduationServiceImpl implements GraduationService{
             //처리해야하는 예외 리스트
             //"특정 학번-커리큘럼" 졸업요건 null
             log.warn("GrdService - getGraduationRequirementCond error detected: " + e.getMessage());
-        } finally {
-            return requirementCond;
         }
+        return requirementCond;
     }
 
     /**
@@ -174,15 +173,15 @@ public class GraduationServiceImpl implements GraduationService{
                 GPA += semester_grade * semester_credit;
             }
             GPA = (float) (Math.round((GPA / total_earned_credit) * 100) / 100.0);
-            log.info("GPA: " + GPA);
+//            log.info("GPA: " + GPA);
 
             //수강한 영어 강의 수 확인 - english_class
             english_class = (int) userSelectListRepository.countEnglishClassTaken(user_email);
-            log.info("english_class: " + english_class);
+//            log.info("english_class: " + english_class);
 
             //수강한 설계 강의 수 확인 - english_class
             design_class = (int) userSelectListRepository.countDesignClassTaken(user_email);
-            log.info("design_class: " + design_class);
+//            log.info("design_class: " + design_class);
 
             //수강한 과목 정보 조회
             user_select = userSelectListRepository.getUserSelectLectureInfoList(user_email);
@@ -218,16 +217,16 @@ public class GraduationServiceImpl implements GraduationService{
                         special_major_credit += credit;
                     }
                 }
-
-                //리더십 과목
-                if(ClassArea == "리더십") {
-                    leadership_credit += credit;
-                }
-
-                //세미나 과목
-                if(ClassArea == "명작") {
-                    seminar_credit += credit;
-                }
+//
+//                //리더십 과목
+//                if(ClassArea == "리더십") {
+//                    leadership_credit += credit;
+//                }
+//
+//                //세미나 과목
+//                if(ClassArea == "명작") {
+//                    seminar_credit += credit;
+//                }
             }
 
 
@@ -291,7 +290,7 @@ public class GraduationServiceImpl implements GraduationService{
                     .Eligibility_Result_List(Eligibility_Result_List)
                     .build();
 
-            log.info("testing Result: " + eligibilityParam.getTotalScore());
+//            log.info("testing Result: " + eligibilityParam.getTotalScore());
             return eligibilityParam;
         }
 
@@ -329,7 +328,7 @@ public class GraduationServiceImpl implements GraduationService{
 
             //전공 과목 체크
             for(int i =0; i < major.size(); i++){
-                log.info("major: {}", major.get(i));
+//                log.info("major: {}", major.get(i));
                 for(int j = 0; j < user_select.size(); j++){
                     if(major.get(i)==user_select.get(j)) {
                         major.remove(i);
@@ -339,7 +338,7 @@ public class GraduationServiceImpl implements GraduationService{
 
             //공통 교양 체크
             for(int i =0; i < common_edu.size(); i++){
-                log.info("common_edu: {}", common_edu.get(i));
+//                log.info("common_edu: {}", common_edu.get(i));
                 for(int j = 0; j < user_select.size(); j++){
                     if(common_edu.get(i)==user_select.get(j)) {
                         common_edu.remove(i);
@@ -349,7 +348,7 @@ public class GraduationServiceImpl implements GraduationService{
 
             //기본 소양 체크
             for(int i =0; i < general_edu.size(); i++){
-                log.info("general_edu: {}", general_edu.get(i));
+//                log.info("general_edu: {}", general_edu.get(i));
                 for(int j = 0; j < user_select.size(); j++){
                     if(general_edu.get(i)==user_select.get(j)) {
                         general_edu.remove(i);
