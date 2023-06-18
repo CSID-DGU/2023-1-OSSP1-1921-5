@@ -8,8 +8,6 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './css/Result.css';
 import Header from '../Components/Header';
-import AlertModal from '../Components/AlertModal';
-import LoadingSpinner from '../Components/LoadingSpinner';
 import EssLectures from '../Components/EssLectures';
 
 const Accordion = styled((props) => (
@@ -74,9 +72,18 @@ const Result = () => {
     const [isEngClassCount, setIsEngClassCount] = useState();
     const [isTotalScore, setIsTotalScore] = useState();
 
-    const [major_Credit, setmajor_Credit] = useState();
-    const [total_Credit, settotal_Credit] = useState();
-
+    const [registerCT, setRegisterCT] = useState();
+    const [engScoreCT, setEngScoreCT] = useState();
+    const [totalCreditCT, setTotalCreditCT] = useState();
+    const [commonClassCreditCT, setCommonClassCreditCT] = useState();
+    const [gibonSoyangCreditCT, setGibonSoyangCreditCT] = useState();
+    const [bsmCreditCT, setBsmCreditCT] = useState();
+    const [bsmMathCreditCT, setBsmMathCreditCT] = useState();
+    const [bsmSciCreditCT, setBsmSciCreditCT] = useState();
+    const [majorCreditCT, setMajorCreditCT] = useState();
+    const [specialMajorCreditCT, setSpecialMajorCreditCT] = useState();
+    const [engClassCountCT, setEngClassCountCT] = useState();
+    const [totalScoreCT, setTotalScoreCT] = useState();
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
@@ -99,22 +106,49 @@ const Result = () => {
                 if (response.ok) {
                     const json = await response.json();
                     console.log(json)
-                    setHasResult(json.Result)
+                    console.log(json.Eligibility_Result_List.SpecialMajorCredit)
+                    const ERL = json.Eligibility_Result_List
+                    //setHasResult(json.Result)
                     setCourse(json.Course) // 심화/일반
                     setStudentNumber(json.StudentNumber) // 입학년도
                     setEngLevel(json.EngLevel) // 영어 레벨
-                    setRegister(json.Register) // 이수 학기 수
-                    setEngScore(json.EngScore) // 토익 점수
-                    setTotalCredit(json.TotalCredit) // 총 이수 학점
-                    setCommonClassCredit(json.CommonClassCredit) // 공통교양 이수 학점
-                    setGibonSoyangCredit(json.GibonsoyangCredit) // 기본소양 이수 학점
-                    setBsmCredit(json.BSMCredit) // bsm 이수 학점
-                    setBsmMathCredit(json.BSMMathCredit) // bsm 중 수학 이수 학점
-                    setBsmSciCredit(json.BSMSciCredit) // bsm 중 과학 이수 학점
-                    setMajorCredit(json.MajorCredit) // 전공 이수 학점
-                    setSpecialMajorCredit(json.SpecialMajorCredit) // 필수 전공 이수 학점
-                    setEngClassCount(json.EngClassCount) // 영어 강의 이수 개수
-                    setTotalScore(json.TotalScore) // 평점
+                    setRegister(ERL.Register.value) // 이수 학기 수
+                    setEngScore(ERL.EngScore.value) // 토익 점수
+                    setTotalCredit(ERL.TotalCredit.value) // 총 이수 학점
+                    setCommonClassCredit(ERL.CommonClassCredit.value) // 공통교양 이수 학점
+                    setGibonSoyangCredit(ERL.GibonsoyangCredit.value) // 기본소양 이수 학점
+                    setBsmCredit(ERL.BSMCredit.value) // bsm 이수 학점
+                    setBsmMathCredit(ERL.BSMMathCredit.value) // bsm 중 수학 이수 학점
+                    setBsmSciCredit(ERL.BSMSciCredit.value) // bsm 중 과학 이수 학점
+                    setMajorCredit(ERL.MajorCredit.value) // 전공 이수 학점
+                    setSpecialMajorCredit(ERL.SpecialMajorCredit.value) // 필수 전공 이수 학점
+                    setEngClassCount(ERL.EngClassCount.value) // 영어 강의 이수 개수
+                    setTotalScore(ERL.TotalScore.value) // 평점
+
+                    //기준 값 설정
+                    setRegisterCT(ERL.Register.criteria)
+                    setEngScoreCT(ERL.EngScore.criteria)
+                    setTotalCreditCT(ERL.TotalCredit.criteria)
+                    setCommonClassCreditCT(ERL.CommonClassCredit.criteria)
+                    setGibonSoyangCreditCT(ERL.GibonsoyangCredit.criteria)
+                    setBsmCreditCT(ERL.BSMCredit.criteria)
+                    setBsmMathCreditCT(ERL.BSMMathCredit.criteria)
+                    setBsmSciCreditCT(ERL.BSMSciCredit.criteria)
+                    setMajorCreditCT(ERL.MajorCredit.criteria)
+                    setSpecialMajorCreditCT(ERL.SpecialMajorCredit.criteria)
+                    setEngClassCountCT(ERL.EngClassCount.criteria)
+                    setTotalScoreCT(ERL.TotalScore.criteria)
+
+                    //기준 만족 여부 적용
+                    setIsGraduate(ERL.Result)
+                    setIsRegister(ERL.Register.satisfaction)
+                    setIsEngScore(ERL.EngScore.satisfaction)
+                    setIsTotalCredit(ERL.TotalCredit.satisfaction)
+                    setIsCommonClassCredit(ERL.CommonClassCredit.satisfaction)
+                    setIsBsmCredit(ERL.BSMCredit.satisfaction)
+                    setIsMajorCredit(ERL.MajorCredit.satisfaction)
+                    setIsEngClassCount(ERL.EngClassCount.satisfaction)
+                    setIsTotalScore(ERL.TotalScore.satisfaction)
                 } else {
                     console.error("Error: ", response.status);
                 }
@@ -128,11 +162,11 @@ const Result = () => {
 
     return (
         <>
-        
+
             <div className="fade-in">
 
                 <Header mypage signout />
-                {isGraduate ? 
+                {isGraduate ?
                     <Stack className="result_stack" justifyContent="center" direction="row">
                         <span className="r0">졸업</span>
                         <span className="r2">가능</span>
@@ -145,20 +179,20 @@ const Result = () => {
                     </Stack>
                 }
                 <Box className="result_detail">
-                    {isRegister ? 
+                    {isRegister ?
                         <Box className="detail_box">
                             <div className="stack">
                                 <img className="check_img" alt="check_img" src="img/yeah.png"></img>
                                 <span className="detail_title">등록학기</span>
                             </div>
                             <span className="detail_content"><u>{register}학기</u>를 이수하였습니다.</span>
-                        </Box> : 
+                        </Box> :
                         <Box className="detail_box">
                             <div className="stack">
                                 <img className="check_img" alt="check_img" src="img/nope.png"></img>
                                 <span className="detail_title">등록학기</span>
                             </div>
-                            <span className="detail_content"><u>{register}학기</u>를 이수하였습니다. <b style={{ color: 'crimson' }}>{8-register}학기</b>가 부족합니다.</span>
+                            <span className="detail_content"><u>{register}학기</u>를 이수하였습니다. <b style={{ color: 'crimson' }}>{registerCT - register}학기</b>가 부족합니다.</span>
                         </Box>
                     }
                     {isEngScore ?
@@ -167,14 +201,14 @@ const Result = () => {
                                 <img className="check_img" alt="check_img" src="img/yeah.png"></img>
                                 <span className="detail_title">외국어성적</span>
                             </div>
-                            <span className="detail_content"><u>{engScore}점</u>으로 700점 이상입니다.</span>
+                            <span className="detail_content"><u>{engScore}점</u>으로 {engScoreCT}<b style={{ color: 'crimson' }}>점 이상</b>입니다.</span>
                         </Box> :
                         <Box className="detail_box">
-                        <div className="stack">
-                            <img className="check_img" alt="check_img" src="img/nope.png"></img>
-                            <span className="detail_title">외국어성적</span>
-                        </div>
-                        <span className="detail_content"><u>{engScore}점</u>으로 700점 <b style={{ color: 'crimson' }}>미만</b>입니다.</span>
+                            <div className="stack">
+                                <img className="check_img" alt="check_img" src="img/nope.png"></img>
+                                <span className="detail_title">외국어성적</span>
+                            </div>
+                            <span className="detail_content"><u>{engScore}점</u>으로 {engScoreCT}<b style={{ color: 'crimson' }}>점 미만</b>입니다.</span>
                         </Box>
                     }
                     <Box className="detail_box" >
@@ -185,51 +219,51 @@ const Result = () => {
                                         <img className="check_img0" alt="check_img" src="img/yeah.png"></img>
                                         <span className="detail_title2">취득학점</span>
                                     </div>
-                                    <span className="detail_content2">총 <u>{totalCredit}학점</u>으로 140학점 이상입니다.</span>
+                                    <span className="detail_content2">총 <u>{totalCredit}학점</u>으로 {totalCreditCT}학점 이상입니다.</span>
                                 </AccordionSummary> :
                                 <AccordionSummary aria-controls="panel1d-content">
-                                <div>
-                                    <img className="check_img0" alt="check_img" src="img/nope.png"></img>
-                                    <span className="detail_title2">취득학점</span>
-                                </div>
-                                <span className="detail_content2">총 <u>{totalCredit}학점</u>으로 <b style={{ color: 'crimson' }}>{total_Credit}학점</b>이 부족합니다.</span>
+                                    <div>
+                                        <img className="check_img0" alt="check_img" src="img/nope.png"></img>
+                                        <span className="detail_title2">취득학점</span>
+                                    </div>
+                                    <span className="detail_content2">총 <u>{totalCredit}학점</u>으로 <b style={{ color: 'crimson' }}>{totalCreditCT - totalCredit}학점</b>이 부족합니다.</span>
                                 </AccordionSummary>
-                            } 
+                            }
                             <AccordionDetails>
                                 {isCommonClassCredit ?
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
                                         <span className="category_title">공통교양</span>
-                                        <span className="category_content">{commonClassCredit}학점 / 14학점</span>
+                                        <span className="category_content">{commonClassCredit}학점 / {commonClassCreditCT}학점</span>
                                     </Stack> :
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">공통교양</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{commonClassCredit ? commonClassCredit : 0}학점</b> / 14학점</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{commonClassCredit ? commonClassCredit : 0}학점</b> / {commonClassCreditCT}학점</span>
                                     </Stack>
                                 }
                                 {isBsmCredit ?
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
                                         <span className="category_title">학문기초</span>
-                                        <span className="category_content">{bsmCredit}학점 / 21학점</span>
+                                        <span className="category_content">{bsmCredit}학점 / {bsmCreditCT}학점</span>
                                     </Stack> :
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">학문기초</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{bsmCredit ? bsmCredit : 0}학점</b> / 21학점</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{bsmCredit ? bsmCredit : 0}학점</b> / {bsmCreditCT}학점</span>
                                     </Stack>
                                 }
                                 {isMajorCredit ?
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/yeah.png"></img>
                                         <span className="category_title">전공</span>
-                                        <span className="category_content">{majorCredit}학점 / 84학점</span>
+                                        <span className="category_content">{majorCredit}학점 / {majorCreditCT}학점</span>
                                     </Stack> :
                                     <Stack className="category" direction="row" spacing={1}>
                                         <img className="check_img2" alt="check_img" src="img/nope.png"></img>
                                         <span className="category_title">전공</span>
-                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit ? majorCredit : 0}학점</b> / {major_Credit}학점</span>
+                                        <span className="category_content"><b style={{ color: 'crimson' }}>{majorCredit ? majorCredit : 0}학점</b> / {majorCreditCT}학점</span>
                                     </Stack>
                                 }
                             </AccordionDetails>
@@ -241,14 +275,14 @@ const Result = () => {
                                 <img className="check_img" alt="check_img" src="img/yeah.png"></img>
                                 <span className="detail_title">성적평점</span>
                             </div>
-                            <span className="detail_content"><u>{totalScore}점</u>으로 2.0점 이상입니다.</span>
+                            <span className="detail_content"><u>{totalScore}점</u>으로 {totalScoreCT}점 이상입니다.</span>
                         </Box> :
                         <Box className="detail_box">
                             <div className="stack">
                                 <img className="check_img" alt="check_img" src="img/nope.png"></img>
                                 <span className="detail_title">성적평점</span>
                             </div>
-                            <span className="detail_content"><u>{totalScore}점</u>으로 2.0점 <b style={{ color: 'crimson' }}>미만</b>입니다.</span>
+                            <span className="detail_content"><u>{totalScore}점</u>으로 {totalScoreCT}점 <b style={{ color: 'crimson' }}>미만</b>입니다.</span>
                         </Box>
                     }
                     {isEngClassCount ?
@@ -264,13 +298,13 @@ const Result = () => {
                                 <img className="check_img" alt="check_img" src="img/nope.png"></img>
                                 <span className="detail_title">영어강의</span>
                             </div>
-                            <span className="detail_content"><u>{engClassCount}강의</u>를 이수하였습니다. <b style={{ color: 'crimson' }}>{4-engClassCount}강의</b>가 부족합니다.</span>
+                            <span className="detail_content"><u>{engClassCount}강의</u>를 이수하였습니다. <b style={{ color: 'crimson' }}>{engClassCountCT - engClassCount}강의</b>가 부족합니다.</span>
                         </Box>
                     }
                     <EssLectures />
                 </Box>
             </div>
-        
+
         </>
     );
 };
