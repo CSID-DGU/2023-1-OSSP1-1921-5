@@ -85,8 +85,8 @@ public class GradeServiceImpl implements GradeService{
 
             }
         }
-
-        totalScore = totalScore/totalCredit;
+        if(totalCredit!=0)
+            totalScore = totalScore/totalCredit;
 
         return totalScore;
     }
