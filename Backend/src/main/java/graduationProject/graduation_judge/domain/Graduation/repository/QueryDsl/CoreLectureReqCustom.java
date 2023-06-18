@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.domain.Graduation.repository.QueryDsl;
 
+import graduationProject.graduation_judge.DAO.CoreLectureRequirement;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 
 import java.util.List;

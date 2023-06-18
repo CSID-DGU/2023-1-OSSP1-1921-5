@@ -17,7 +17,6 @@ import javax.persistence.Enumerated;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 @Getter
 @Setter
 @Embeddable
@@ -26,8 +25,9 @@ public class GraduationRequirementPK implements Serializable {
     @Column(name = "enrollment_year", nullable = false)
     private Integer enrollmentYear;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "course", nullable = false, length = 200)
-    private String course;
+    private Major_curriculum course;
 
     @Override
     public boolean equals(Object o) {
@@ -44,7 +44,7 @@ public class GraduationRequirementPK implements Serializable {
     }
 
     @Builder
-    GraduationRequirementPK(Integer enrollmentYear, String course) {
+    GraduationRequirementPK(Integer enrollmentYear, Major_curriculum course) {
         this.enrollmentYear = enrollmentYear;
         this.course = course;
     }

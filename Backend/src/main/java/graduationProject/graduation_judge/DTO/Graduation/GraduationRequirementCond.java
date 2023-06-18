@@ -1,6 +1,8 @@
 package graduationProject.graduation_judge.DTO.Graduation;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * <h3>학번별 적용 졸업요건 DTO</h3>
@@ -25,27 +27,67 @@ import lombok.Builder;
  * Student_number: 학번 <br/>
  * </p>
  */
+@Getter
+@Setter
 public class GraduationRequirementCond {
 
     private int Registered_semesters;
-    private int English_score;
+    private int Toeic_score;
     private int Total_earned_credit;
     private float GPA;
     private int English_class;
 
+    private int CommonClassCredit;
+
+    private int GibonSoyangCredit;
+
+    private int BSMCredit;
+
+    private int BSMMathCredit;
+
+    private int BSMSciCredit;
+
+    private int MajorCredit;
+
+    private int SpecialMajorCredit;
+
+    private int leadership_credit;
+
+    private int seminar_credit;
+
+
+
     @Builder
     public GraduationRequirementCond(
             int Registered_semesters,
-            int English_score,
+            int Toeic_score,
             int Total_earned_credit,
             float GPA,
-            int English_class
+            int English_class,
+            int CommonClassCredit,
+            int GibonSoyangCredit,
+            int BSMCredit,
+            int BSMMathCredit,
+            int BSMSciCredit,
+            int MajorCredit,
+            int SpecialMajorCredit,
+            int leadership_credit,
+            int seminar_credit
     ) {
         this.Registered_semesters = Registered_semesters;
-        this.English_score = English_score;
+        this.Toeic_score = Toeic_score;
         this.Total_earned_credit = Total_earned_credit;
         this.GPA = GPA;
         this.English_class = English_class;
+        this.CommonClassCredit = CommonClassCredit;
+        this.GibonSoyangCredit = GibonSoyangCredit;
+        this.BSMCredit = BSMCredit;
+        this.BSMMathCredit = BSMMathCredit;
+        this.BSMSciCredit = BSMSciCredit;
+        this.MajorCredit = MajorCredit;
+        this.SpecialMajorCredit = SpecialMajorCredit;
+        this.leadership_credit = leadership_credit;
+        this.seminar_credit = seminar_credit;
     }
 
 }

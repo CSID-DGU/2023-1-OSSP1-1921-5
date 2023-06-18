@@ -1,14 +1,11 @@
 package graduationProject.graduation_judge.DTO.Graduation;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 public class CoreLectureParam {
 
     /**
@@ -18,8 +15,25 @@ public class CoreLectureParam {
      * notTakingMJ: 미이수 전공 리스트
      */
 
+    //용도모르겠음
+    private String name;
     private List<String> notTakingNC;
     private List<String> notTakingBSM;
     private List<String> notTakingMJ;
+
+    @Builder
+    public CoreLectureParam(
+            List<String> notTakingNC,
+            List<String> notTakingBSM,
+            List<String> notTakingMJ
+    ) {
+        this.notTakingNC = notTakingNC;
+        this.notTakingBSM = notTakingBSM;
+        this.notTakingMJ = notTakingMJ;
+    };
+
+    public CoreLectureParam() {
+
+    }
 
 }
