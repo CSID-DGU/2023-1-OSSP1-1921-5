@@ -39,6 +39,8 @@ $ cd
 $ npm install
 5. 앱 실행
 $ npm start
+6. 파이썬 서버 실행
+$ python testDataSet/createDataset.py
 ```
 ### 🛠️ Tools
 <span><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white"/></span>
