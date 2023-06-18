@@ -35,7 +35,7 @@ public class DataSetController {
             }
 
             // 기존 dataset 파일 삭제
-            File directory = new File("testDataSet/data");
+            File directory = new File("frontend/src/data");
             File[] files = directory.listFiles();
 
             if (files != null) {
