@@ -5,6 +5,7 @@ import graduationProject.graduation_judge.DAO.GraduationRequirement;
 import graduationProject.graduation_judge.DAO.identifier.CoreLectureRequirementPK;
 import graduationProject.graduation_judge.DAO.identifier.GraduationRequirementPK;
 import graduationProject.graduation_judge.DTO.Graduation.GraduationReqInput;
+import graduationProject.graduation_judge.DTO.Graduation.GraduationReqModiInput;
 import graduationProject.graduation_judge.DTO.Graduation.GraduationReqNewInput;
 import graduationProject.graduation_judge.domain.Graduation.repository.CoreLectureRequirementRepository;
 import graduationProject.graduation_judge.domain.Graduation.repository.GraduationRequirementRepository;
@@ -88,17 +89,25 @@ public class GraduationManageServiceImpl implements GraduationManageService {
             CoreLectureRequirement cr = new CoreLectureRequirement();
             CoreLectureRequirementPK crpk = new CoreLectureRequirementPK();
             crpk.setEnrollmentYear(enrollment);
-            crpk.setCourse(curriculum);
+            crpk.setCourse(String.valueOf(curriculum));
             crpk.setLectureName(value.getLectureName());
+            crpk.setLecture_number(value.getLectureNumber());
+
+            if(value.getComment().equals("필수")) {
+               cr.setCardinality("필수");
+            } else {
+                String text =  value.getComment();
+                String extractedNumber = text.substring(text.length() - 1); // 마지막 문자 추출
+                int number = Integer.parseInt(extractedNumber); // 문자열을 정수로 변환
+                cr.setMax_num(number);
+                cr.setCardinality("선택");
+            }
 
             cr.setId(crpk);
             cr.setCategory(value.getCategory());
 
             //필수 과목 저장
             coreLectureRequirementRepository.save(cr);
-
-
-
         }
     }
 
@@ -116,8 +125,21 @@ public class GraduationManageServiceImpl implements GraduationManageService {
             CoreLectureRequirement ncr = new CoreLectureRequirement();
             CoreLectureRequirementPK ncrpk = new CoreLectureRequirementPK();
             ncrpk.setEnrollmentYear(enrollment);
-            ncrpk.setCourse(curriculum);
+            ncrpk.setCourse(String.valueOf(curriculum));
             ncrpk.setLectureName(lectureName);
+            ncrpk.setLecture_number(value.getLectureNumber());
+
+
+            if(value.getComment().equals("필수")) {
+                ncr.setCardinality("필수");
+            } else {
+                String text =  value.getComment();
+                String extractedNumber = text.substring(text.length() - 1); // 마지막 문자 추출
+                int number = Integer.parseInt(extractedNumber); // 문자열을 정수로 변환
+                ncr.setMax_num(number);
+                ncr.setCardinality("선택");
+            }
+
 
             ncr.setId(ncrpk);
             ncr.setCategory(category);
@@ -128,5 +150,31 @@ public class GraduationManageServiceImpl implements GraduationManageService {
         }
     }
 
+    @Override
+    public void ModiGraduationRequirement(Map<String, GraduationReqModiInput> reqInput, int enrollment, Major_curriculum curriculum) {
+        for (Map.Entry<String, GraduationReqModiInput> entry : reqInput.entrySet()) {
+            String key = entry.getKey();
+            GraduationReqModiInput value = entry.getValue();
+            String prevlectureNumber = value.getPrevLectureNumber();
+
+            String lectureName =  value.getLectureName();
+            System.out.println("lectureName" + lectureName);
+
+            CoreLectureRequirementPK prePK = new CoreLectureRequirementPK(prevlectureNumber, value.getLectureName(), curriculum, enrollment);
+
+            CoreLectureRequirement prevreq = coreLectureRequirementRepository.findById(prePK).get();
+            CoreLectureRequirementPK prevreqPK = prevreq.getId();
+
+            coreLectureRequirementRepository.updateCardinalityAndMax_numById("선택", prevreq.getMax_num()+1, prevreqPK);
+            prevreqPK.setLecture_number(value.getNewLectureNumber());
+            prevreq.setId(prevreqPK);
+
+            coreLectureRequirementRepository.save(prevreq);
+
+        }
+    }
+
 
 }
+
+

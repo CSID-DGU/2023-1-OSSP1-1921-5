@@ -117,10 +117,8 @@ public class GraduationManagementController {
             enrollment = reqinfo.replaceAll("[^0-9]", "");
         }
 
-
-        //신설과목 추가
-//        graduationManageService.addNewGraduationRequirement(reqInput, Integer.parseInt(enrollment), mj);
-
+        //변경과목 추가
+        graduationManageService.ModiGraduationRequirement(reqInput, Integer.parseInt(enrollment), mj);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

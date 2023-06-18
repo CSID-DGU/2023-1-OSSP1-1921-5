@@ -2,6 +2,7 @@ package graduationProject.graduation_judge.domain.Graduation.service;
 
 import graduationProject.graduation_judge.DTO.Graduation.CoreLectureParam;
 import graduationProject.graduation_judge.DTO.Graduation.GraduationReqInput;
+import graduationProject.graduation_judge.DTO.Graduation.GraduationReqModiInput;
 import graduationProject.graduation_judge.DTO.Graduation.GraduationReqNewInput;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import org.springframework.stereotype.Service;
@@ -15,4 +16,5 @@ public interface GraduationManageService {
 
     public void addNewGraduationRequirement(Map<String, GraduationReqNewInput> reqInput, int enrollment, Major_curriculum curriculum);
 
+    public void ModiGraduationRequirement(Map<String, GraduationReqModiInput> reqInput, int enrollment, Major_curriculum curriculum);
 }

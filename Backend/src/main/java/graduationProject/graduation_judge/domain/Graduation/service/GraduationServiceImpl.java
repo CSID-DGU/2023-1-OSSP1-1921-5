@@ -1,5 +1,6 @@
 package graduationProject.graduation_judge.domain.Graduation.service;
 
+import graduationProject.graduation_judge.DAO.CoreLectureRequirement;
 import graduationProject.graduation_judge.DAO.InfoLecture;
 import graduationProject.graduation_judge.DAO.UserInfo;
 import graduationProject.graduation_judge.DAO.identifier.GraduationRequirementPK;
@@ -244,7 +245,7 @@ public class GraduationServiceImpl implements GraduationService{
             Eligibility_Result_Unit eru_EngClassCount = new Eligibility_Result_Unit(condition.getEnglish_class(), english_class);
             Eligibility_Result_Unit eru_EngScore = new Eligibility_Result_Unit(condition.getToeic_score(), toeic_score);
             Eligibility_Result_Unit eru_CommonClassCredit = new Eligibility_Result_Unit(condition.getCommonClassCredit(), common_class_credit);
-            Eligibility_Result_Unit eru_GibonsoyangCredit =  new Eligibility_Result_Unit(condition.getGibonSoyangCredit(), general_class_credit);
+            Eligibility_Result_Unit eru_GibonsoyangCredit = new Eligibility_Result_Unit(condition.getGibonSoyangCredit(), general_class_credit);
             Eligibility_Result_Unit eru_BSMCredit = new Eligibility_Result_Unit(condition.getBSMCredit(), bsm_credit);
             Eligibility_Result_Unit eru_BSMMathCredit = new Eligibility_Result_Unit(condition.getBSMMathCredit(), bsm_math_credit);
             Eligibility_Result_Unit eru_BSMSciCredit = new Eligibility_Result_Unit(condition.getBSMSciCredit(), bsm_sci_credit);
@@ -268,13 +269,21 @@ public class GraduationServiceImpl implements GraduationService{
             Eligibility_Result_List.put("leadership_credit", eru_leadership_credit);
             Eligibility_Result_List.put("seminar_credit", eru_seminar_credit);
 
+            CoreLectureParam clp = checkEssLectureCompletion(user_email);
+
+            boolean clp_isExist = false;
+            if (clp.getNotTakingBSM().size()
+                    * clp.getNotTakingMJ().size()
+                    * clp.getNotTakingBSM().size() > 0) {
+                clp_isExist = true;
+            }
+
             boolean eru_satisfaction =
                     eru_TotalScore.isSatisfaction() && eru_Register.isSatisfaction() && eru_TotalCredit.isSatisfaction()
                             && eru_EngClassCount.isSatisfaction() && eru_EngScore.isSatisfaction() && eru_CommonClassCredit.isSatisfaction()
                             && eru_GibonsoyangCredit.isSatisfaction() && eru_BSMCredit.isSatisfaction() && eru_BSMMathCredit.isSatisfaction()
                             && eru_BSMSciCredit.isSatisfaction() && eru_MajorCredit.isSatisfaction() && eru_SpecialMajorCredit.isSatisfaction()
-                            && eru_leadership_credit.isSatisfaction() && eru_seminar_credit.isSatisfaction();
-
+                            && eru_leadership_credit.isSatisfaction() && eru_seminar_credit.isSatisfaction() && clp_isExist;
 
 
             GraduationEligibilityParam eligibilityParam = new GraduationEligibilityParam().builder()
@@ -305,10 +314,14 @@ public class GraduationServiceImpl implements GraduationService{
     @Override
     public CoreLectureParam checkEssLectureCompletion(String user_email) {
 
-        List<String> major = null;
-        List<String> common_edu = null;
-        List<String> general_edu = null;
-        List<String> user_select;
+        List<CoreLectureRequirement> major = null;
+        List<CoreLectureRequirement> common_edu = null;
+        List<CoreLectureRequirement> general_edu = null;
+        List<InfoLecture> user_select;
+
+        List<String> major_result = new ArrayList<String>();
+        List<String> common_edu_result = new ArrayList<String>();
+        List<String> general_edu_result = new ArrayList<String>();
 
         try {
             //user 조회
@@ -319,53 +332,76 @@ public class GraduationServiceImpl implements GraduationService{
             Major_curriculum course = userInfo.getCourse();
 
             //필수과목 리스트 추출
-            major = coreLectureRequirementRepository.getLectureList(enrollmentYear, course, "전필");
-            common_edu = coreLectureRequirementRepository.getLectureList(enrollmentYear, course, "공교");
+            major = coreLectureRequirementRepository.getLectureList(enrollmentYear, course, "전공필수");
+            common_edu = coreLectureRequirementRepository.getLectureList(enrollmentYear, course, "공통교양");
             general_edu = coreLectureRequirementRepository.getLectureList(enrollmentYear, course, "기본소양");
 
             //수강한 과목 리스트 추출
             user_select = userSelectListRepository.getUserSelectLectureNicknameList(user_email);
 
+            Map<String, Integer> select_subject = new HashMap<String, Integer>();
             //전공 과목 체크
-            for(int i =0; i < major.size(); i++){
-//                log.info("major: {}", major.get(i));
-                for(int j = 0; j < user_select.size(); j++){
-                    if(major.get(i)==user_select.get(j)) {
-                        major.remove(i);
-                    }
-                }
-            }
+            check_subject_category(major, user_select, select_subject);
 
             //공통 교양 체크
-            for(int i =0; i < common_edu.size(); i++){
-//                log.info("common_edu: {}", common_edu.get(i));
-                for(int j = 0; j < user_select.size(); j++){
-                    if(common_edu.get(i)==user_select.get(j)) {
-                        common_edu.remove(i);
-                    }
-                }
-            }
+            check_subject_category(common_edu, user_select, select_subject);
 
             //기본 소양 체크
-            for(int i =0; i < general_edu.size(); i++){
-//                log.info("general_edu: {}", general_edu.get(i));
-                for(int j = 0; j < user_select.size(); j++){
-                    if(general_edu.get(i)==user_select.get(j)) {
-                        general_edu.remove(i);
-                    }
-                }
+            check_subject_category(general_edu, user_select, select_subject);
+
+
+            for(int i=0; i<major.size(); i++) {
+                major_result.add(major.get(i).getId().getLectureName());
             }
+
+            for(int i=0; i<common_edu.size(); i++) {
+                common_edu_result.add(common_edu.get(i).getId().getLectureName());
+            }
+
+            for(int i=0; i<general_edu.size(); i++) {
+                general_edu_result.add(general_edu.get(i).getId().getLectureName());
+            }
+
+
 
         } catch (Exception e) {
             log.error("GrdService - checkEssLectureCompletion error detected: " + e.getMessage());
         }
         CoreLectureParam coreLectureParam = new CoreLectureParam().builder()
-                .notTakingNC(common_edu)
-                .notTakingBSM(general_edu)
-                .notTakingMJ(major)
+                .notTakingNC(common_edu_result)
+                .notTakingBSM(general_edu_result)
+                .notTakingMJ(major_result)
                 .build();
         return coreLectureParam;
 
 
     }
+
+    private void check_subject_category(List<CoreLectureRequirement> general_edu, List<InfoLecture> user_select, Map<String, Integer> select_subject) {
+        for(int i =0; i < general_edu.size(); i++){
+
+            for(int j = 0; j < user_select.size(); j++){
+                if(general_edu.get(i).getCardinality().equals("수")) {
+                    if(user_select.get(j).getClassNumber().equals(general_edu.get(j).getId().getLecture_number()))
+                        general_edu.remove(i);
+                } else {
+                    if(user_select.get(j).getClassNumber().equals(general_edu.get(j).getId().getLecture_number())){
+                        String category =  general_edu.get(j).getCategory();
+                        Integer max = general_edu.get(j).getMax_num();
+                        if(select_subject.containsKey(category)) {
+                            if(select_subject.get(category).equals(0)){
+                                general_edu.remove(i);
+                            } else {
+                                select_subject.put(category, select_subject.get(category) - 1);
+                            }
+                        } else {
+                            select_subject.put(category, max);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+
+

@@ -17,8 +17,20 @@ public class CoreLectureRequirement {
     @EmbeddedId
     private CoreLectureRequirementPK id;
 
+    @Column(name = "max_num")
+    private Integer maxNum;
 
     @Column(name = "category", length = 200)
     private String category;
 
+    @Column(name = "cardinality", nullable = false, length = 200)
+    private String cardinality;
+
+    public Integer getMax_num() {
+        return this.maxNum;
+    }
+
+    public void setMax_num(int number) {
+        this.maxNum = number;
+    }
 }

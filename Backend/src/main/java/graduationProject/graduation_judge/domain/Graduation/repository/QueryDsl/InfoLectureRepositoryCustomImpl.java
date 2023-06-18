@@ -28,9 +28,9 @@ public class InfoLectureRepositoryCustomImpl implements InfoLectureRepositoryCus
     }
 
     @Override
-    public List<String> getUserSelectLectureNicknameList(String user_id) {
+    public List<InfoLecture> getUserSelectLectureNicknameList(String user_id) {
         return queryFactory
-                .select(infoLecture.lectureNick)
+                .select(infoLecture)
                 .from(infoLecture)
                 .join(userSelectList)
                 .on(infoLecture.classNumber.eq(userSelectList.classNum))

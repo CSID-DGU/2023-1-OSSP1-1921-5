@@ -42,4 +42,5 @@ public interface GraduationService {
      * @return CoreLectureParam - 필수강의 수강 결과(DTO)
      */
     public CoreLectureParam checkEssLectureCompletion(String user_email);
+
 }
