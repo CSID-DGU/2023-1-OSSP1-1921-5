@@ -79,7 +79,7 @@ public class MemberServiceImpl implements MemberService {
             return sendSignInCheckDTO;
         }
         else if (userInfo.getPincode().equals(getSignInDTO.getPw())){
-            if(getSignInDTO.getEmail() == "1921@dgu.ac.kr"){
+            if(getSignInDTO.getEmail().equals("1921@dgu.ac.kr")){
                 sendSignInCheckDTO.setId("admin");
                 //관리자 이메일이면 "admin"담아서 보내기
             }
