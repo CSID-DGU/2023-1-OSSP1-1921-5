@@ -54,50 +54,54 @@ const EssLectures = () => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  useEffect(async () => {
-    const data = {
-      email: sessionStorage.getItem("userId"),
-    };
+  useEffect( () => {
 
-    try {
-      const response = await fetch("/result/essLectures", {
-        method: "post",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+    const fetchData = async () => {
+      const data = {
+        email: sessionStorage.getItem("userId"),
+      };
 
-      const json = await response.json();
+      try {
+        const response = await fetch("/result/essLectures", {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
-      setCourse(json.Course);
-      setStudentNumber(json.StudentNumber);
-      setEngLevel(json.EngLevel);
-      setNotTakingNC(json.notTakingNC);
-      setNotTakingBSM_GS(json.notTakingBSM);
-      setNotTakingMJ(json.notTakingMJ);
+        const json = await response.json();
 
-      if (notTakingNC.length) setIsTakingNecessaryClass(false);
-      else if (notTakingBSM_GS.length) setIsTakingNecessaryClass(false);
-      else if (notTakingMJ.length) {
-        if (
-            notTakingMJ.length === 1 &&
-            notTakingMJ[0] === "계산적사고법" &&
-            course === "일반" &&
-            studentNumber >= 2017
-        ) {
-          notTakingMJ.pop();
-        } else setIsTakingNecessaryClass(false);
-      } else setIsTakingNecessaryClass(true);
-      console.log({
-        notTakingNC: notTakingNC,
-        notTakingBSM_GS: notTakingBSM_GS,
-        notTakingMJ: notTakingMJ,
-      });
-      console.log(isTakingNecessaryClass);
-    } catch(error){
-      console.log("Error: ", error);
+        setCourse(json.Course);
+        setStudentNumber(json.StudentNumber);
+        setEngLevel(json.EngLevel);
+        setNotTakingNC(json.notTakingNC);
+        setNotTakingBSM_GS(json.notTakingBSM);
+        setNotTakingMJ(json.notTakingMJ);
+
+        if (notTakingNC.length) setIsTakingNecessaryClass(false);
+        else if (notTakingBSM_GS.length) setIsTakingNecessaryClass(false);
+        else if (notTakingMJ.length) {
+          if (
+              notTakingMJ.length === 1 &&
+              notTakingMJ[0] === "계산적사고법" &&
+              course === "일반" &&
+              studentNumber >= 2017
+          ) {
+            notTakingMJ.pop();
+          } else setIsTakingNecessaryClass(false);
+        } else setIsTakingNecessaryClass(true);
+        console.log({
+          notTakingNC: notTakingNC,
+          notTakingBSM_GS: notTakingBSM_GS,
+          notTakingMJ: notTakingMJ,
+        });
+        console.log(isTakingNecessaryClass);
+      } catch(error){
+        console.log("Error: ", error);
+      }
     }
+    fetchData();
   }, []);
 
   return (
