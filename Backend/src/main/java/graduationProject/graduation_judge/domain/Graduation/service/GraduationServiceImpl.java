@@ -194,11 +194,11 @@ public class GraduationServiceImpl implements GraduationService{
                 String Curriculum = infoLectureDTO.getCurriculum();
                 String ClassArea = infoLectureDTO.getClassArea();
 
-                if(Curriculum == "공통교양"){
+                if(Objects.equals(Curriculum, "공통교양")){
                     common_class_credit += credit;
                 }
 
-                if(ClassArea == "기본소양") {
+                if(Objects.equals(ClassArea, "기본소양")) {
                     general_class_credit += credit;
                 }
 
@@ -211,22 +211,22 @@ public class GraduationServiceImpl implements GraduationService{
                         bsm_sci_credit += credit;
                 }
 
-                if(Curriculum == "전공") {
+                if(Objects.equals(Curriculum, "전공")) {
                     major_credit += credit;
-                    if(ClassArea == "전문") { //개별연구에 해당함
+                    if(ClassArea.equals("전문")) { //개별연구에 해당함
                         special_major_credit += credit;
                     }
                 }
-//
-//                //리더십 과목
-//                if(ClassArea == "리더십") {
-//                    leadership_credit += credit;
-//                }
-//
-//                //세미나 과목
-//                if(ClassArea == "명작") {
-//                    seminar_credit += credit;
-//                }
+
+                //리더십 과목
+                if(ClassArea.equals("리더십")) {
+                    leadership_credit += credit;
+                }
+
+                //세미나 과목
+                if(ClassArea.equals("명작")) {
+                    seminar_credit += credit;
+                }
             }
 
 
@@ -358,14 +358,13 @@ public class GraduationServiceImpl implements GraduationService{
 
         } catch (Exception e) {
             log.error("GrdService - checkEssLectureCompletion error detected: " + e.getMessage());
-        } finally {
-            CoreLectureParam coreLectureParam = new CoreLectureParam().builder()
-                    .notTakingNC(common_edu)
-                    .notTakingBSM(general_edu)
-                    .notTakingMJ(major)
-                    .build();
-            return coreLectureParam;
         }
+        CoreLectureParam coreLectureParam = new CoreLectureParam().builder()
+                .notTakingNC(common_edu)
+                .notTakingBSM(general_edu)
+                .notTakingMJ(major)
+                .build();
+        return coreLectureParam;
 
 
     }
