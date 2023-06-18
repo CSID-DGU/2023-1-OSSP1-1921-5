@@ -10,33 +10,6 @@ const UploadFile = () => {
   const [placeholder, setPlaceholder] = React.useState("");
   const [UserDatas, setUserDatas] = React.useState([]);
 
-  function modify(data, i) {
-    const year = data[i]["년도"];
-    const semester = data[i]["학기"];
-    const courseName = data[i]["교과목명"];
-    const courseNumber = data[i]["학수강좌번호"];
-    const courseDivision = data[i]["분반"];
-    var cNumber;
-
-    if (year === "2017" || year === "2018" || year === "2019") {
-      if (semester === "1학기" && courseName === "EAS1") {
-        cNumber = courseNumber + "-00" + courseDivision;
-      } else if (semester === "2학기" && courseName === "EAS2") {
-        cNumber = courseNumber + "-00" + courseDivision;
-      } else {
-        cNumber = courseNumber + "-0" + courseDivision;
-      }
-    } else {
-      if (courseDivision < 10) {
-        cNumber = courseNumber + "-0" + courseDivision;
-      } else {
-        cNumber = courseNumber + "-" + courseDivision;
-      }
-    }
-
-    return cNumber;
-  }
-
   const readExcel = async (file) => {
     const fileReader = await new FileReader();
     fileReader.readAsArrayBuffer(file);
@@ -54,7 +27,7 @@ const UploadFile = () => {
       try {
         for (var i = 0; i < data.length; i++) {
           const userData = {};
-          userData["CNumber"] = modify(data, i);
+          userData["CNumber"] = data[i]["학수강좌번호"] + "-" + data[i][''];
           userData["ClassScore"] = data[i]["등급"];
           if (data[i]["학기"] === "여름학기") {
             userData["TNumber"] = data[i]["년도"] + "_ss";

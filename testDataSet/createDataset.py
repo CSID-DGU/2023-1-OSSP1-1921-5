@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import requests
 import random
+import openpyxl
 import io
 
 app = Flask(__name__)
@@ -108,18 +109,18 @@ def create():
         ind = False
 
         sem171 = pd.read_excel("testDataSet/base/2017_1.xlsx")
-        sem172 = pd.read_excel("testDataSet//base/2017_2.xlsx")
-        sem181 = pd.read_excel("testDataSet//base/2018_1.xlsx")
-        sem182 = pd.read_excel("testDataSet//base/2018_2.xlsx")
-        sem191 = pd.read_excel("testDataSet//base/2019_1.xlsx")
-        sem192 = pd.read_excel("testDataSet//base/2019_2.xlsx")
-        sem201 = pd.read_excel("testDataSet//base/2020_1.xlsx")
-        sem202 = pd.read_excel("testDataSet//base/2020_2.xlsx")
-        sem211 = pd.read_excel("testDataSet//base/2021_1.xlsx")
-        sem212 = pd.read_excel("testDataSet//base/2021_2.xlsx")
-        sem221 = pd.read_excel("testDataSet//base/2022_1.xlsx")
-        sem222 = pd.read_excel("testDataSet//base/2022_2.xlsx")
-        sem231 = pd.read_excel("testDataSet//base/2023_1.xlsx")
+        sem172 = pd.read_excel("testDataSet/base/2017_2.xlsx")
+        sem181 = pd.read_excel("testDataSet/base/2018_1.xlsx")
+        sem182 = pd.read_excel("testDataSet/base/2018_2.xlsx")
+        sem191 = pd.read_excel("testDataSet/base/2019_1.xlsx")
+        sem192 = pd.read_excel("testDataSet/base/2019_2.xlsx")
+        sem201 = pd.read_excel("testDataSet/base/2020_1.xlsx")
+        sem202 = pd.read_excel("testDataSet/base/2020_2.xlsx")
+        sem211 = pd.read_excel("testDataSet/base/2021_1.xlsx")
+        sem212 = pd.read_excel("testDataSet/base/2021_2.xlsx")
+        sem221 = pd.read_excel("testDataSet/base/2022_1.xlsx")
+        sem222 = pd.read_excel("testDataSet/base/2022_2.xlsx")
+        sem231 = pd.read_excel("testDataSet/base/2023_1.xlsx")
 
         sem_list = [sem171, sem172, sem181, sem182, sem191, sem192,
                     sem201, sem202, sem211, sem212, sem221, sem222, sem231]
@@ -202,8 +203,34 @@ def create():
             dataset.drop_duplicates(subset='학수강좌번호', keep='last', inplace=True)
             dataset.iloc[-1, dataset.columns.get_loc('재수강구분')] = 'NEW재수강'
 
+            for index, row in dataset.iterrows():
+                if (row['년도'] == "2017" or row['년도'] == "2018" or row['년도'] == "2019"):
+                    if (row['학기'] == "1학기" and row['학기'] == "EAS1"):
+                        dataset.loc[index, '분반'] = "00" + row['분반']
+                    elif (row['학기'] == "2학기" and row['학기'] == "EAS2"):
+                        dataset.loc[index, '분반'] = "00" + row['분반']
+                    else:
+                        dataset.loc[index, '분반'] = "0" + row['분반']
+                else:
+                    if (int(row['분반']) < 10):
+                        dataset.loc[index, '분반'] = "0" + row['분반']
+            
+            dataset.rename(columns={'분반': ''}, inplace=True)
             dataset.to_excel('frontend/src/data/data' + str(i) + '입학' + str(start_year) + '이수' + str(
                 num_semester) + '학기.xlsx')  # 만들어진 dataset xlsx로 내보내기
+            
+            filename = 'frontend/src/data/data' + str(i) + '입학' + str(start_year) + '이수' + str(num_semester) +'학기.xlsx'
+
+            workbook = openpyxl.load_workbook(filename)
+            worksheet = workbook.active
+
+            # '분반' 열의 서식을 텍스트 형식으로 지정
+            for cell in worksheet['G']:
+                cell.number_format = '@'
+
+            workbook.save(filename)
+            workbook.close()
+            
         print("good")
 
         response_data = {
