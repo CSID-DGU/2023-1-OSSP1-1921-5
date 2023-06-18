@@ -2,7 +2,6 @@ package graduationProject.graduation_judge.domain.Grade.repository;
 
 import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DAO.identifier.UserSelectListPK;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
