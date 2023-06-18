@@ -48,56 +48,76 @@ const EssLectures = () => {
   const [notTakingBSM_GS, setNotTakingBSM_GS] = useState(["NULL"]);
   const [notTakingMJ, setNotTakingMJ] = useState(["NULL"]);
   const [isTakingNecessaryClass, setIsTakingNecessaryClass] = useState();
-  //const [tempString, setTempString] = useState("");
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  useEffect( () => {
-      const data = {
-        email: sessionStorage.getItem("userId"),
-      };
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = {
+                email: sessionStorage.getItem("userId"),
+            };
 
-      fetch("/result/essLectures", {
-          method: "post",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-          .then((res) => res.json())
-          .then((json) => {
-            setCourse(json.Course);
-            setStudentNumber(json.StudentNumber);
-            setEngLevel(json.EngLevel);
-            setNotTakingNC(json.notTakingNC);
-            setNotTakingBSM_GS(json.notTakingBSM);
-            setNotTakingMJ(json.notTakingMJ);
-            if (notTakingNC.length) setIsTakingNecessaryClass(false);
-            else if (notTakingBSM_GS.length) setIsTakingNecessaryClass(false);
-            else if (notTakingMJ.length) {
-              if (
-                  notTakingMJ.length === 1 &&
-                  notTakingMJ[0] === "계산적사고법" &&
-                  course === "일반" &&
-                  studentNumber >= 2017
-              ) {
-                notTakingMJ.pop();
-              } else setIsTakingNecessaryClass(false);
-            } else setIsTakingNecessaryClass(true);
-            console.log({
-              notTakingNC: notTakingNC,
-              notTakingBSM_GS: notTakingBSM_GS,
-              notTakingMJ: notTakingMJ,
-            });
-            console.log(isTakingNecessaryClass);
-          });
-        setTimeout(() => {
-            setLoading(false);
-            console.log("로딩종료");
-        }, 5000);
-  }, []);
+            try {
+                const response = await fetch("/result/essLectures", {
+                    method: "post",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+
+                const json = await response.json();
+
+                setCourse(json.Course);
+                setStudentNumber(json.StudentNumber);
+                setEngLevel(json.EngLevel);
+                setNotTakingNC(json.notTakingNC);
+                setNotTakingBSM_GS(json.notTakingBSM);
+                setNotTakingMJ(json.notTakingMJ);
+
+                if (notTakingNC.length) {
+                    setIsTakingNecessaryClass(false);
+                } else if (notTakingBSM_GS.length) {
+                    setIsTakingNecessaryClass(false);
+                } else if (notTakingMJ.length) {
+                    if (
+                        notTakingMJ.length === 1 &&
+                        notTakingMJ[0] === "계산적사고법" &&
+                        course === "일반" &&
+                        studentNumber >= 2017
+                    ) {
+                        notTakingMJ.pop();
+                    } else {
+                        setIsTakingNecessaryClass(false);
+                    }
+                } else {
+                    setIsTakingNecessaryClass(true);
+                }
+
+                console.log({
+                    notTakingNC: notTakingNC,
+                    notTakingBSM_GS: notTakingBSM_GS,
+                    notTakingMJ: notTakingMJ,
+                });
+                console.log(isTakingNecessaryClass);
+
+                setTimeout(() => {
+                    setLoading(false);
+                    console.log("로딩종료");
+                }, 5000);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
   return (
     <>
