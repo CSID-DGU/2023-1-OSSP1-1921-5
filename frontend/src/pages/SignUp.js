@@ -135,7 +135,8 @@ const SignUp = () => {
         }
     }
 
-    const YEAR = [2018, 2019, 2020, 2021, 2022];
+    const currentYear = new Date().getFullYear();
+    const YEAR = Array.from({ length: currentYear - 2016 }, (_, index) => 2017 + index);
     const SEMESTER = [8, 7, 6, 5, 4, 3, 2, 1];
     const COURSE = ["심화", "일반"];
     const ENGLISH = ["S0", "S1", "S2", "S3", "S4"];
