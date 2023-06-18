@@ -151,6 +151,7 @@ const GradReqChange = () => {
                 <Box className="sub_title">졸업요건 업로드</Box>
                 <Box className="guide">
                     <div style={{ fontSize: '20px', fontFamily: 'SsangMun', marginBottom: '15px' }}>[ 양식 다운로드 ]</div>
+                    <div style={{ marginTop: 10, fontSize: '12px', fontFamily: 'SsangMun', marginBottom: '12px' }}>파일 업로드 시 파일명에 "졸업요건"/학수강좌번호"/"신설과목" 등의 키워드를 꼭 포함해주세요 </div>
                     <button class='uploadbtn' onClick={handleReqDownload} variant="contained">
                         컴퓨터공학과 졸업요건 양식
                     </button>
