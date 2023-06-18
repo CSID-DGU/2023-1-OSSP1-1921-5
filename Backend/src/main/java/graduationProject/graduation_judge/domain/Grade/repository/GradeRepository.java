@@ -17,6 +17,7 @@ public interface GradeRepository extends JpaRepository<UserSelectList, UserSelec
 
     List<UserSelectList> findAllByMemberIdAndTermNum(String memberId, String termNum);
 
-    @Query("SELECT CASE WHEN EXISTS (SELECT 1 FROM UserSelectList u) THEN true ELSE false END")
+    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM UserSelectList u")
     boolean existsAnyUserSelectList();
+
 }

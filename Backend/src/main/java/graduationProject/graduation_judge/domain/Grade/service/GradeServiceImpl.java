@@ -4,8 +4,6 @@ import graduationProject.graduation_judge.DAO.InfoLecture;
 import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.Grade.GradeDTO;
 import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
-import graduationProject.graduation_judge.domain.Stats.repository.ScoreStatRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +12,12 @@ import java.util.*;
 @Service
 public class GradeServiceImpl implements GradeService{
 
-    @Autowired
-    private GradeRepository gradeRepository;
-    @Autowired
-    private ScoreStatRepository scoreStatRepository;
+
+    private final GradeRepository gradeRepository;
+
+    public GradeServiceImpl(GradeRepository gradeRepository){
+        this.gradeRepository = gradeRepository;
+    }
 
 
     @Override
