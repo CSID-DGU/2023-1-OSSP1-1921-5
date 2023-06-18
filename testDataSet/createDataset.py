@@ -169,7 +169,7 @@ def create():
                                                            0.05]).tolist()  # grade의 각 값이 나올 확률 지정
             dataset['등급'] = choice
 
-            # dataset['분반'] = "'" + dataset['분반'].astype(str)
+            dataset['분반'] = dataset['분반'].astype(str)
 
             for index, row in dataset.iterrows():
                 # 등급 P/F 처리
@@ -230,7 +230,7 @@ def create():
 
             workbook.save(filename)
             workbook.close()
-            
+
         print("good")
 
         response_data = {
