@@ -24,7 +24,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.security.SecureRandom;
+
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -125,6 +126,8 @@ public class MemberServiceImpl implements MemberService {
         return sendMyPageInfoDTO;
     }
 
+
+    //admin페이지에서 회원 검색
     @Override
     public SendUserInfoDTO getUserInfoDTOById(GetEmailDTO getEmailDTO) {
         if(getEmailDTO.getEmail() == null){
@@ -183,32 +186,26 @@ public class MemberServiceImpl implements MemberService {
 
     //보안 코드 생성 메서드
     private String generateSecurityCode() {
-        Random random = new Random();
-        int code = random.nextInt(10000);
+        SecureRandom secureRandom = new SecureRandom();
+        int code = secureRandom.nextInt(10000);
         return String.format("%04d", code);
     }
 
     //보안 코드를 이메일로 전송하는 메서드
     @Override
     public SendEmailCodeDTO sendSecurityCodeToEmail(String id){
-        UserInfo userInfo = memberRepository.findUserInfoByUserid(id);
-        UserInfoDTO userInfoDTO = new UserInfoDTO(userInfo.getUserid(), userInfo.getPincode(), userInfo.getSemester(),
-                userInfo.getStudent_number(), userInfo.getCourse(), userInfo.getToeicScore(),userInfo.getEnglishGrade());
+
         MailDTO mailDTO = new MailDTO(id, null);
         mailDTO.setAddress(id);
-        if (userInfoDTO != null) { //id에 해당하는 user가 존재한다면
-            String securityCode = generateSecurityCode(); //보안코드 생성
-            mailDTO.setMessage(securityCode); //MailDTO에 보안코드 저장
-            mailRepository.save(mailDTO.toEntity()); //db에 DTO저장
 
-            String text = "보안 코드: " + securityCode;
-            emailService.sendEmail(id, text);
+        String securityCode = generateSecurityCode(); //보안코드 생성
+        mailDTO.setMessage(securityCode); //MailDTO에 보안코드 저장
+        mailRepository.save(mailDTO.toEntity()); //db에 DTO저장
 
-            SendEmailCodeDTO sendEmailCodeDTO = new SendEmailCodeDTO(securityCode);
-            return sendEmailCodeDTO;
-        }else{
-            throw new RuntimeException("존재하지 않는 회원입니다.");
-        }
+        String text = "보안 코드: " + securityCode;
+        emailService.sendEmail(id, text);
+
+        return new SendEmailCodeDTO(securityCode);
     }
 
     @Override
