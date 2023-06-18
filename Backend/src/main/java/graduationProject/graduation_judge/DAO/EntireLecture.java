@@ -1,14 +1,14 @@
 package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.EntireLecturePK;
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.mapping.ToOne;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity

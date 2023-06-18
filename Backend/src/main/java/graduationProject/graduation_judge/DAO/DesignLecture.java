@@ -1,9 +1,11 @@
 package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.DesignLecturePK;
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import javax.persistence.*;
 
 
 @Getter

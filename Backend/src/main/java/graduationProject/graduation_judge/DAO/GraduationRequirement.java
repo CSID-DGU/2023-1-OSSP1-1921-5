@@ -1,13 +1,19 @@
 package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.GraduationRequirementPK;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import graduationProject.graduation_judge.DTO.Graduation.GraduationRequirementCond;
+//import jakarta.persistence.Column;
+//import jakarta.persistence.EmbeddedId;
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  *  * <h3>학번별 적용 졸업요건 DTO</h3>
@@ -99,8 +105,17 @@ public class GraduationRequirement {
         this.generalEducationCredit = generalEducationCredit;
         this.majorCredit = majorCredit;
     }
-
     public GraduationRequirement() {}
+
+    public GraduationRequirementCond toDTO() {
+        return GraduationRequirementCond.builder()
+                .Registered_semesters(registeredSemesters)
+//                .Toeic_score(englishScore)
+                .Total_earned_credit(totalEarnedCredit)
+                .GPA(gpa)
+                .English_class(englishClass)
+                .build();
+    }
 }
 
 

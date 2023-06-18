@@ -18,7 +18,7 @@ import graduationProject.graduation_judge.domain.Member.repository.MemberReposit
 import graduationProject.graduation_judge.domain.Stats.repository.ScoreStatRepository;
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

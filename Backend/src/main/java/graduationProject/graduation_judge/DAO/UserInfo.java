@@ -2,9 +2,10 @@ package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Getter

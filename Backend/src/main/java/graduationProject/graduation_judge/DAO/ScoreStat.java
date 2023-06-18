@@ -1,9 +1,10 @@
 package graduationProject.graduation_judge.DAO;
 
 import graduationProject.graduation_judge.DAO.identifier.ScoreStatPK;
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 

@@ -1,8 +1,14 @@
 package graduationProject.graduation_judge.DAO;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
