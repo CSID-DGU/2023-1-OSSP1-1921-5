@@ -1,9 +1,8 @@
-import React from "react";
-import data from '../data';
+import React, { useState } from "react";
 
 const FileDownloader = () => {
     const handleDownloadAll = () => {
-        const folderPath = data; // 다운로드할 폴더 경로
+        const folderPath = "../data/"; // 다운로드할 폴더 경로
 
         const downloadLink = document.createElement("a");
         downloadLink.href = folderPath;

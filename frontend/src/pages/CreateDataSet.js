@@ -4,12 +4,14 @@ import { TextField } from "@material-ui/core";
 import './css/CreateDataSet.css';
 import SideBar from '../Components/SideBar';
 import Header from '../Components/Header';
+import FileDownloader from '../Components/FileDownloader'
 
 const CreateDataSet = () => {
   const [dataNum, setDataNum] = useState('');
   const [admissionYear, setAdmissionYear] = useState('');
   const [completeSem, setCompleteSem] = useState('');
   const [subjects, setSubjects] = useState('');
+  const [showFileDownloader, setShowFileDownloader] = useState(false);
 
 
   const handleDataNumChange = (event) => {
@@ -62,6 +64,7 @@ const CreateDataSet = () => {
         if (response.ok) {
           alert("DataSet 생성 요청 성공");
           console.log('요청이 성공적으로 전송되었습니다.', response);
+          setShowFileDownloader(true);
         } else {
           console.log(response.body)
           alert("요청 실패");
@@ -120,6 +123,7 @@ const CreateDataSet = () => {
                 multiline
             />
           <button className="btn" onClick={handleParsingAndSubmit}>생성</button>
+            {showFileDownloader && <FileDownloader />}
           </div>
         </Box>
       </div>
