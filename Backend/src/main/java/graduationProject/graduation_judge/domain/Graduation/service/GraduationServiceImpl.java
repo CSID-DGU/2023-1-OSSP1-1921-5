@@ -96,6 +96,8 @@ public class GraduationServiceImpl implements GraduationService{
 
         int english_class = 0;
 
+        int design_class = 0;
+
         int common_class_credit = 0;
 
         int general_class_credit = 0;
@@ -177,6 +179,10 @@ public class GraduationServiceImpl implements GraduationService{
             //수강한 영어 강의 수 확인 - english_class
             english_class = (int) userSelectListRepository.countEnglishClassTaken(user_email);
             log.info("english_class: " + english_class);
+
+            //수강한 설계 강의 수 확인 - english_class
+            design_class = (int) userSelectListRepository.countDesignClassTaken(user_email);
+            log.info("design_class: " + design_class);
 
             //수강한 과목 정보 조회
             user_select = userSelectListRepository.getUserSelectLectureInfoList(user_email);

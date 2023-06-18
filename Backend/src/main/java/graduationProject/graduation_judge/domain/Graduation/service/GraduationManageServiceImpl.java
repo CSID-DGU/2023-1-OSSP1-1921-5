@@ -109,7 +109,7 @@ public class GraduationManageServiceImpl implements GraduationManageService {
             GraduationReqNewInput value = entry.getValue();
             String category = value.getCategory();
             String lectureName =  value.getLectureName();
-            System.out.println("dddd" + lectureName);
+            System.out.println("lectureName" + lectureName);
 
             GraduationRequirementPK requirementPK = new GraduationRequirementPK(enrollment, curriculum);
             // 데이터 처리 로직을 수행

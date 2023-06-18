@@ -150,10 +150,7 @@ const GradReqChange = () => {
             <div className="mainBox">
                 <Box className="sub_title">졸업요건 업로드</Box>
                 <Box className="guide">
-                    {/* <img alt="컴공졸업요건입력예시" src="img/GradReqExample.png"></img> */}
-                    {/* <img alt="학수번호변경예시" src="img/CourseNumChangeExample.png"></img> */}
-                    {/* <img alt="신설과목예시" src="img/newcourse.png"></img> */}
-                    <div style={{ fontSize: '20px', fontFamily: 'SsangMun', marginBottom: '15px' }}>[ 정보 선택 ]</div>
+                    <div style={{ fontSize: '20px', fontFamily: 'SsangMun', marginBottom: '15px' }}>[ 양식 다운로드 ]</div>
                     <button class='uploadbtn' onClick={handleReqDownload} variant="contained">
                         컴퓨터공학과 졸업요건 양식
                     </button>
@@ -163,7 +160,17 @@ const GradReqChange = () => {
                     <button className='uploadbtn' onClick={handleNewDownload} variant="contained">
                         신설과목 추가 양식
                     </button>
-                    <div class="subtitle">심화/일반 선택</div>
+                    <img class="imgex" alt="컴공졸업요건입력예시" src="img/GradReqExample.png"></img>
+                    <br></br>
+                    <img class="imgex" alt="컴공졸업요건입력예시" src="img/GradReqExample2.png"></img>
+                    <div class="subtitle">컴공졸업요건입력예시</div>
+                    <img class="imgex" alt="학수번호변경예시" src="img/CourseNumChangeExample.png"></img>
+                    <div class="subtitle">학수번호변경예시</div>
+                    <img class="imgex" alt="신설과목예시" src="img/newcourse.png"></img>
+                    <div class="subtitle">신설과목예시</div>
+                    <br></br>
+                    <div style={{ fontSize: '20px', fontFamily: 'SsangMun', marginBottom: '15px' }}>[ 다운로드 옵션 선택]</div>
+
                     <FormControl sx={{ width: 100 }}>
                         <InputLabel htmlFor="course-select">심화/일반</InputLabel>
                         <Select
@@ -182,7 +189,6 @@ const GradReqChange = () => {
                             ))}
                         </Select>
                     </FormControl>
-                    <div className="subtitle">년도 선택</div>
                     <FormControl sx={{ width: 100 }}>
                         <InputLabel htmlFor="year-select">년도</InputLabel>
                         <Select

@@ -2,6 +2,7 @@ package graduationProject.graduation_judge.domain.Graduation.controller;
 
 import graduationProject.graduation_judge.DTO.Graduation.CoreLectureParam;
 import graduationProject.graduation_judge.DTO.Graduation.GraduationReqInput;
+import graduationProject.graduation_judge.DTO.Graduation.GraduationReqModiInput;
 import graduationProject.graduation_judge.DTO.Graduation.GraduationReqNewInput;
 import graduationProject.graduation_judge.domain.Graduation.service.GraduationManageService;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
@@ -91,6 +92,34 @@ public class GraduationManagementController {
 
         //신설과목 추가
         graduationManageService.addNewGraduationRequirement(reqInput, Integer.parseInt(enrollment), mj);
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/changefile")
+    @ResponseBody
+    public ResponseEntity<String> ChangeFile(
+            @RequestHeader(value = "X-File-Type") String reqinfo,
+            @RequestBody Map<String, GraduationReqModiInput> reqInput
+    ) {
+        log.warn("here you are = {}", reqInput);
+
+        Major_curriculum mj = null;
+        String enrollment = null;
+
+        if(reqinfo.contains("hard")) {
+            mj = Major_curriculum.심화;
+            enrollment = reqinfo.replaceAll("[^0-9]", "");
+        }
+        if(reqinfo.contains("general")) {
+            mj = Major_curriculum.일반;
+            enrollment = reqinfo.replaceAll("[^0-9]", "");
+        }
+
+
+        //신설과목 추가
+//        graduationManageService.addNewGraduationRequirement(reqInput, Integer.parseInt(enrollment), mj);
 
 
         return new ResponseEntity<>(HttpStatus.OK);
