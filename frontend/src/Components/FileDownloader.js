@@ -1,5 +1,5 @@
 import React from "react";
-import data from '../../testDataset/data';
+import data from '../data';
 
 const FileDownloader = () => {
     const handleDownloadAll = () => {
