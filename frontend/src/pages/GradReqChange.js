@@ -16,12 +16,16 @@ const GradReqChange = () => {
     const [placeholder, setPlaceholder] = useState("");
     const [course, setCourse] = useState("");
     const [filetype, setFiletype] = useState("");
-    //
+    const [year, setYear] = useState("");
     const [reqinput, setReqinput] = React.useState([]);
 
-    const onChangeCourse = (e) => {
+    const handleCourseChange = (e) => {
         setCourse(e.target.value);
     }
+
+    const handleYearChange = (e) => {
+        setYear(e.target.value);
+    };
 
     const handleReqDownload = () => {
         const link = document.createElement('a');
@@ -44,47 +48,16 @@ const GradReqChange = () => {
         link.click();
     }
 
-    function modify(data, i) {
-        const year = data[i]["년도"];
-        const semester = data[i]["학기"];
-        const courseName = data[i]["교과목명"];
-        const courseNumber = data[i]["학수강좌번호"];
-        const courseDivision = data[i]["분반"];
-        var cNumber;
-
-        if (year === "2017" || year === "2018" || year === "2019") {
-            if (semester === "1학기" && courseName === "EAS1") {
-                cNumber = courseNumber + "-00" + courseDivision;
-            } else if (semester === "2학기" && courseName === "EAS2") {
-                cNumber = courseNumber + "-00" + courseDivision;
-            } else {
-                cNumber = courseNumber + "-0" + courseDivision;
-            }
-        } else {
-            if (courseDivision < 10) {
-                cNumber = courseNumber + "-0" + courseDivision;
-            } else {
-                cNumber = courseNumber + "-" + courseDivision;
-            }
-        }
-
-        return cNumber;
-    }
-
+    const currentYear = new Date().getFullYear();
+    const yearOptions = Array.from({ length: currentYear - 2016 }, (_, index) => 2017 + index);
     const readExcel = async (file) => {
         const fileReader = await new FileReader();
         fileReader.readAsArrayBuffer(file);
-
-
-
-
         fileReader.onload = (e) => {
             const bufferArray = e?.target.result;
             const wb = XLSX.read(bufferArray, { type: "object" });
             const wsname = wb.SheetNames[0];
             const ws = wb.Sheets[wsname];
-
-
 
             const data = XLSX.utils.sheet_to_json(ws, { header: 'object' });
 
@@ -94,8 +67,6 @@ const GradReqChange = () => {
             });
 
             console.log(JSON.stringify(dataObject));
-
-
             console.log("dasdfafadfdsafasdf" + JSON.stringify(dataObject))
             setReqinput(JSON.stringify(dataObject));
         };
@@ -103,31 +74,29 @@ const GradReqChange = () => {
     };
 
     const onClickInput = async (e) => {
+        if (!course) {
+            alert("항목을 선택해주세요.");
+            return;
+        }
         const formData = new FormData();
         console.log("here!" + input.current.files);
         const file = input.current.files[0];
         let info
         if (course === "심화")
-            info = filetype + "hard";
+            info = filetype + "hard" + year;
         if (course === "일반")
-            info = filetype + "general";
-
+            info = filetype + "general" + year;
 
         formData.append('file12', file);
         console.log("****" + file);
         console.log(info);
-        if (!course) {
-            alert("심화/일반 과정을 입력해주세요.");
-            return;
-        }
+
 
         try {
             const response = await fetch("/change/file", {
                 method: 'POST',
                 headers: {
                     "content-type": "application/json;charset=utf-8",
-                    // 'Content-Type': 'multipart/form-data',
-                    // enctype="multipart/form-data",
                     "X-File-Type": info,
                 },
                 body: reqinput,
@@ -168,24 +137,40 @@ const GradReqChange = () => {
                     </button>
                     <div class="subtitle">심화/일반 선택</div>
                     <FormControl sx={{ width: 100 }}>
-                        <InputLabel>
-                            심화/일반
-                        </InputLabel>
+                        <InputLabel htmlFor="course-select">심화/일반</InputLabel>
                         <Select
                             className="select"
                             value={course}
                             label="심화/일반"
+                            labelId="course-select"
                             size="small"
-                            onChange={onChangeCourse}
+                            onChange={handleCourseChange}
                             sx={{ marginTop: 1 }}
                         >
-                            {COURSE.map((course, idx) => {
-                                return (
-                                    <MenuItem key={idx} value={course}>
-                                        {course}
-                                    </MenuItem>
-                                );
-                            })}
+                            {COURSE.map((course, idx) => (
+                                <MenuItem key={idx} value={course}>
+                                    {course}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <div className="subtitle">년도 선택</div>
+                    <FormControl sx={{ width: 100 }}>
+                        <InputLabel htmlFor="year-select">년도</InputLabel>
+                        <Select
+                            className="select"
+                            value={year}
+                            label="년도"
+                            labelId="year-select"
+                            size="small"
+                            onChange={handleYearChange}
+                            sx={{ marginTop: 1 }}
+                        >
+                            {yearOptions.map((option) => (
+                                <MenuItem key={option} value={option}>
+                                    {option}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Box>
