@@ -10,6 +10,4 @@ public interface UserSelectListRepository extends
         JpaRepository<UserSelectList, UserSelectListPK>,
         EnglishRepositoryCustom,
         InfoLectureRepositoryCustom
-{
-
-}
+{}

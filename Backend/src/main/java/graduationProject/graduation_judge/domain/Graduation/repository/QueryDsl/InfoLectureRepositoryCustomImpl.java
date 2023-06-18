@@ -5,7 +5,6 @@ import graduationProject.graduation_judge.DAO.InfoLecture;
 import graduationProject.graduation_judge.DAO.QInfoLecture;
 import graduationProject.graduation_judge.DAO.QUserSelectList;
 import graduationProject.graduation_judge.DTO.Lecture.InfoLectureDTO;
-import graduationProject.graduation_judge.DTO.ScoreStatDTO;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityManager;
