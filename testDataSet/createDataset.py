@@ -92,7 +92,7 @@ def all_constraints(df, keywords1, keywords2, num_rows, ind):
 
     return all_result
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/dataset', methods=['GET','POST'])
 def create():
     try:
         information = request.get_json()
@@ -215,4 +215,4 @@ def create():
         return jsonify({"error": error_message}), 500
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0', port=5003, debug=True)
+   app.run(host='0.0.0.0', port=5000, debug=True)
