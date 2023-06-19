@@ -27,8 +27,12 @@
 기존에 정상적으로 작동하지 않던 통계 페이지 구현
 ```
 
+### Entity Relationship Diagram
+![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/0800c2c9-c30b-48a1-8cc5-63aece31d145)
 ### 🎓 Overview
-![13](https://user-images.githubusercontent.com/92643238/243708349-ae5823cc-e700-465f-adbc-d585595427a3.png)
+![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/8113c84a-be39-4518-8a2f-13733898568d)
+![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/901d394e-061c-4fec-9ef9-fd7a43d0b9db)
+![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/d634294e-b671-42c3-ab0b-bec5ff1280c6)
 ### ⚙️ Setup
 ```
 1. 프로젝트 clone
