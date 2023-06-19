@@ -156,7 +156,7 @@ def user_subject(dataset, solver): #F학점 반영
 # In[262]:
 
 
-s = user_subject(pd.read_excel("./samples/data0입학2018이수8학기.xlsx"), search_credit(pd.read_excel("./grad/GraduationRequirements2020.xlsx")))
+s = user_subject(pd.read_excel("./samples/data0입학2018이수8학기.xlsx"), search_credit(pd.read_excel("./grad/GraduationRequirements2020.xlsx")),s)
 
 
 # In[263]:
