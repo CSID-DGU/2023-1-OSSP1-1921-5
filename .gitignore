@@ -1,6 +1,9 @@
 # Ignore dbsettings.properties
 Backend/src/main/resources/dbsettings.properties
 
+# Ignore adminsettings.properties
+Backend/src/main/resources/adminsettings.properties
+
 # Ignore spring file
 Backend/.gradle/
 Backend/build

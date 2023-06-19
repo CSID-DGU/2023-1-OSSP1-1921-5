@@ -13,6 +13,7 @@ import graduationProject.graduation_judge.DTO.Member.SignUp.GetSignUpDTO;
 import graduationProject.graduation_judge.DTO.Member.Update.GetUpdateInfoDTO;
 import graduationProject.graduation_judge.DTO.Member.UserInfoDTO;
 import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
+import graduationProject.graduation_judge.domain.Member.AdminComponent;
 import graduationProject.graduation_judge.domain.Member.repository.MailRepository;
 import graduationProject.graduation_judge.domain.Member.repository.MemberRepository;
 import graduationProject.graduation_judge.domain.Stats.repository.ScoreStatRepository;
@@ -71,6 +72,9 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(userInfoDTO.toEntity());
     }
 
+    @Autowired
+    private AdminComponent adminComponent;
+
     @Override
     public SendSignInCheckDTO login(GetSignInDTO getSignInDTO){
         UserInfo userInfo = memberRepository.findUserInfoByUserid(getSignInDTO.getEmail());
@@ -80,7 +84,7 @@ public class MemberServiceImpl implements MemberService {
             return sendSignInCheckDTO;
         }
         else if (userInfo.getPincode().equals(getSignInDTO.getPw())){
-            if(getSignInDTO.getEmail().equals("1921@dgu.ac.kr")){
+            if(getSignInDTO.getEmail().equals(adminComponent.getAdminEmail())){
                 sendSignInCheckDTO.setId("admin");
                 //관리자 이메일이면 "admin"담아서 보내기
             }
