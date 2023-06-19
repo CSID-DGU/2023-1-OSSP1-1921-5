@@ -3,6 +3,7 @@ package graduationProject.graduation_judge.domain.Grade.service;
 import graduationProject.graduation_judge.DAO.InfoLecture;
 import graduationProject.graduation_judge.DAO.UserSelectList;
 import graduationProject.graduation_judge.DTO.Grade.GradeDTO;
+import graduationProject.graduation_judge.DTO.Lecture.InfoLectureDTO;
 import graduationProject.graduation_judge.domain.Grade.repository.GradeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,12 +106,15 @@ public class GradeServiceImpl implements GradeService{
         }
 
         for(UserSelectList selectList: userSelectLists){
+            InfoLecture infoLecture = selectList.getEntireLecture().getInfoLecture();
+            if(selectList.getScore().equals("F")){ // F 학점일 경우 계산 X
+                continue;
+            }
             if(option != null){ //"전공" 이수학점 계산
-                if(!option.equals(selectList.getEntireLecture().getInfoLecture().getCurriculum())){
+                if(!option.equals(infoLecture.getCurriculum())){
                     continue;
                 }
             }
-            InfoLecture infoLecture = selectList.getEntireLecture().getInfoLecture();
             totalClassCredit += infoLecture.getClassCredit();
         }
 
@@ -135,11 +139,5 @@ public class GradeServiceImpl implements GradeService{
         boolean exists = gradeRepository.existsAnyUserSelectList();
         return !exists;
     }
-
-//    @Override
-//    public int getCompletedCourseCount(String memberId) {
-//        //특정 member의 총 이수과목 수를 계산
-//        return gradeRepository.countAllByMemberId(memberId);
-//    }
 
 }
