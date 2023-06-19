@@ -36,16 +36,16 @@
 학과 졸업 요건이 변경되더라도 지속적인 사용 가능
 ```
 
-### Entity Relationship Diagram
+### 🎓 Entity Relationship Diagram
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/0800c2c9-c30b-48a1-8cc5-63aece31d145)
 
 ### 🎓 Overview
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/8113c84a-be39-4518-8a2f-13733898568d)
-### Admin Page
+### 🎓 Admin Page
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/901d394e-061c-4fec-9ef9-fd7a43d0b9db)
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/d634294e-b671-42c3-ab0b-bec5ff1280c6)
 
-### Spring 서버와 기존 Node.js 서버 성능 비교
+### 🎓 Spring 서버와 기존 Node.js 서버 성능 비교
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/1b04e5f4-1700-41ea-bafb-02ccfbc1cb06)
 ```
 동시에 병렬로 600개의 동일한 요청이 왔을 때, 각 서버별 처리 속도를 비교하기 위해 시간을 측정하였다.
@@ -57,8 +57,10 @@ Node.js: 12 sec
 
 결과 분석
 
-정확도가 더 상승하고 그에 따라 더 많은 로직이 들어갔음에도 평균 약 3초의 차이는 기존 Node.js 서버와 성능이 동등하거나 그 이상이라고 평가된다.
-현실에서 모든 컴퓨터공학과 학생들이 요청을 했을 때라는 worst case에서 이러한 결과는 충분히 합리적인 결과값으로 평가 된다.
+정확도가 더 상승하고 그에 따라 더 많은 로직이 들어갔음에도
+평균 약 3초의 차이는 기존 Node.js 서버와 성능이 동등하거나 그 이상이라고 평가된다.
+현실에서 모든 컴퓨터공학과 학생들이 요청을 했을 때라는 worst case에서 이러한 결과는
+충분히 합리적인 결과값으로 평가 된다.
 ```
 
 ### Z3 Solver
