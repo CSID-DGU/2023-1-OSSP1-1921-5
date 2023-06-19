@@ -203,7 +203,6 @@ public class GraduationServiceImpl implements GraduationService{
                     general_class_credit += credit;
                 }
 
-                //*!실제 데이터와 일치하는지 확인 필요함*!//
                 if(ClassArea.contains("bsm")) {
                     bsm_credit += credit;
                     if(ClassArea.contains("bsm_수학"))
@@ -233,9 +232,6 @@ public class GraduationServiceImpl implements GraduationService{
 
 
         } catch (Exception e) {
-            //처리해야하는 예외 리스트
-            //user null
-            //user 학번, 커리큘럼 null
             log.error("GrdService - getGraduationEligibilityParam error detected: " + e.getMessage());
         } finally {
 
@@ -271,11 +267,11 @@ public class GraduationServiceImpl implements GraduationService{
 
             CoreLectureParam clp = checkEssLectureCompletion(user_email);
 
-            boolean clp_isExist = false;
+            boolean clp_isExist = true;
             if (clp.getNotTakingBSM().size()
-                    * clp.getNotTakingMJ().size()
-                    * clp.getNotTakingBSM().size() > 0) {
-                clp_isExist = true;
+                    + clp.getNotTakingMJ().size()
+                    + clp.getNotTakingBSM().size() > 0) {
+                clp_isExist = false;
             }
 
             boolean eru_satisfaction =
