@@ -130,7 +130,7 @@ const Admin = () => {
                 )}
                 <ul classname="pflist">
                     {members.map((member) => {
-                        if (member.email === "1921@dgu.ac.kr") {
+                        if (member.email === process.env.REACT_APP_admin) {
                             return null;
                         }
 

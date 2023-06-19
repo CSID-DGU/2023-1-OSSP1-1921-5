@@ -25,3 +25,6 @@ Backend/src/main.DS_Store
 Backend/src/main/java/.DS_Store
 Backend/src/main/java/graduationProject/graduation_judge/.DS_Store
 Backend/src/main/java/graduationProject/graduation_judge/DAO/.DS_Store
+
+# Ignore .env
+adminEmail.env
