@@ -81,25 +81,10 @@ public class DataSetController {
 
                 if (message.equals("complete")) { // test dataset 생성완료
                     return ResponseEntity.ok().body("데이터셋 생성 완료");
-//                    // z3 실행
-//                    String z3ServerUrl = "http://localhost:5000/z3"; // ?
-//
-//                    // POST 요청 보내기
-//                    ResponseEntity<String> z3responseEntity = restTemplate.postForEntity(z3ServerUrl, requestEntity, String.class);
-//
-//                    if (responseEntity.getStatusCode() == HttpStatus.OK){
-//
-//                        return ResponseEntity.ok().body("데이터셋 생성 완료");
-//                    }else {
-//                        System.out.println("server error");
-//                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("z3 파이썬 서버 오류");
-//                    }
                 } else {
-                    System.out.println("response error");
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("testdata 응답 처리 오류");
                 }
             } else {
-                System.out.println("server error");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("testdata 파이썬 서버 오류");
             }
         } catch (Exception e) {
