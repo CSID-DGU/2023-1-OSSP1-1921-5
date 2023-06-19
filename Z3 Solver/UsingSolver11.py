@@ -99,9 +99,9 @@ def listing_lecture(grad, year): #필수 과목들을 솔버 변수 선언하고
     grad_dict = {}
     select_dict = {}
     
-    newly = pd.read_excel("./신설과목.xlsx")
+    newly = pd.read_excel("./신설과목.xlsx") #신설과목이라면
     for k, row in newly.iterrows():
-        if row['신설년도'] > year:
+        if row['신설년도'] > year: #신설과목의 연도를 확인하고 더 최근일때만 적용
             new_row = {
                 '이수구분': row['이수구분'],
                 '학수강좌번호': row['학수강좌번호'],
@@ -117,7 +117,7 @@ def listing_lecture(grad, year): #필수 과목들을 솔버 변수 선언하고
         elif str(row['비고'])[0] == '택':
             select_dict[row['이수구분']+row['비고']]  = []  
     
-    global grad_dict_keys
+    global grad_dict_keys 
     global select_dict_keys
     grad_dict_keys = list(grad_dict.keys())
     select_dict_keys = list(select_dict.keys())
@@ -141,12 +141,12 @@ def listing_lecture(grad, year): #필수 과목들을 솔버 변수 선언하고
     global total_constraints #모든 학수번호 bool 변수 리스트
     total_constraints = []
     
-    modify = pd.read_excel("./변경사항.xlsx")
+    modify = pd.read_excel("./변경사항.xlsx") #변경사항을 Read
     for key in grad_dict_keys:
         constraints = []
         for course in grad_dict[key]:
-            change = False
-            for k, row in modify.iterrows():
+            change = False             #기존의 과목과 변경사항 과목을 비교하여 OR 수식을 추가하여 어떤 것을 들어도 확인이 되게 수정함
+            for k, row in modify.iterrows(): 
                 if row['기존학수강좌번호'] == course:
                     constraints.append(Or(Bool(course), Bool(row['새학수강좌번호'])))
                     total_constraints.append(Or(Bool(course), Bool(row['새학수강좌번호'])))
@@ -161,7 +161,7 @@ def listing_lecture(grad, year): #필수 과목들을 솔버 변수 선언하고
         solver.add(constraint)
         
             
-    for key in select_dict_keys:
+    for key in select_dict_keys: #위와 같이 학수번호와 새학수강좌 번호를 비교하여 OR 수식을 추가해줌
         constraints = []
         for course in select_dict[key]:
             change = False  
@@ -176,13 +176,13 @@ def listing_lecture(grad, year): #필수 과목들을 솔버 변수 선언하고
                 constraints.append(Bool(course))
                 total_constraints.append(Bool(course))
                 
-        constraint = check_vars[len(grad_dict_keys) + select_dict_keys.index(key)] == AtLeast(*constraints, int(key[-1])) 
+        constraint = check_vars[len(grad_dict_keys) + select_dict_keys.index(key)] == AtLeast(*constraints, int(key[-1])) #-1로 슬라이싱
         solver.add(constraint)
         
     solver.check()
     return solver
 
-def user_subject(dataset, solver):
+def user_subject(dataset, solver): #개별연구와 같은 과목들을 예외처리해주고 학수강좌 번호를 z3 solver 변수 처리 해줌
     s = Solver()
     s.reset()
     s.add(solver.assertions())
