@@ -7,7 +7,7 @@ warnings.filterwarnings('ignore')
 from z3 import *
 import pandas as pd
  
-def search_credit(dataset, grad, edit, solver, year): 
+def search_credit(dataset, grad, edit, solver, year): #학점 정보를 솔버 변수선언하고 엑셀을 read하여 수식화하는 함수
     total = 0 #전체 학점
     major = 0 #전공 학점
     cs = 0 #공통 교양 학점
@@ -15,7 +15,7 @@ def search_credit(dataset, grad, edit, solver, year):
     basic = 0 #기본 소양 학점
     bsm = 0 #bsm 학점 (학문)
     
-    newly = pd.read_excel("./신설과목.xlsx")
+    newly = pd.read_excel("./신설과목.xlsx") #신설과목인지 아닌지 판단하는 부분
     for k, row in newly.iterrows():
         if row['신설년도'] > year:
             new_row = {
@@ -27,11 +27,11 @@ def search_credit(dataset, grad, edit, solver, year):
             }
             grad = grad.append(new_row, ignore_index=True)
     
-    for k, row in dataset.iterrows():
+    for k, row in dataset.iterrows(): 
         if row['등급'] != 'F': #F면 수강 이력이 아님!
             total = total + row['학점']
             
-            for k3, row3 in edit.iterrows():
+            for k3, row3 in edit.iterrows(): #3은 학수번호가 변경되거나 인정되는 과목들의 정보가 들어있는 엑셀을 탐색
                 if row3['새학수강좌번호'] == row['학수강좌번호']:
                     solver.add(row3['기존학수강좌번호'] == True)
                     
@@ -89,7 +89,7 @@ def search_credit(dataset, grad, edit, solver, year):
     return solver
 
 
-def listing_lecture(grad, year):
+def listing_lecture(grad, year): #필수 과목들을 솔버 변수 선언하고 그것들을 리스트에 넣어 수식화함
     row = grad.loc[0]
     total_major = row[6]
     total_common = row[7]
