@@ -11,8 +11,6 @@
       <td align="center"  width="16.66%"><a href="https://github.com/Sj0-0i"><img src="https://avatars.githubusercontent.com/u/80145172?v=4" width="100px;" alt="신지영"/><br /><sub><b>신지영</b></sub></a><br />FrontEnd, 데이터셋</td>
       <td align="center"  width="16.66%"><a href="https://github.com/eeheueklf"><img src="https://avatars.githubusercontent.com/u/92643238?v=4" width="100px;" alt="하유경"/><br /><sub><b>하유경</b></sub></a><br />FrontEnd, z3솔버</td>
       <td align="center"  width="16.66%"><a href="https://github.com/junnyange"><img src="https://avatars.githubusercontent.com/u/103040750?v=4" width="100px;" alt="허준상"/><br /><sub><b>허준상</b></sub></a><br />FrontEnd,z3솔버</td>
-      
-    </tr>
   </tbody>
 </table>
 
@@ -20,19 +18,57 @@
 > 동국대학교 **컴퓨터공학과** 졸업 가능 여부 판정 웹 서비스 (23/03/15 ~ 22/06/17)
 [기존 프로젝트](https://github.com/CSID-DGU/2022-2-OSSP1-MooMinn-4/blob/main/README.md)
 
-### 프로젝트 목표
+### 특장점 및 차별점
 ```
-변화하는 졸업요건에 따라 졸업 가능 여부를 확인
-관리자 페이지 기능을 추가하여 test dataset생성, 강의정보 insert 등의 기능 제공
-기존에 정상적으로 작동하지 않던 통계 페이지 구현
+1. 지속적으로 변화하는 졸업요건을 반영
+2. 관리자 페이지 기능을 추가하여 여러 기능 제공
+3. 기존에 정상적으로 작동하지 않던 통계 페이지 구현
+4. 백엔드 스택 변경으로 가독성, 유지보수성, 확장성, 유연성 향상
+5. 테스트 데이터 셋으로 정확도 측정
+6. z3 solver를 이용해 테스트 데이터 셋의 정답 확인
+7. 개발자의 db, email정보가 노출되지 않도록 환경변수화
+```
+
+### 기대 효과
+```
+현재는 학과를 대상으로 하고 있지만 단과대나 종합대 처럼 넓은 범위로 확장 가능
+테스트 데이터 셋으로 정확도를 측정함으로써 추후 생길 프로젝트의 문제점을 발견해 지속적인 업데이트가 가능
+학과 졸업 요건이 변경되더라도 지속적인 사용 가능
 ```
 
 ### Entity Relationship Diagram
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/0800c2c9-c30b-48a1-8cc5-63aece31d145)
+
 ### 🎓 Overview
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/8113c84a-be39-4518-8a2f-13733898568d)
+### Admin Page
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/901d394e-061c-4fec-9ef9-fd7a43d0b9db)
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/d634294e-b671-42c3-ab0b-bec5ff1280c6)
+
+### Spring 서버와 기존 Node.js 서버 성능 비교
+![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/1b04e5f4-1700-41ea-bafb-02ccfbc1cb06)
+```
+동시에 병렬로 600개의 동일한 요청이 왔을 때, 각 서버별 처리 속도를 비교하기 위해 시간을 측정하였다.
+컴퓨터공학과의 한 학년을 어림잡아 150명이라 했을 때, 4학년 전원은 600명이라고 하였다.
+총 100번의 시도를 했을 때 평균 처리 시간은 다음과 같다.
+
+Spring: 15 sec
+Node.js: 12 sec
+
+결과 분석
+
+정확도가 더 상승하고 그에 따라 더 많은 로직이 들어갔음에도 평균 약 3초의 차이는 기존 Node.js 서버와 성능이 동등하거나 그 이상이라고 평가된다.
+현실에서 모든 컴퓨터공학과 학생들이 요청을 했을 때라는 worst case에서 이러한 결과는 충분히 합리적인 결과값으로 평가 된다.
+```
+
+### Z3 Solver
+> 년도 별 졸업요건, 신설과목, 학수번호 변경 정보로 솔버 객체 생성 후 학생 성적 파일을 입력으로 받아 각 졸업요건 충족 사항과 이수해야 하는 강의들을 출력한다.
+
+### Github - Jenkins - SonarQube
+> 1. Github에 프로젝트 진행한 것을 commit, push하면 Github의 web-hook을 통해 내용을 Jenkins에 전송
+> 2. Jenkins pipline을 통해 자동으로 빌드 (우리 팀은 수동으로 수정해 활용)
+> 3. 빌드된 내용은 Doker내의 SonarScanner에서 설정한 내용을 통해 SonarQube로 이동해 정적 분석 수행
+
 ### ⚙️ Setup
 ```
 1. 프로젝트 clone
