@@ -1,6 +1,7 @@
 //'token' 은 개인 토큰
+//각 학생들의 이름과 토큰을 설정하여 젠킨스에서 커밋하거나 푸쉬한 기록들이 젠킨스 빌드 파일에 남게됨!
 
-<version='1.1' encoding='UTF-8'?>
+<version='1.1' encoding='UTF-8'?>//?xml 태그가 달리지 않는 이유는 SonarQube 분석에서 그렇게 진행함.
 <hudson.model.UserIdMapper>
   <version>1</version>
   <idToDirectoryNameMap class="concurrent-hash-map">
