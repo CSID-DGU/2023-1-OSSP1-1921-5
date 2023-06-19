@@ -67,9 +67,11 @@
 
 ### 🎓 Github - Jenkins - SonarQube
 ![image](https://github.com/CSID-DGU/2023-1-OSSP1-1921-5/assets/127164905/d4fc83d7-3715-43c6-810b-96a72b560728)
+![unnamed (8)](https://github.com/CSID-DGU/2023-1-OPPS1-1921-5/assets/103040750/c17c5377-e321-45b1-a81b-82f28b1347c9)
 > 1. Github에 프로젝트 진행한 것을 commit, push하면 Github의 web-hook을 통해 내용을 Jenkins에 전송
 > 2. Jenkins pipline을 통해 자동으로 빌드 (우리 팀은 수동으로 수정해 활용)
 > 3. 빌드된 내용은 Doker내의 SonarScanner에서 설정한 내용을 통해 SonarQube로 이동해 정적 분석 수행
+
 
 ### ⚙️ Setup
 ```
