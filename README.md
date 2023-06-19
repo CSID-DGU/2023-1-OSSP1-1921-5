@@ -10,7 +10,7 @@
       <td align="center"  width="16.66%"><a href="https://github.com/heejjinkim"><img src="https://avatars.githubusercontent.com/u/108065505?v=4" width="100px;" alt="김희진"/><br /><sub><b>김희진</b></sub></a><br />BackEnd</td>
       <td align="center"  width="16.66%"><a href="https://github.com/Sj0-0i"><img src="https://avatars.githubusercontent.com/u/80145172?v=4" width="100px;" alt="신지영"/><br /><sub><b>신지영</b></sub></a><br />FrontEnd, 데이터셋</td>
       <td align="center"  width="16.66%"><a href="https://github.com/eeheueklf"><img src="https://avatars.githubusercontent.com/u/92643238?v=4" width="100px;" alt="하유경"/><br /><sub><b>하유경</b></sub></a><br />FrontEnd, z3솔버</td>
-      <td align="center"  width="16.66%"><a href="https://github.com/junnyange"><img src="https://avatars.githubusercontent.com/u/103040750?v=4" width="100px;" alt="허준상"/><br /><sub><b>허준상</b></sub></a><br />FrontEnd,z3솔버</td>
+      <td align="center"  width="16.66%"><a href="https://github.com/junnyange"><img src="https://avatars.githubusercontent.com/u/103040750?v=4" width="100px;" alt="허준상"/><br /><sub><b>허준상</b></sub></a><br />FrontEnd,z3솔버,Jenkins_Sonar</td>
   </tbody>
 </table>
 
