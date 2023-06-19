@@ -4,15 +4,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.http.*;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+
+import java.io.*;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @RestController
 @RequestMapping("/dataset")
@@ -119,5 +123,50 @@ public class DataSetController {
 
         return ResponseEntity.ok().body("파일 경로 확인 완료");
     }
+    @GetMapping("/download")
+    public void downloadFiles(HttpServletResponse response) throws IOException {
+        // 압축 파일 생성을 위한 경로 설정
+        String zipFileName = "TestDataSet.zip";
+        String testFilePath = "frontend/src/data/";
+
+        // 압축 파일 생성
+        try (ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream())) {
+            File testFileDirectory = new File(testFilePath);
+            File[] files = testFileDirectory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile() && file.getName().endsWith(".xlsx")) {
+                        addToZip(file, zipOut);
+                    }
+                }
+            }
+        }
+
+        // 다운로드 설정
+        response.setContentType("application/zip");
+        response.setHeader("Content-Disposition", "attachment; filename=" + zipFileName);
+
+        // 압축 파일 스트림 전송
+        try (InputStream inputStream = new FileInputStream(zipFileName)) {
+            IOUtils.copy(inputStream, response.getOutputStream());
+            response.flushBuffer();
+        }
+    }
+
+    private void addToZip(File file, ZipOutputStream zipOut) throws IOException {
+        FileInputStream fis = new FileInputStream(file);
+        ZipEntry zipEntry = new ZipEntry(file.getName());
+        zipOut.putNextEntry(zipEntry);
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = fis.read(buffer)) != -1) {
+            zipOut.write(buffer, 0, bytesRead);
+        }
+
+        fis.close();
+        zipOut.closeEntry();
+    }
+
 
 }
