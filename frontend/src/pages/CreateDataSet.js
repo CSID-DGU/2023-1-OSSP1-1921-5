@@ -130,11 +130,11 @@ const CreateDataSet = () => {
 
             <TextField
                 id="textfield"
-                type="text"
                 value={subjects}
                 onChange={handleSubjectsChange}
                 placeholder="이수 강의 정보"
                 variant="standard"
+                multiline
             />
             <br></br><br></br><br></br>
           <button className="btn" onClick={handleParsingAndSubmit}>생성</button>
