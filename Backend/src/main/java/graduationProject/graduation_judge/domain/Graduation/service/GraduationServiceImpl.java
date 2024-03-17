@@ -1,46 +1,49 @@
 package graduationProject.graduation_judge.domain.Graduation.service;
 
-import graduationProject.graduation_judge.DAO.CoreLectureRequirement;
-import graduationProject.graduation_judge.DAO.InfoLecture;
-import graduationProject.graduation_judge.DAO.UserInfo;
+import graduationProject.graduation_judge.DAO.*;
 import graduationProject.graduation_judge.DAO.identifier.GraduationRequirementPK;
 import graduationProject.graduation_judge.DTO.Graduation.CoreLectureParam;
-import graduationProject.graduation_judge.DTO.Graduation.Eligibility_Result_Unit;
+import graduationProject.graduation_judge.DTO.Graduation.EligibilityResultUnit;
 import graduationProject.graduation_judge.DTO.Graduation.GraduationEligibilityParam;
 import graduationProject.graduation_judge.DTO.Graduation.GraduationRequirementCond;
 import graduationProject.graduation_judge.DTO.Lecture.InfoLectureDTO;
 import graduationProject.graduation_judge.DTO.Stats.ScoreStatDTO;
-import graduationProject.graduation_judge.domain.Graduation.repository.CoreLectureRequirementRepository;
-import graduationProject.graduation_judge.domain.Graduation.repository.GraduationRequirementRepository;
-import graduationProject.graduation_judge.domain.Graduation.repository.UserInfoRepository;
-import graduationProject.graduation_judge.domain.Graduation.repository.UserSelectListRepository;
+import graduationProject.graduation_judge.domain.Graduation.repository.*;
 import graduationProject.graduation_judge.domain.Lecture.repository.EnglishLectureRepository;
+import graduationProject.graduation_judge.domain.Lecture.repository.InfoLectureRepository;
 import graduationProject.graduation_judge.domain.Stats.repository.ScoreStatRepository;
-import graduationProject.graduation_judge.global.common_unit.English_level;
 import graduationProject.graduation_judge.global.common_unit.Major_curriculum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service
 public class GraduationServiceImpl implements GraduationService{
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     private final UserInfoRepository userInfoRepository;
     private final GraduationRequirementRepository gradReqRepository;
     private final ScoreStatRepository scoreStatRepository;
     private final EnglishLectureRepository englishLectureRepository;
 
+    private final InfoLectureRepository infoLectureRepository;
+
     private final UserSelectListRepository userSelectListRepository;
+
 
     private  final CoreLectureRequirementRepository coreLectureRequirementRepository;
 
-    public GraduationServiceImpl(GraduationRequirementRepository gradReqRepository, UserInfoRepository userInfoRepository, ScoreStatRepository scoreStatRepository, EnglishLectureRepository englishLectureRepository, UserSelectListRepository userSelectListRepository, CoreLectureRequirementRepository coreLectureRequirementRepository) {
+    public GraduationServiceImpl(GraduationRequirementRepository gradReqRepository, UserInfoRepository userInfoRepository, ScoreStatRepository scoreStatRepository, EnglishLectureRepository englishLectureRepository, InfoLectureRepository infoLectureRepository, UserSelectListRepository userSelectListRepository, CoreLectureRequirementRepository coreLectureRequirementRepository) {
         this.gradReqRepository = gradReqRepository;
         this.userInfoRepository = userInfoRepository;
         this.scoreStatRepository = scoreStatRepository;
         this.englishLectureRepository = englishLectureRepository;
+        this.infoLectureRepository = infoLectureRepository;
         this.userSelectListRepository = userSelectListRepository;
         this.coreLectureRequirementRepository = coreLectureRequirementRepository;
     }
@@ -79,226 +82,122 @@ public class GraduationServiceImpl implements GraduationService{
      */
     @Override
     public GraduationEligibilityParam getGraduationEligibilityParam(String user_email) {
-        Major_curriculum course = null;
-
-        int enrollmentYear = -1;
-        English_level engLevel = null;
-
-        int total_taken_subject = 0;
-
-        int semester = 0;
-
-        int toeic_score = 0;
-
-        int total_earned_credit = 0;
-
-        float GPA = 0;
-
-        int english_class = 0;
-
-        int design_class = 0;
-
-        int common_class_credit = 0;
-
-        int general_class_credit = 0;
-
-        int bsm_credit = 0;
-
-        int bsm_math_credit = 0;
-
-        int bsm_sci_credit = 0;
-
-        int major_credit = 0;
-
-        int special_major_credit = 0;
-
-        int leadership_credit = 0;
-
-        int seminar_credit = 0;
-
-
-
-        List<InfoLectureDTO> user_select = new ArrayList<>();
-
         //user 조회
         UserInfo userInfo = userInfoRepository.findByUserid(user_email).get();
 
-        //학번과 커리큘럼 추출
-        enrollmentYear = userInfo.getStudent_number();
-        course = userInfo.getCourse();
-
-        //영어레벨 추출
-        engLevel = userInfo.getEnglishGrade();
-
-        //user 등록 학기 추출
-        semester = userInfo.getSemester();
-
-        //user 토익 점수 추출
-        toeic_score = userInfo.getToeicScore();
-
         //졸업 조건 조회
-        GraduationRequirementCond condition = getGraduationRequirementCond(enrollmentYear, course).get();
+        GraduationRequirementCond condition = getGraduationRequirementCond(userInfo.getStudent_number(), userInfo.getCourse()).get();
+
+        // 위에서 얻은 user 기본 정보를 이용하여 DB를 조회하고 필요한 정보를 생성한다.
+        // 성능 개선 목적으로 다음 규약에 따라 정보를 생성한다.
+        // 1) 조회(filter(where), Projection(select), aggregation(group by))만을 이용하여 DB layer 에서 처리,
+        // 2) 계산은 애플리케이션 layer 에서 처리
+
+        List<ScoreStatDTO> statList = scoreStatRepository.findByMemberId(user_email);
+
+        //총 이수 학점 확인 - total_earned_credit
+        int totalEarnedCredit = statList.stream().mapToInt(ScoreStatDTO::getCredit).sum();
+
+        //성적 평점(평균 학점) 확인 - GPA
+        double gpaTotal = statList.stream()
+                .mapToDouble(stat -> stat.getGrade() * stat.getCredit())
+                .sum();
+        float gpa = (float) (Math.round((gpaTotal / totalEarnedCredit) * 100) / 100.0);
+
+        //수강한 영어 강의 수 확인 - english_class
+        int englishClass = (int) userSelectListRepository.countEnglishClassTaken(user_email);
+
+        //수강한 설계 강의 수 확인 - english_class
+        int designClass = (int) userSelectListRepository.countDesignClassTaken(user_email);
+
+        //수강한 과목 정보 조회
+        List<InfoLectureDTO> userSelect = userSelectListRepository.getUserSelectLectureInfoList(user_email);
+
+        //각 공통교양, 학문기초(기본소양), 전공 등의 세부 이수 학점 확인
+        int commonClassCredit = userSelect.stream()
+                .filter(infoLectureDTO -> Objects.equals(infoLectureDTO.getCurriculum(), "공통교양"))
+                .mapToInt(InfoLectureDTO::getClassCredit)
+                .sum();
+
+        int generalClassCredit = userSelect.stream()
+                .filter(infoLectureDTO -> Objects.equals(infoLectureDTO.getClassArea(), "기본소양"))
+                .mapToInt(InfoLectureDTO::getClassCredit)
+                .sum();
+
+        int bsmCredit = userSelect.stream()
+                .filter(infoLectureDTO -> infoLectureDTO.getClassArea().contains("bsm"))
+                .mapToInt(InfoLectureDTO::getClassCredit)
+                .sum();
+
+        int bsmMathCredit = userSelect.stream()
+                .filter(infoLectureDTO -> infoLectureDTO.getClassArea().contains("bsm_수학"))
+                .mapToInt(InfoLectureDTO::getClassCredit)
+                .sum();
+
+        int bsmSciCredit = userSelect.stream()
+                .filter(infoLectureDTO -> infoLectureDTO.getClassArea().contains("bsm_과학"))
+                .mapToInt(InfoLectureDTO::getClassCredit)
+                .sum();
+
+        int majorCredit = userSelect.stream()
+                .filter(infoLectureDTO -> Objects.equals(infoLectureDTO.getCurriculum(), "전공"))
+                .mapToInt(InfoLectureDTO::getClassCredit)
+                .sum();
+
+        int specialMajorCredit = userSelect.stream()
+                .filter(infoLectureDTO -> Objects.equals(infoLectureDTO.getClassArea(), "전문"))
+                .mapToInt(InfoLectureDTO::getClassCredit)
+                .sum();
+
+        int leadershipCredit = userSelect.stream()
+                .filter(infoLectureDTO -> Objects.equals(infoLectureDTO.getClassArea(), "리더십"))
+                .mapToInt(InfoLectureDTO::getClassCredit)
+                .sum();
+
+        int seminarCredit = userSelect.stream()
+                .filter(infoLectureDTO -> Objects.equals(infoLectureDTO.getClassArea(), "명작"))
+                .mapToInt(InfoLectureDTO::getClassCredit)
+                .sum();
+
+        // 각 EligibilityResultUnit 객체를 생성하고 eligibilityResultList 추가합니다.
+        Map<String, EligibilityResultUnit> eligibilityResultList = new HashMap<>();
+
+        eligibilityResultList.put("TotalScore", new EligibilityResultUnit(condition.getGPA(), gpa));
+        eligibilityResultList.put("Register",  new EligibilityResultUnit(condition.getRegistered_semesters(), userInfo.getSemester()));
+        eligibilityResultList.put("TotalCredit", new EligibilityResultUnit(condition.getTotal_earned_credit(), totalEarnedCredit));
+        eligibilityResultList.put("EngClassCount", new EligibilityResultUnit(condition.getEnglish_class(), englishClass));
+        eligibilityResultList.put("EngScore", new EligibilityResultUnit(condition.getToeic_score(), userInfo.getToeicScore()));
+        eligibilityResultList.put("CommonClassCredit", new EligibilityResultUnit(condition.getCommonClassCredit(), commonClassCredit));
+        eligibilityResultList.put("GibonsoyangCredit", new EligibilityResultUnit(condition.getGibonSoyangCredit(), generalClassCredit));
+        eligibilityResultList.put("BSMCredit", new EligibilityResultUnit(condition.getBSMCredit(), bsmCredit));
+        eligibilityResultList.put("BSMMathCredit", new EligibilityResultUnit(condition.getBSMMathCredit(), bsmMathCredit));
+        eligibilityResultList.put("BSMSciCredit", new EligibilityResultUnit(condition.getBSMSciCredit(), bsmSciCredit));
+        eligibilityResultList.put("MajorCredit", new EligibilityResultUnit(condition.getMajorCredit(), majorCredit));
+        eligibilityResultList.put("SpecialMajorCredit", new EligibilityResultUnit(condition.getSpecialMajorCredit(), specialMajorCredit));
+        eligibilityResultList.put("leadership_credit", new EligibilityResultUnit(condition.getLeadership_credit(), leadershipCredit));
+        eligibilityResultList.put("seminar_credit", new EligibilityResultUnit(condition.getSeminar_credit(), seminarCredit));
+
+        CoreLectureParam clp = checkEssLectureCompletion(user_email);
+
+        boolean clpExist = clp.getNotTakingBSM().size() + clp.getNotTakingMJ().size()  + clp.getNotTakingBSM().size() <= 0;
+
+        boolean eruSatisfaction = clpExist && eligibilityResultList.values().stream().allMatch(EligibilityResultUnit::isSatisfaction);
 
 
-        HashMap<String, Eligibility_Result_Unit> Eligibility_Result_List = new HashMap<>();
+        GraduationEligibilityParam eligibilityParam = new GraduationEligibilityParam().builder()
+                .Result(eruSatisfaction)
+                .StudentNumber(userInfo.getStudent_number())
+                .Course(userInfo.getCourse())
+                .EngLevel(userInfo.getEnglishGrade())
+                .Register(userInfo.getSemester())
+                .EngScore(userInfo.getToeicScore())
+                .TotalScore(gpa)
+                .TotalCredit(totalEarnedCredit)
+                .EngClassCount(englishClass)
+                .eligibilityResultList(eligibilityResultList)
+                .build();
 
-
-
-
-
-
-        try {
-
-            // 위에서 얻은 user 기본 정보를 이용하여 DB를 조회하고 필요한 정보를 생성한다.
-            // 성능 개선 목적으로 다음 규약에 따라 정보를 생성한다.
-            // 1) 조회(filter(where), Projection(select), aggregation(group by))만을 이용하여 DB layer 에서 처리,
-            // 2) 계산은 애플리케이션 layer 에서 처리
-
-            List<ScoreStatDTO> stat_list = scoreStatRepository.findByMemberId(user_email);
-
-            //총 이수 학점 확인 - total_earned_credit
-            Iterator<ScoreStatDTO> stat_iterator = stat_list.iterator();
-            while (stat_iterator.hasNext()) {
-                ScoreStatDTO stat = stat_iterator.next();
-                total_earned_credit += stat.getCredit();
-            }
-            log.info("total_earned_credit: " + total_earned_credit);
-
-            //성적 평점(평균 학점) 확인 - GPA
-            stat_iterator = stat_list.iterator();
-            while (stat_iterator.hasNext()) {
-                ScoreStatDTO stat = stat_iterator.next();
-                float semester_grade = stat.getGrade();
-                int semester_credit = stat.getCredit();
-                String stat_type = stat.getTypeId();
-                GPA += semester_grade * semester_credit;
-            }
-            GPA = (float) (Math.round((GPA / total_earned_credit) * 100) / 100.0);
-//            log.info("GPA: " + GPA);
-
-            //수강한 영어 강의 수 확인 - english_class
-            english_class = (int) userSelectListRepository.countEnglishClassTaken(user_email);
-//            log.info("english_class: " + english_class);
-
-            //수강한 설계 강의 수 확인 - english_class
-            design_class = (int) userSelectListRepository.countDesignClassTaken(user_email);
-//            log.info("design_class: " + design_class);
-
-            //수강한 과목 정보 조회
-            user_select = userSelectListRepository.getUserSelectLectureInfoList(user_email);
-
-            //각 공통교양, 학문기초(기본소양), 전공 등의 세부 이수 학점 확인
-            Iterator<InfoLectureDTO> info_lecture_iterator = user_select.iterator();
-            while (info_lecture_iterator.hasNext()) {
-                InfoLectureDTO infoLectureDTO = info_lecture_iterator.next();
-                int credit = infoLectureDTO.getClassCredit();
-                String Curriculum = infoLectureDTO.getCurriculum();
-                String ClassArea = infoLectureDTO.getClassArea();
-
-                if(Objects.equals(Curriculum, "공통교양")){
-                    common_class_credit += credit;
-                }
-
-                if(Objects.equals(ClassArea, "기본소양")) {
-                    general_class_credit += credit;
-                }
-
-                if(ClassArea.contains("bsm")) {
-                    bsm_credit += credit;
-                    if(ClassArea.contains("bsm_수학"))
-                        bsm_math_credit += credit;
-                    if(ClassArea.contains("bsm_과학"))
-                        bsm_sci_credit += credit;
-                }
-
-                if(Objects.equals(Curriculum, "전공")) {
-                    major_credit += credit;
-                    if(ClassArea.equals("전문")) { //개별연구에 해당함
-                        special_major_credit += credit;
-                    }
-                }
-
-                //리더십 과목
-                if(ClassArea.equals("리더십")) {
-                    leadership_credit += credit;
-                }
-
-                //세미나 과목
-                if(ClassArea.equals("명작")) {
-                    seminar_credit += credit;
-                }
-            }
-
-
-
-        } catch (Exception e) {
-            log.error("GrdService - getGraduationEligibilityParam error detected: " + e.getMessage());
-        } finally {
-
-            Eligibility_Result_Unit eru_TotalScore = new Eligibility_Result_Unit(condition.getGPA(), GPA);
-            Eligibility_Result_Unit eru_Register = new Eligibility_Result_Unit(condition.getRegistered_semesters(), semester);
-            Eligibility_Result_Unit eru_TotalCredit = new Eligibility_Result_Unit(condition.getTotal_earned_credit(), total_earned_credit);
-            Eligibility_Result_Unit eru_EngClassCount = new Eligibility_Result_Unit(condition.getEnglish_class(), english_class);
-            Eligibility_Result_Unit eru_EngScore = new Eligibility_Result_Unit(condition.getToeic_score(), toeic_score);
-            Eligibility_Result_Unit eru_CommonClassCredit = new Eligibility_Result_Unit(condition.getCommonClassCredit(), common_class_credit);
-            Eligibility_Result_Unit eru_GibonsoyangCredit = new Eligibility_Result_Unit(condition.getGibonSoyangCredit(), general_class_credit);
-            Eligibility_Result_Unit eru_BSMCredit = new Eligibility_Result_Unit(condition.getBSMCredit(), bsm_credit);
-            Eligibility_Result_Unit eru_BSMMathCredit = new Eligibility_Result_Unit(condition.getBSMMathCredit(), bsm_math_credit);
-            Eligibility_Result_Unit eru_BSMSciCredit = new Eligibility_Result_Unit(condition.getBSMSciCredit(), bsm_sci_credit);
-            Eligibility_Result_Unit eru_MajorCredit = new Eligibility_Result_Unit(condition.getMajorCredit(), major_credit);
-            Eligibility_Result_Unit eru_SpecialMajorCredit = new Eligibility_Result_Unit(condition.getSpecialMajorCredit(), special_major_credit);
-            Eligibility_Result_Unit eru_leadership_credit = new Eligibility_Result_Unit(condition.getLeadership_credit(), leadership_credit);
-            Eligibility_Result_Unit eru_seminar_credit = new Eligibility_Result_Unit(condition.getSeminar_credit(), seminar_credit);
-
-            Eligibility_Result_List.put("TotalScore", eru_TotalScore);
-            Eligibility_Result_List.put("Register", eru_Register);
-            Eligibility_Result_List.put("TotalCredit", eru_TotalCredit);
-            Eligibility_Result_List.put("EngClassCount", eru_EngClassCount);
-            Eligibility_Result_List.put("EngScore", eru_EngScore);
-            Eligibility_Result_List.put("CommonClassCredit", eru_CommonClassCredit);
-            Eligibility_Result_List.put("GibonsoyangCredit", eru_GibonsoyangCredit);
-            Eligibility_Result_List.put("BSMCredit", eru_BSMCredit);
-            Eligibility_Result_List.put("BSMMathCredit", eru_BSMMathCredit);
-            Eligibility_Result_List.put("BSMSciCredit", eru_BSMSciCredit);
-            Eligibility_Result_List.put("MajorCredit", eru_MajorCredit);
-            Eligibility_Result_List.put("SpecialMajorCredit", eru_SpecialMajorCredit);
-            Eligibility_Result_List.put("leadership_credit", eru_leadership_credit);
-            Eligibility_Result_List.put("seminar_credit", eru_seminar_credit);
-
-            CoreLectureParam clp = checkEssLectureCompletion(user_email);
-
-            boolean clp_isExist = true;
-            if (clp.getNotTakingBSM().size()
-                    + clp.getNotTakingMJ().size()
-                    + clp.getNotTakingBSM().size() > 0) {
-                clp_isExist = false;
-            }
-
-            boolean eru_satisfaction =
-                    eru_TotalScore.isSatisfaction() && eru_Register.isSatisfaction() && eru_TotalCredit.isSatisfaction()
-                            && eru_EngClassCount.isSatisfaction() && eru_EngScore.isSatisfaction() && eru_CommonClassCredit.isSatisfaction()
-                            && eru_GibonsoyangCredit.isSatisfaction() && eru_BSMCredit.isSatisfaction() && eru_BSMMathCredit.isSatisfaction()
-                            && eru_BSMSciCredit.isSatisfaction() && eru_MajorCredit.isSatisfaction() && eru_SpecialMajorCredit.isSatisfaction()
-                            && eru_leadership_credit.isSatisfaction() && eru_seminar_credit.isSatisfaction() && clp_isExist;
-
-
-            GraduationEligibilityParam eligibilityParam = new GraduationEligibilityParam().builder()
-                    .Result(eru_satisfaction)
-                    .StudentNumber(enrollmentYear)
-                    .Course(course)
-                    .EngLevel(engLevel)
-                    .Register(semester)
-                    .EngScore(toeic_score)
-                    .TotalScore(GPA)
-                    .TotalCredit(total_earned_credit)
-                    .EngClassCount(english_class)
-                    .Eligibility_Result_List(Eligibility_Result_List)
-                    .build();
-
-//            log.info("testing Result: " + eligibilityParam.getTotalScore());
-            return eligibilityParam;
-        }
-
+        return eligibilityParam;
 
     }
 
@@ -323,14 +222,10 @@ public class GraduationServiceImpl implements GraduationService{
             //user 조회
             UserInfo userInfo = userInfoRepository.findByUserid(user_email).get();
 
-            //학번과 커리큘럼 추출
-            int enrollmentYear = userInfo.getStudent_number();
-            Major_curriculum course = userInfo.getCourse();
-
             //필수과목 리스트 추출
-            major = coreLectureRequirementRepository.getLectureList(enrollmentYear, course, "전공필수");
-            common_edu = coreLectureRequirementRepository.getLectureList(enrollmentYear, course, "공통교양");
-            general_edu = coreLectureRequirementRepository.getLectureList(enrollmentYear, course, "기본소양");
+            major = coreLectureRequirementRepository.getLectureList(userInfo.getStudent_number(), userInfo.getCourse(), "전공필수");
+            common_edu = coreLectureRequirementRepository.getLectureList(userInfo.getStudent_number(), userInfo.getCourse(), "공통교양");
+            general_edu = coreLectureRequirementRepository.getLectureList(userInfo.getStudent_number(), userInfo.getCourse(), "기본소양");
 
             //수강한 과목 리스트 추출
             user_select = userSelectListRepository.getUserSelectLectureNicknameList(user_email);

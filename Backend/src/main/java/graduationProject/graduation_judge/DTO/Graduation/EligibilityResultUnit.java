@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Eligibility_Result_Unit {
+public class EligibilityResultUnit {
     private Number criteria;
     private Number value;
     private boolean satisfaction;
 
-    public Eligibility_Result_Unit(int criteria, int value) {
+    public EligibilityResultUnit(int criteria, int value) {
         this.criteria = criteria;
         this.value = value;
         if(criteria <= value) {
@@ -20,7 +20,7 @@ public class Eligibility_Result_Unit {
         }
     }
 
-    public Eligibility_Result_Unit(float criteria, float value) {
+    public EligibilityResultUnit(float criteria, float value) {
         this.criteria = criteria;
         this.value = value;
         if(criteria <= value) {

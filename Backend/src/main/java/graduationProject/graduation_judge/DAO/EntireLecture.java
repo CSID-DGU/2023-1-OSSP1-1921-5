@@ -43,7 +43,7 @@ public class EntireLecture {
     private DesignLecture designLecture;
 
     //1:M UserSelectList
-    @OneToMany(mappedBy = "entireLecture")
+    @OneToMany(mappedBy = "entireLecture", fetch = FetchType.LAZY)
     private List<UserSelectList> userSelectList;
 
     @Builder

@@ -40,7 +40,7 @@ public class UserInfo {
     private English_level englishGrade;
 
     //1:M UserSelectList
-    @OneToMany(mappedBy = "userid")
+    @OneToMany(mappedBy = "userid", fetch = FetchType.LAZY)
     private List<UserSelectList> userSelectList;
 
     //1:M ScoreStat

@@ -39,7 +39,7 @@ public class UserSelectList {
 
 
     //M:1 UserInfo
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable=false, updatable=false)
     private UserInfo userid;
 

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Data
 public class GraduationEligibilityParam {
@@ -80,7 +81,7 @@ public class GraduationEligibilityParam {
     private int SpecialMajorCredit;
 
     @JsonProperty("Eligibility_Result_List")
-    HashMap<String, Eligibility_Result_Unit> Eligibility_Result_List = new HashMap<>();
+    Map<String, EligibilityResultUnit> Eligibility_Result_List = new HashMap<>();
 
 
     @Builder
@@ -101,7 +102,7 @@ public class GraduationEligibilityParam {
             int SpecialMajorCredit,
             int EngClassCount,
             float TotalScore,
-            HashMap<String, Eligibility_Result_Unit> Eligibility_Result_List
+            Map<String, EligibilityResultUnit> eligibilityResultList
     ) {
         this.Result = Result;
         this.Course = Course;
@@ -119,7 +120,7 @@ public class GraduationEligibilityParam {
         this.SpecialMajorCredit = SpecialMajorCredit;
         this.TotalScore = TotalScore;
         this.EngClassCount = EngClassCount;
-        this.Eligibility_Result_List = Eligibility_Result_List;
+        this.Eligibility_Result_List = eligibilityResultList;
     };
 
     public GraduationEligibilityParam() {}
